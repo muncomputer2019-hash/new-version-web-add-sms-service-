@@ -1,0 +1,2678 @@
+# MUN COMPUTER BUSINESS MANAGER
+
+# PHASE 05 – FINANCIAL ENGINE
+## COMPLETE ENTERPRISE IMPLEMENTATION, INTEGRATION, DEBUGGING & PRODUCTION AUDIT
+### MODULE 01–94 | 94 MODULES | FINAL CONSOLIDATED MASTER IMPLEMENTATION PROMPT
+
+**PROJECT:** MUN COMPUTER BUSINESS MANAGER  
+**PHASE:** 05 – FINANCIAL ENGINE  
+**MODULE RANGE:** 01–94  
+**TOTAL MODULES:** 94  
+**IMPLEMENTATION TYPE:** Existing ERP Extension, Integration, Debugging, Testing & Production Audit
+
+---
+
+# 1. MAIN OBJECTIVE
+
+I am providing the existing MUN COMPUTER BUSINESS MANAGER project ZIP file.
+
+Your responsibility is to inspect, understand, implement, integrate, debug, test and finalize the complete Phase 05 – Financial Engine (Modules 01–94) inside the EXISTING ERP PROJECT.
+
+The Financial Engine must become one unified accounting and financial management system.
+
+It must integrate with all previously finalized phases:
+
+- Phase 01 – Modules 01–17: Foundation.
+- Phase 02 – Modules 18–34: Security.
+- Phase 03 – Modules 35–51: Master Settings.
+- Phase 04 – Modules 52–68: Core Business Modules.
+- Phase 05 – Modules 01–94: Financial Engine.
+
+**IMPORTANT:** Phase 05 Module 01–68 and Module 69–94 have been finalized separately. This document consolidates all 94 modules into one implementation specification.
+
+Do not create a separate application, demo project, disconnected dashboard, duplicate database or duplicate accounting engine.
+
+The final result must be one unified, integrated MUN COMPUTER BUSINESS MANAGER ERP.
+
+---
+
+# 2. MANDATORY PROJECT INSPECTION
+
+Before modifying anything:
+
+1. Extract and inspect the complete original ZIP.
+2. Identify the actual frontend framework, backend architecture and build system.
+3. Inspect all folders, components, routes, services and modules.
+4. Inspect the existing database architecture.
+5. Inspect SQLite implementation, including `server/relationalDb.ts` if present.
+6. Identify existing database tables, relationships, indexes, triggers and migrations.
+7. Inspect authentication, sessions and role permissions.
+8. Inspect the existing sidebar, dashboard and navigation.
+9. Inspect Customer, Service, Application, Invoice, Receipt, Payment, Expense and Inventory modules.
+10. Inspect existing financial and accounting features.
+11. Inspect backup and recovery implementation, including `data/auto-backups/` if present.
+12. Identify broken, incomplete, duplicate and disconnected features.
+13. Identify which features are already implemented and reusable.
+14. Identify features that exist only as frontend UI or simulated data.
+15. Identify hosting and database limitations.
+
+Prepare an internal project audit before implementation.
+
+Never assume that a mentioned file, table or feature exists. Verify it from the actual ZIP.
+
+---
+
+# 3. COMPLETE MODULE REGISTER – MODULE 01–94
+
+## PART A – CORE ACCOUNTING ENGINE
+
+| Module | Approved Financial System |
+|---|---|
+| 01 | Double-Entry Accounting System |
+| 02 | Fully Customizable Chart of Accounts |
+| 03 | Opening Balance & Automatic Carry Forward |
+| 04 | Multi-Cash Counter Accounting |
+| 05 | Cash, UPI, Bank & Other Payment Mode Accounting |
+| 06 | Customer Due & Advance Management |
+| 07 | Supplier/Vendor Management & Payable Ledger |
+| 08 | Bank Account Management & Bank Reconciliation |
+| 09 | Payroll & Staff Salary Management |
+| 10 | Tax & GST Accounting Management |
+| 11 | Fixed Assets & Depreciation Management |
+| 12 | Budget Management & Financial Planning |
+| 13 | Financial Dashboard & Advanced Profit Analysis |
+| 14 | Financial Approval Workflow & Transaction Authorization |
+| 15 | Financial Document & Voucher Management |
+| 16 | Recurring Transactions & Automatic Accounting |
+| 17 | Financial Year Closing & Period Lock |
+| 18 | Financial Audit & Internal Control |
+
+## PART B – ENTERPRISE FINANCIAL MANAGEMENT
+
+| Module | Approved Financial System |
+|---|---|
+| 19 | Complete Financial Statements, MIS & Reporting Integration |
+| 20 | Multi-Branch & Multi-Business Accounting Architecture |
+| 21 | API & Payment Gateway Integration |
+| 22 | Financial Data Import & Migration System |
+| 23 | Advanced Financial Audit & Compliance Management |
+| 24 | Advanced Financial Intelligence & Forecasting |
+| 25 | Advanced Financial Document & Digital Approval |
+| 26 | Advanced Multi-Currency & Foreign Exchange Accounting |
+| 27 | Advanced Financial Notification & Reminder Automation |
+| 28 | Advanced Financial Data Security, Encryption & Disaster Recovery |
+| 29 | Financial Performance Scorecard & Business Health Monitoring |
+| 30 | Financial Workflow Automation & Custom Rule Builder |
+| 31 | Financial API, Webhook & Third-Party Accounting Integration Hub |
+| 32 | Advanced Financial Settings, Customization & White-label |
+| 33 | Financial Testing, Validation & QA |
+| 34 | Financial System Monitoring & Maintenance |
+| 35 | Financial User Training, Help & Documentation Center |
+| 36 | Financial Scalability & Future Expansion |
+| 37 | Financial Governance, Risk Management & Internal Control Framework |
+| 38 | Financial Year-end Closing, Audit Finalization & Statutory Reporting Package |
+
+## PART C – ADVANCED FINANCIAL INTELLIGENCE & CONTROL
+
+| Module | Approved Financial System |
+|---|---|
+| 39 | Advanced Financial Data Analytics, Custom Report Builder & Executive BI |
+| 40 | Advanced Financial Data Archiving, Retention & Legal Hold |
+| 41 | Advanced Financial Transaction Reconciliation & Matching Engine |
+| 42 | Advanced Financial Transaction Search, Global Ledger Explorer & Smart Investigation |
+| 43 | Advanced Financial Transaction Lifecycle & Complete Traceability |
+| 44 | Advanced Financial Alerts, Anomaly Detection & Early Warning Intelligence |
+| 45 | Advanced Financial Approval Matrix, Delegation of Authority & Spending Limit |
+| 46 | Advanced Financial Cost Allocation, Overhead Distribution & Department-wise Profitability |
+| 47 | Advanced Customer Credit Limit, Credit Risk & Collection Management |
+| 48 | Advanced Supplier Credit Limit, Vendor Risk & Procurement Payment Management |
+| 49 | Advanced Financial Portfolio, Investment & Deposit Management |
+| 50 | Advanced Loan, Borrowing, Business Liability & EMI Management |
+| 51 | Advanced Owner's Capital, Drawings, Partner Capital & Equity Management |
+| 52 | Advanced Financial KPI, Benchmarking & Strategic Business Decision Support |
+| 53 | Advanced Financial Scenario Planning, What-if Analysis & Business Simulation |
+| 54 | Advanced Financial Data Warehouse, Historical Analytics & Long-term BI |
+
+## PART D – ADVANCED WORKSPACE, CUSTOMER & BUSINESS EXPANSION
+
+| Module | Approved Financial System |
+|---|---|
+| 55 | Advanced Financial Multi-User Collaboration, Task Assignment & Management Workspace |
+| 56 | Advanced Financial Calendar, Payment Scheduling & Business Financial Event Management |
+| 57 | Advanced Financial Mobile Workspace, Responsive Operations & Secure Remote Approval |
+| 58 | Advanced Financial Customer Portal & Self-Service Payment Workspace |
+| 59 | Advanced Financial Admin Control Center, System Configuration & Central Governance Dashboard |
+| 60 | Advanced Financial Fraud Prevention, Suspicious Transaction Detection & Real-time Risk Monitoring |
+| 61 | Advanced Financial Legal Compliance, Regulatory Policy & Statutory Change Management |
+| 62 | Advanced Financial Business Continuity, Emergency Recovery & Disaster Response Management |
+| 63 | Advanced Financial Business Intelligence, AI-powered Financial Assistant & Natural Language Query System |
+| 64 | Advanced Financial Document OCR, Intelligent Data Extraction & Automated Voucher Preparation |
+| 65 | Advanced Financial E-commerce, POS Billing, Sales & Inventory Accounting Integration |
+| 66 | Advanced Financial Franchise, Distributor, Commission & Partner Settlement Management |
+| 67 | Advanced Financial Subscription, Recurring Revenue & Membership Billing Management |
+| 68 | Advanced Financial Multi-Company, Group Accounting & Consolidated Financial Reporting |
+
+## PART E – ENTERPRISE FINANCIAL OPERATIONS & PRODUCTION AUDIT
+
+| Module | Approved Financial System |
+|---|---|
+| 69 | Franchise Royalty & Revenue Sharing |
+| 70 | Budgeting & Forecasting |
+| 71 | Financial Risk & Internal Control |
+| 72 | Financial Closing & Year-End |
+| 73 | Taxation & Compliance |
+| 74 | Financial Audit & Compliance |
+| 75 | Financial Intelligence & BI |
+| 76 | Banking & Payment Gateway |
+| 77 | Accounts Receivable & Payable |
+| 78 | Inventory Valuation & COGS |
+| 79 | Fixed Asset & Depreciation |
+| 80 | Loan, EMI & Financing |
+| 81 | Petty Cash & Cashbook |
+| 82 | Bank Reconciliation |
+| 83 | Voucher & Double-Entry Accounting |
+| 84 | General Ledger |
+| 85 | Financial Statements |
+| 86 | Financial Performance Intelligence |
+| 87 | Treasury & Financial Planning |
+| 88 | Investment & Surplus Fund Management |
+| 89 | Capital & Equity Management |
+| 90 | Financial Document & Digital Archive |
+| 91 | Financial Data Import, Export & Migration |
+| 92 | Financial Security & Governance |
+| 93 | Financial Notification & Automation |
+| 94 | Integration, Testing & Production Audit |
+
+All 94 modules are approved.
+
+Do not silently remove, replace, weaken or skip any approved module.
+
+---
+
+# 4. DETAILED IMPLEMENTATION SCOPE – MODULE 01–18
+
+## MODULE 01 – DOUBLE-ENTRY ACCOUNTING SYSTEM
+
+Implement:
+
+- Central double-entry accounting engine.
+- Debit and Credit transaction architecture.
+- Journal entries and journal lines.
+- Automatic accounting posting.
+- Balanced journal validation.
+- Transaction source linking.
+- Posting, reversal and adjustment.
+- Draft, Pending, Approved, Posted and Reversed statuses.
+- Transaction-level audit history.
+- Ledger and Trial Balance integration.
+
+Rules:
+
+- Every posted transaction must satisfy Debit = Credit.
+- Posted financial entries cannot be silently edited or deleted.
+- Corrections require authorized reversal or adjustment entries.
+- Every posting must have a unique reference.
+
+## MODULE 02 – FULLY CUSTOMIZABLE CHART OF ACCOUNTS
+
+Implement:
+
+- Admin-controlled Chart of Accounts.
+- Account code and account name.
+- Parent-child account hierarchy.
+- Account groups and subgroups.
+- Assets, Liabilities, Equity, Income and Expenses.
+- Current and non-current classification.
+- Opening balance.
+- Account-wise ledger.
+- Account activation, deactivation and archive.
+- Company-wise account mapping.
+- Account history and approval.
+
+Rules:
+
+- Admin has full authorized control.
+- Used accounts cannot be deleted.
+- Historical transactions must preserve their original account references.
+
+## MODULE 03 – OPENING BALANCE & AUTOMATIC CARRY FORWARD
+
+Implement:
+
+- Opening cash balance.
+- Opening bank balance.
+- Customer receivable balance.
+- Supplier payable balance.
+- Ledger opening balances.
+- Asset and liability opening balances.
+- Financial-year carry forward.
+- Retained earnings and equity carry forward.
+- Opening balance import.
+- Verification and approval.
+- Opening balance audit history.
+
+Rules:
+
+- Opening balances must be reconciled.
+- Debit and Credit opening totals must agree.
+- Never overwrite historical financial records.
+
+## MODULE 04 – MULTI-CASH COUNTER ACCOUNTING
+
+Implement:
+
+- Multiple cash counters.
+- Counter-wise opening balance.
+- Cash receipts and payments.
+- Counter-to-counter transfers.
+- Staff-wise cash responsibility.
+- Physical cash counting.
+- Daily counter closing.
+- Shortage and excess investigation.
+- Counter handover.
+- Counter-wise reports.
+
+Rules:
+
+- Each counter must maintain separate cash records.
+- Transfers must create linked accounting entries.
+- Closing differences require explanation and authorization.
+
+## MODULE 05 – CASH, UPI, BANK & OTHER PAYMENT MODE ACCOUNTING
+
+Implement:
+
+- Cash payment.
+- UPI payment.
+- Bank transfer.
+- Card payment.
+- Cheque payment.
+- Other configurable payment modes.
+- Payment references and transaction IDs.
+- Partial payments.
+- Advance payments.
+- Refunds and reversals.
+- Payment verification.
+- Payment-to-voucher integration.
+
+Rules:
+
+- Unverified payments must not be marked Paid.
+- Duplicate payment references must be detected.
+- Every verified payment must have a consistent accounting record.
+
+## MODULE 06 – CUSTOMER DUE & ADVANCE MANAGEMENT
+
+Implement:
+
+- Customer outstanding balance.
+- Customer advance balance.
+- Invoice-wise due.
+- Partial collection.
+- Advance adjustment.
+- Customer credit balance.
+- Due-date tracking.
+- Ageing reports.
+- Payment history.
+- Customer ledger.
+- Collection reminders.
+- Refund and adjustment management.
+
+Rules:
+
+- Actual received amount and outstanding amount must remain separate.
+- Customer balances must reconcile with the General Ledger.
+
+## MODULE 07 – SUPPLIER/VENDOR MANAGEMENT & PAYABLE LEDGER
+
+Implement:
+
+- Supplier profile and financial details.
+- Supplier opening balance.
+- Purchase and supplier bills.
+- Outstanding payable.
+- Partial payment.
+- Advance supplier payment.
+- Payment schedule.
+- Supplier ledger.
+- Due-date reminders.
+- Supplier ageing reports.
+- Supplier reconciliation.
+- Payment approval.
+
+Rules:
+
+- Prevent duplicate supplier payments.
+- Supplier sub-ledger must reconcile with the control account.
+
+## MODULE 08 – BANK ACCOUNT MANAGEMENT & BANK RECONCILIATION
+
+Implement:
+
+- Multiple bank accounts.
+- Bank account details and mapping.
+- Bank ledger.
+- Bank deposits and withdrawals.
+- Bank transfers.
+- Statement import.
+- Transaction matching.
+- Unmatched transaction management.
+- Bank charges and interest.
+- Bank reconciliation statement.
+- Bank balance reports.
+
+Rules:
+
+- Unmatched transactions cannot be automatically confirmed as reconciled.
+- Manual reconciliation requires reason and authorization.
+
+## MODULE 09 – PAYROLL & STAFF SALARY MANAGEMENT
+
+Implement:
+
+- Employee salary profile.
+- Basic salary and allowances.
+- Deductions.
+- Salary advances.
+- Attendance-linked salary where available.
+- Monthly payroll.
+- Salary approval.
+- Salary payment.
+- Salary slip.
+- Payroll ledger.
+- Payroll reports.
+- Salary history.
+
+Rules:
+
+- Payroll calculations must be configurable.
+- Salary payment must create the correct accounting entries.
+- Access to salary information must be restricted.
+
+## MODULE 10 – TAX & GST ACCOUNTING MANAGEMENT
+
+Implement:
+
+- GST configuration.
+- Taxable and non-taxable transactions.
+- CGST, SGST and IGST.
+- Input and output tax.
+- GST ledger.
+- Tax calculation.
+- TDS/TCS support where applicable.
+- Tax payment records.
+- GST reconciliation.
+- Tax reports.
+- Configurable tax rates and effective dates.
+
+Rules:
+
+- Tax configuration must be editable by authorized Admin.
+- Historical tax calculations must preserve their original applied rates.
+- Tax filing must not be falsely reported as completed.
+
+## MODULE 11 – FIXED ASSETS & DEPRECIATION MANAGEMENT
+
+Implement:
+
+- Fixed asset register.
+- Asset category.
+- Purchase cost and purchase date.
+- Asset location and assignment.
+- Depreciation methods.
+- Monthly and annual depreciation.
+- Accumulated depreciation.
+- Net book value.
+- Asset transfer.
+- Asset maintenance.
+- Disposal and retirement.
+- Asset ledger and reports.
+
+Rules:
+
+- Depreciation must create accounting entries.
+- Asset history must remain traceable.
+- Historical depreciation cannot be silently rewritten.
+
+## MODULE 12 – BUDGET MANAGEMENT & FINANCIAL PLANNING
+
+Implement:
+
+- Income budget.
+- Expense budget.
+- Cash flow budget.
+- Monthly and annual budget.
+- Service-wise budget.
+- Counter-wise budget.
+- Department-wise budget.
+- Budget approval.
+- Actual versus budget comparison.
+- Variance reports.
+- Overspending alerts.
+- Budget version history.
+
+Rules:
+
+- Approved budgets must be preserved.
+- Forecast and actual figures must be clearly separated.
+
+## MODULE 13 – FINANCIAL DASHBOARD & ADVANCED PROFIT ANALYSIS
+
+Implement:
+
+- Total income.
+- Total expenses.
+- Gross profit.
+- Net profit.
+- Cash in hand.
+- Bank balances.
+- Customer outstanding.
+- Supplier payable.
+- Daily collection.
+- Monthly collection.
+- Service-wise profitability.
+- Counter-wise performance.
+- Financial trend charts.
+- Financial KPI dashboard.
+- Drill-down to source transactions.
+
+Rules:
+
+- Use actual database records.
+- Do not hardcode balances or financial statistics.
+- Respect role and company permissions.
+
+## MODULE 14 – FINANCIAL APPROVAL WORKFLOW & TRANSACTION AUTHORIZATION
+
+Implement:
+
+- Maker-checker-approver workflow.
+- Transaction approval.
+- Payment approval.
+- Expense approval.
+- Journal approval.
+- Budget approval.
+- Credit limit approval.
+- Multi-level approval.
+- Approval limits.
+- Rejection reason.
+- Approval history.
+- Pending approval dashboard.
+
+Rules:
+
+- A transaction creator cannot approve their own transaction.
+- Pending transactions must not be treated as posted.
+- Every approval and rejection must be audited.
+
+## MODULE 15 – FINANCIAL DOCUMENT & VOUCHER MANAGEMENT
+
+Implement:
+
+- Receipt voucher.
+- Payment voucher.
+- Journal voucher.
+- Contra voucher.
+- Debit note.
+- Credit note.
+- Expense voucher.
+- Supporting documents.
+- PDF generation.
+- Print preview.
+- Voucher numbering.
+- Voucher search.
+- Voucher history.
+- Ledger linking.
+
+Rules:
+
+- Posted vouchers cannot be deleted.
+- Reversals must retain the original voucher reference.
+
+## MODULE 16 – RECURRING TRANSACTIONS & AUTOMATIC ACCOUNTING
+
+Implement:
+
+- Recurring income.
+- Recurring expense.
+- Recurring payment.
+- Recurring journal.
+- Rent and subscription entries.
+- Salary-related recurring entries.
+- Configurable schedules.
+- Automatic draft generation.
+- Approval before posting where required.
+- Execution history.
+- Failure logs.
+
+Rules:
+
+- Prevent duplicate recurring entries.
+- Failed automation must be visible.
+- Scheduled execution must not bypass authorization.
+
+## MODULE 17 – FINANCIAL YEAR CLOSING & PERIOD LOCK
+
+Implement:
+
+- Financial year configuration.
+- Monthly and quarterly closing.
+- Annual closing.
+- Pending transaction checks.
+- Reconciliation checklist.
+- Closing journal.
+- Retained earnings.
+- Opening balance generation.
+- Period locking.
+- Controlled reopening.
+- Closing history.
+
+Rules:
+
+- Locked periods must reject unauthorized postings.
+- Reopening requires Admin approval and reason.
+- Preserve historical financial records.
+
+## MODULE 18 – FINANCIAL AUDIT & INTERNAL CONTROL
+
+Implement:
+
+- Financial activity logs.
+- Transaction history.
+- Approval audit.
+- Cash and bank audit.
+- Ledger verification.
+- Duplicate detection.
+- Unauthorized change detection.
+- Audit observations.
+- Audit reports.
+- Exception management.
+
+Rules:
+
+- Audit records must be protected.
+- Audit findings must not automatically alter financial transactions.
+
+---
+
+# 5. DETAILED IMPLEMENTATION SCOPE – MODULE 19–68
+
+## MODULE 19 – FINANCIAL STATEMENTS, MIS & REPORTING INTEGRATION
+
+Implement:
+
+- Trial Balance.
+- Profit & Loss.
+- Balance Sheet.
+- Cash Flow Statement.
+- Financial ratios.
+- MIS reports.
+- Monthly and annual reports.
+- Company-wise reporting.
+- Drill-down to ledger and voucher.
+
+## MODULE 20 – MULTI-BRANCH & MULTI-BUSINESS ACCOUNTING
+
+Implement:
+
+- Multi-company architecture.
+- Branch and counter accounting.
+- Company-specific financial records.
+- Intercompany transaction management.
+- Consolidated reporting.
+- Company data isolation.
+
+## MODULE 21 – API & PAYMENT GATEWAY INTEGRATION
+
+Implement:
+
+- Payment gateway architecture.
+- UPI integration.
+- Webhook processing.
+- Payment status verification.
+- API credentials management.
+- Transaction logs.
+- Duplicate webhook protection.
+
+## MODULE 22 – FINANCIAL DATA IMPORT & MIGRATION
+
+Implement:
+
+- Excel and CSV import.
+- Opening balance import.
+- Customer and supplier balance import.
+- Historical transaction migration.
+- Preview and validation.
+- Duplicate detection.
+- Error report.
+- Rollback and audit.
+
+## MODULE 23 – ADVANCED FINANCIAL AUDIT & COMPLIANCE
+
+Implement:
+
+- Advanced financial audit.
+- Tax and statutory compliance tracking.
+- Audit observations.
+- Supporting evidence.
+- Corrective action.
+- Audit sign-off.
+- Compliance reports.
+
+## MODULE 24 – ADVANCED FINANCIAL INTELLIGENCE & FORECASTING
+
+Implement:
+
+- Revenue forecasting.
+- Expense forecasting.
+- Cash flow prediction.
+- Financial trend analysis.
+- Scenario forecasting.
+- Forecast accuracy.
+- AI assistance only when properly configured.
+
+## MODULE 25 – ADVANCED FINANCIAL DOCUMENT & DIGITAL APPROVAL
+
+Implement:
+
+- Digital document approval.
+- Financial document versioning.
+- Document signatures where supported.
+- Approval workflow.
+- Secure archive.
+- Document access audit.
+
+## MODULE 26 – MULTI-CURRENCY & FOREIGN EXCHANGE ACCOUNTING
+
+Implement:
+
+- Multiple currency configuration.
+- Exchange rate management.
+- Foreign currency transactions.
+- Currency conversion.
+- Realized and unrealized exchange differences.
+- Currency gain/loss accounting.
+- Company-wise currency reports.
+
+## MODULE 27 – FINANCIAL NOTIFICATION & REMINDER AUTOMATION
+
+Implement:
+
+- Payment reminders.
+- Customer due alerts.
+- Supplier due alerts.
+- Approval notifications.
+- Tax reminders.
+- Financial year reminders.
+- Email/SMS/WhatsApp integration when configured.
+- Delivery history and retry.
+
+## MODULE 28 – FINANCIAL DATA SECURITY, ENCRYPTION & DISASTER RECOVERY
+
+Implement:
+
+- Data encryption.
+- Secure backups.
+- Recovery procedures.
+- Access monitoring.
+- Security logs.
+- Disaster recovery planning.
+- Backup integrity checks.
+
+## MODULE 29 – FINANCIAL PERFORMANCE SCORECARD
+
+Implement:
+
+- Financial health indicators.
+- Profitability scorecard.
+- Liquidity indicators.
+- Revenue growth.
+- Expense control.
+- KPI targets.
+- Company and branch comparisons.
+
+## MODULE 30 – FINANCIAL WORKFLOW AUTOMATION & CUSTOM RULE BUILDER
+
+Implement:
+
+- Configurable financial rules.
+- Conditional approval.
+- Automated transaction routing.
+- Threshold-based alerts.
+- Workflow history.
+- Rule activation and deactivation.
+- Testing before activation.
+
+## MODULE 31 – FINANCIAL API, WEBHOOK & THIRD-PARTY INTEGRATION HUB
+
+Implement:
+
+- Central API integration.
+- Webhook management.
+- Integration logs.
+- Authentication and authorization.
+- Retry mechanism.
+- Duplicate event protection.
+- Provider configuration.
+
+## MODULE 32 – FINANCIAL SETTINGS, CUSTOMIZATION & WHITE-LABEL
+
+Implement:
+
+- Financial module settings.
+- Company-specific configuration.
+- Voucher and report customization.
+- Currency and number formats.
+- Financial workflow settings.
+- Branding configuration.
+- Permission-controlled customization.
+
+## MODULE 33 – FINANCIAL TESTING, VALIDATION & QA
+
+Implement:
+
+- Unit testing.
+- Integration testing.
+- Accounting validation.
+- Database validation.
+- Permission testing.
+- Regression testing.
+- Error reports.
+- Test evidence.
+
+## MODULE 34 – FINANCIAL SYSTEM MONITORING & MAINTENANCE
+
+Implement:
+
+- Financial service health monitoring.
+- Error logs.
+- Database health.
+- Backup status.
+- Integration health.
+- Performance monitoring.
+- Maintenance alerts.
+
+## MODULE 35 – FINANCIAL USER TRAINING & DOCUMENTATION
+
+Implement:
+
+- Module-wise help.
+- User guides.
+- Accounting workflow instructions.
+- Error explanations.
+- Admin documentation.
+- Staff training materials.
+- Financial glossary.
+
+## MODULE 36 – FINANCIAL SCALABILITY & FUTURE EXPANSION
+
+Implement:
+
+- Modular architecture.
+- Database indexing.
+- Efficient queries.
+- Scalable API structure.
+- Pagination.
+- Background processing where supported.
+- Future integration compatibility.
+
+## MODULE 37 – FINANCIAL GOVERNANCE & RISK MANAGEMENT
+
+Implement:
+
+- Financial governance policies.
+- Risk register.
+- Authorization matrix.
+- Internal controls.
+- Exception handling.
+- Audit history.
+- Risk reports.
+
+## MODULE 38 – YEAR-END CLOSING & STATUTORY REPORTING
+
+Implement:
+
+- Year-end checklist.
+- Final reconciliation.
+- Closing journals.
+- Statutory report preparation.
+- Retained earnings.
+- Opening balance carry forward.
+- Final audit documentation.
+
+## MODULE 39 – ADVANCED FINANCIAL DATA ANALYTICS & EXECUTIVE BI
+
+Implement:
+
+- Custom report builder.
+- Executive BI dashboard.
+- Drill-down analytics.
+- Trend analysis.
+- KPI visualization.
+- Company and group comparison.
+- PDF, Excel and CSV export.
+
+## MODULE 40 – FINANCIAL DATA ARCHIVING & LEGAL HOLD
+
+Implement:
+
+- Financial record archiving.
+- Retention policies.
+- Legal hold.
+- Archive search.
+- Controlled restoration.
+- Access logs.
+- Retention and deletion approval.
+
+## MODULE 41 – TRANSACTION RECONCILIATION & MATCHING ENGINE
+
+Implement:
+
+- Automatic transaction matching.
+- Bank and payment matching.
+- Customer receipt matching.
+- Supplier payment matching.
+- Duplicate detection.
+- Unmatched transaction queue.
+- Manual matching with approval.
+
+## MODULE 42 – GLOBAL LEDGER EXPLORER & SMART INVESTIGATION
+
+Implement:
+
+- Global financial search.
+- Ledger explorer.
+- Voucher search.
+- Transaction filters.
+- Source reference search.
+- Investigation workspace.
+- Transaction drill-down.
+
+## MODULE 43 – TRANSACTION LIFECYCLE & COMPLETE TRACEABILITY
+
+Implement:
+
+- Transaction creation history.
+- Approval history.
+- Posting history.
+- Reversal history.
+- Source-to-ledger traceability.
+- User and timestamp tracking.
+- Transaction lifecycle status.
+
+## MODULE 44 – FINANCIAL ALERTS & ANOMALY DETECTION
+
+Implement:
+
+- Duplicate transaction alerts.
+- Unusual transaction detection.
+- Cash and bank anomalies.
+- Credit risk alerts.
+- Budget variance alerts.
+- Early warning indicators.
+- Investigation history.
+
+## MODULE 45 – APPROVAL MATRIX & DELEGATION OF AUTHORITY
+
+Implement:
+
+- Role-based approval limits.
+- Amount-based approval levels.
+- Spending limits.
+- Delegated authority.
+- Approval matrix.
+- Conflict-of-interest controls.
+- Complete approval audit.
+
+## MODULE 46 – COST ALLOCATION & DEPARTMENT PROFITABILITY
+
+Implement:
+
+- Direct and indirect cost allocation.
+- Overhead distribution.
+- Department-wise expenses.
+- Branch-wise cost.
+- Service-wise profitability.
+- Allocation rules.
+- Allocation history.
+
+## MODULE 47 – CUSTOMER CREDIT LIMIT & COLLECTION MANAGEMENT
+
+Implement:
+
+- Customer credit limit.
+- Credit utilization.
+- Customer risk indicators.
+- Collection scheduling.
+- Overdue analysis.
+- Ageing reports.
+- Credit limit approval.
+
+## MODULE 48 – SUPPLIER CREDIT LIMIT & VENDOR RISK
+
+Implement:
+
+- Supplier credit limit.
+- Supplier risk profile.
+- Payment terms.
+- Vendor ageing.
+- Procurement payment planning.
+- Supplier performance.
+- Approval and audit.
+
+## MODULE 49 – INVESTMENT, PORTFOLIO & DEPOSIT MANAGEMENT
+
+Implement:
+
+- Investment register.
+- Fixed and recurring deposit tracking.
+- Principal and interest.
+- Maturity alerts.
+- Portfolio reporting.
+- Expected versus actual return.
+- Investment ledger.
+
+## MODULE 50 – LOAN, BORROWING & EMI MANAGEMENT
+
+Implement:
+
+- Loan register.
+- Loan schedule.
+- EMI calculation.
+- Principal and interest split.
+- Part payment.
+- Prepayment.
+- Foreclosure.
+- Loan liability ledger.
+- EMI reminders.
+
+## MODULE 51 – OWNER CAPITAL, DRAWINGS & PARTNER EQUITY
+
+Implement:
+
+- Owner capital.
+- Partner contribution.
+- Drawings.
+- Partner loan.
+- Profit sharing.
+- Equity movement.
+- Capital ledger.
+- Approval and audit.
+
+## MODULE 52 – FINANCIAL KPI & STRATEGIC DECISION SUPPORT
+
+Implement:
+
+- Financial KPIs.
+- Performance targets.
+- Benchmarking.
+- Business health indicators.
+- Strategic reports.
+- KPI alerts.
+- Company-wise comparison.
+
+## MODULE 53 – SCENARIO PLANNING & WHAT-IF ANALYSIS
+
+Implement:
+
+- Best-case scenario.
+- Expected-case scenario.
+- Worst-case scenario.
+- Revenue and expense simulation.
+- Cash flow scenarios.
+- Profit impact analysis.
+- Scenario comparison.
+
+## MODULE 54 – FINANCIAL DATA WAREHOUSE & HISTORICAL BI
+
+Implement:
+
+- Historical financial analytics.
+- Data warehouse architecture where supported.
+- Long-term trends.
+- Historical comparisons.
+- Aggregated reports.
+- Data lineage.
+- Secure archival.
+
+## MODULE 55 – MULTI-USER COLLABORATION & FINANCIAL WORKSPACE
+
+Implement:
+
+- Financial task assignment.
+- Team collaboration.
+- Approval task lists.
+- Comments and notes.
+- Task status.
+- Responsible user.
+- Activity history.
+
+## MODULE 56 – FINANCIAL CALENDAR & PAYMENT SCHEDULING
+
+Implement:
+
+- Payment calendar.
+- Tax due-date calendar.
+- EMI calendar.
+- Supplier payment calendar.
+- FD/RD maturity calendar.
+- Financial events.
+- Reminder scheduling.
+
+## MODULE 57 – MOBILE FINANCIAL WORKSPACE
+
+Implement:
+
+- Responsive financial workspace.
+- Mobile dashboard.
+- Secure remote approval.
+- Mobile transaction search.
+- Mobile reports.
+- Device/session controls.
+
+## MODULE 58 – CUSTOMER PORTAL & SELF-SERVICE PAYMENT
+
+Implement:
+
+- Customer financial portal.
+- Customer invoices.
+- Outstanding balance.
+- Payment history.
+- Payment link or QR where configured.
+- Receipt download.
+- Customer notifications.
+- Access restricted to the customer's own records.
+
+## MODULE 59 – ADMIN FINANCIAL CONTROL CENTER
+
+Implement:
+
+- Central financial configuration.
+- Module status.
+- Financial approval monitoring.
+- Company settings.
+- Security controls.
+- Integration status.
+- Audit dashboard.
+- Financial system health.
+
+## MODULE 60 – FRAUD PREVENTION & SUSPICIOUS TRANSACTION MONITORING
+
+Implement:
+
+- Suspicious transaction rules.
+- Duplicate and unusual activity detection.
+- Risk scoring.
+- Investigation records.
+- Security alerts.
+- Override tracking.
+- Fraud investigation reports.
+
+Suspicious activity must not automatically be treated as confirmed fraud.
+
+## MODULE 61 – LEGAL COMPLIANCE & REGULATORY CHANGE MANAGEMENT
+
+Implement:
+
+- Compliance policy register.
+- Regulatory change tracking.
+- Effective dates.
+- Tax rule history.
+- Compliance reminders.
+- Required documentation.
+- Compliance audit.
+
+## MODULE 62 – BUSINESS CONTINUITY & EMERGENCY RECOVERY
+
+Implement:
+
+- Business continuity plan.
+- Backup and recovery procedures.
+- Emergency access controls.
+- Recovery checklist.
+- Recovery testing.
+- Incident history.
+- Disaster response documentation.
+
+## MODULE 63 – AI FINANCIAL ASSISTANT & NATURAL LANGUAGE QUERY
+
+Implement:
+
+- Financial question-answering.
+- Natural language report queries.
+- Financial summaries.
+- Trend explanations.
+- Anomaly explanations.
+- AI-assisted analysis.
+- Source-linked answers.
+
+AI must use authorized financial data only.
+
+AI must never directly modify, approve, post or delete financial transactions.
+
+AI features must remain clearly unavailable or disabled until a real authorized AI integration is configured.
+
+## MODULE 64 – DOCUMENT OCR & AUTOMATED VOUCHER PREPARATION
+
+Implement:
+
+- Document OCR where configured.
+- Invoice data extraction.
+- Receipt data extraction.
+- Bank statement extraction.
+- Suggested voucher preparation.
+- Field validation.
+- Human verification.
+- Source document linking.
+
+OCR-extracted data must be verified before posting.
+
+## MODULE 65 – E-COMMERCE, POS, SALES & INVENTORY ACCOUNTING
+
+Implement:
+
+- Sales integration.
+- POS billing integration.
+- Purchase integration.
+- Inventory movement accounting.
+- Sales return.
+- Purchase return.
+- Discount accounting.
+- COGS integration.
+- General Ledger posting.
+
+## MODULE 66 – FRANCHISE, DISTRIBUTOR & PARTNER SETTLEMENT
+
+Implement:
+
+- Franchise and distributor profiles.
+- Commission calculation.
+- Partner settlement.
+- Revenue sharing.
+- Settlement approval.
+- Outstanding commission.
+- Partner ledger.
+- Settlement reports.
+
+## MODULE 67 – SUBSCRIPTION & RECURRING REVENUE MANAGEMENT
+
+Implement:
+
+- Subscription plans.
+- Recurring billing.
+- Renewal schedule.
+- Subscription invoice.
+- Recurring collection.
+- Pending and failed payment.
+- Subscription revenue reports.
+
+## MODULE 68 – MULTI-COMPANY & GROUP ACCOUNTING
+
+Implement:
+
+- Multiple legal entities.
+- Company-specific financial records.
+- Separate Chart of Accounts.
+- Intercompany transactions.
+- Group account mapping.
+- Consolidated financial statements.
+- Intercompany elimination.
+- Company-level access isolation.
+
+---
+
+# 6. DETAILED IMPLEMENTATION SCOPE – MODULE 69–94
+
+## MODULE 69 – FRANCHISE ROYALTY & REVENUE SHARING
+
+Implement:
+
+- Franchise profile and agreement management.
+- One-time and recurring license fees.
+- Royalty calculation.
+- Percentage, fixed and slab-based revenue sharing.
+- Minimum guarantee.
+- Monthly and quarterly settlement.
+- Franchise invoices and outstanding tracking.
+- Renewal and expiry reminders.
+- Franchise profitability reports.
+- Payment ledger and settlement history.
+- Company-wise and consolidated reports.
+
+Controls:
+
+- Admin approval for royalty/rate changes.
+- Historical posted transactions remain immutable.
+- Prevent duplicate settlements.
+- Maintain complete audit history.
+
+## MODULE 70 – ENTERPRISE BUDGETING & FORECASTING
+
+Implement:
+
+- Multi-company consolidated budgeting.
+- Department, branch, counter and service-wise budgets.
+- Revenue, expense, cash flow and P&L forecasting.
+- Rolling 12-month forecast.
+- Best-case, expected-case and worst-case scenarios.
+- Budget revision and version history.
+- Budget approval and locking.
+- Budget versus actual comparison.
+- Variance percentage and overspending alerts.
+- Financial performance forecasts.
+- Periodic reports.
+- AI insights only when a real AI integration is configured.
+
+Controls:
+
+- Preserve approved budget versions.
+- Do not modify historical transactions.
+- Clearly distinguish forecast values from actual financial data.
+
+## MODULE 71 – FINANCIAL RISK & INTERNAL CONTROL
+
+Implement:
+
+- Real-time financial risk monitoring.
+- Duplicate and unusual transaction detection.
+- Unauthorized journal prevention.
+- Maker-checker-approver workflow.
+- Multi-level financial approvals.
+- Company-wise risk rules and limits.
+- Cash and bank anomaly detection.
+- Customer and supplier credit risk.
+- Suspicious activity alerts.
+- Transaction thresholds and restrictions.
+- Financial period closing and transaction locks.
+- Risk scoring and investigation history.
+- Risk and exception reports.
+
+Controls:
+
+- Suspicious activity must not automatically be labelled fraud.
+- Financial overrides require authorization and audit logging.
+- No unauthorized deletion or modification.
+
+## MODULE 72 – FINANCIAL CLOSING & YEAR-END
+
+Implement:
+
+- Monthly, quarterly, half-yearly and annual closing.
+- Automated closing checklist.
+- Pending transaction detection.
+- Cash and bank reconciliation.
+- Customer and supplier reconciliation.
+- Accrual and adjustment entries.
+- Depreciation and inventory valuation.
+- Closing journals and retained earnings.
+- Opening balance generation.
+- Previous financial year locking.
+- Controlled reopening with Admin approval.
+- Consolidated group closing.
+- Closing certificate and PDF reports.
+
+Controls:
+
+- Mandatory reconciliation before closing.
+- Protect historical records.
+- Log reopening reason, user, approval and timestamp.
+- Eliminate intercompany balances during consolidation.
+
+## MODULE 73 – TAXATION & COMPLIANCE
+
+Implement:
+
+- Multi-company GST configuration.
+- Multiple GSTIN management.
+- HSN/SAC and GST rates.
+- Input Tax Credit tracking.
+- GSTR-1 and GSTR-3B preparation.
+- GSTR-2B reconciliation.
+- E-invoice and e-way bill integration where authorized APIs are available.
+- TDS and TCS management.
+- Advance tax and self-assessment tax tracking.
+- Tax liabilities and payment tracking.
+- Reconciliation and adjustments.
+- Compliance due-date calendar.
+- Company-wise and consolidated tax reports.
+- PDF and Excel exports.
+
+Controls:
+
+- Tax rules must be configurable.
+- Do not claim returns are filed unless filing is confirmed through an authorized channel.
+- Distinguish Prepared, Pending, Submitted and Filed statuses.
+
+## MODULE 74 – FINANCIAL AUDIT & COMPLIANCE
+
+Implement:
+
+- Financial statement verification.
+- General Ledger and sub-ledger audit.
+- Trial Balance, P&L, Balance Sheet and Cash Flow verification.
+- Bank and cash audit.
+- GST/TDS compliance audit.
+- Intercompany transaction audit.
+- Duplicate and suspicious entry detection.
+- User activity and approval audit.
+- Audit observations and findings.
+- Evidence attachments.
+- Corrective action tracking.
+- Restricted auditor access.
+- Audit calendar and sign-off.
+- Audit history and reports.
+
+Controls:
+
+- Findings must not automatically alter financial transactions.
+- Corrections must use authorized journal entries.
+- Auditor access must be read-only unless explicitly authorized.
+
+## MODULE 75 – FINANCIAL INTELLIGENCE & BI
+
+Implement:
+
+- Real-time financial dashboard.
+- Company and group profitability.
+- Service-wise gross and net profit.
+- Branch and counter performance.
+- Revenue and profit growth.
+- Customer lifetime value where data supports it.
+- Collection and credit analysis.
+- Expense optimization.
+- Cash flow and liquidity analysis.
+- Working capital analysis.
+- Budget versus actual.
+- Financial KPI scorecards.
+- Best and worst-performing services.
+- Trend and seasonality analysis.
+- Forecast accuracy.
+- Custom reports and drill-downs.
+- PDF, Excel and CSV exports.
+- AI insights only when genuinely configured.
+
+Controls:
+
+- Use actual database records.
+- Clearly separate actual, budget and forecast values.
+- Warn when data is incomplete.
+- AI must never directly modify financial transactions.
+
+## MODULE 76 – BANKING & PAYMENT GATEWAY
+
+Implement:
+
+- Multiple bank account integration.
+- Bank statement import.
+- Automatic bank transaction matching.
+- UPI and payment gateway integration.
+- QR payment tracking.
+- Cash, UPI, bank and card reconciliation.
+- Payment status verification where APIs support it.
+- Deposits, withdrawals and transfers.
+- Intercompany funds transfer.
+- Settlement and bank fee tracking.
+- Failed, pending and reversed payments.
+- Duplicate transaction detection.
+- Bank Reconciliation Statement.
+- Secure API credential storage.
+- API logs and company-wise reports.
+
+Controls:
+
+- Never claim live API integration without valid authorized credentials and provider support.
+- Payment success must be verified.
+- Prevent duplicate webhook processing.
+- Distinguish manual statement import from live synchronization.
+
+## MODULE 77 – ACCOUNTS RECEIVABLE & PAYABLE
+
+Implement:
+
+- Customer invoices and outstanding balances.
+- Due-date and overdue tracking.
+- Partial and advance payments.
+- Customer credit limits and payment history.
+- Automated payment reminders.
+- Outstanding ageing reports.
+- Supplier bills and payment dues.
+- Supplier payment scheduling.
+- Partial and advance supplier payments.
+- Supplier credit limits and approvals.
+- Automatic ledger updates.
+- Cash flow integration.
+- Company-wise and consolidated outstanding reports.
+- Collection and vendor performance reports.
+
+Controls:
+
+- Maintain shared references between invoices, payments and ledgers.
+- Prevent duplicate payments.
+- Require Admin approval for credit limit changes.
+- Distinguish actual received amounts from outstanding dues.
+
+## MODULE 78 – INVENTORY VALUATION & COGS
+
+Implement:
+
+- FIFO and Weighted Average Cost valuation.
+- Item and batch cost tracking.
+- Opening and closing stock valuation.
+- Damaged and expired stock valuation.
+- Stock adjustments.
+- Cost of Goods Sold calculation.
+- Gross profit calculation.
+- Sales returns and purchase returns.
+- Discounts and cost allocation.
+- General Ledger integration.
+- Stock asset and COGS journal generation.
+- Company-wise and consolidated reports.
+- Negative stock controls.
+- Stock and accounting reconciliation.
+- Audit trail and period locking.
+
+Controls:
+
+- Use actual inventory records.
+- Prevent duplicate accounting postings.
+- Historical cost changes require authorized adjustments.
+
+## MODULE 79 – FIXED ASSET & DEPRECIATION
+
+Implement:
+
+- Fixed asset register.
+- Unique asset ID and QR identification.
+- Asset category and purchase details.
+- Supplier invoice linking.
+- Assignment and location tracking.
+- Warranty and AMC records.
+- Straight Line Method and Written Down Value depreciation.
+- Monthly and annual depreciation.
+- Accumulated depreciation and net book value.
+- Asset transfer and maintenance.
+- Disposal, loss, damage and retirement.
+- Revaluation.
+- General Ledger and expense integration.
+- Company-wise and consolidated reports.
+- Asset audit trail.
+
+Controls:
+
+- Accounting and tax depreciation may use separate configurations.
+- No historical modification without approval.
+- Calculate gain/loss on disposal correctly.
+
+## MODULE 80 – LOAN, EMI & FINANCING
+
+Implement:
+
+- Loan register and institution details.
+- Sanctioned and disbursed amount.
+- Loan purpose and asset linking.
+- Interest rate and tenure.
+- Fixed and floating interest configurations.
+- EMI schedule.
+- Principal and interest split.
+- Reducing balance and flat rate methods.
+- Due tracking and advance payments.
+- Part payment and prepayment.
+- Foreclosure and late fees.
+- Loan ledger.
+- Interest expense and liability accounting.
+- Current and non-current liability classification.
+- Journal and bank reconciliation.
+- Closure and No-Dues Certificate.
+- Loan reports and document management.
+
+Controls:
+
+- Principal and interest must be accounted for separately.
+- Do not mark a payment Paid without verified payment evidence.
+
+## MODULE 81 – PETTY CASH & CASHBOOK
+
+Implement:
+
+- Cashbook and opening balance.
+- Cash receipts and payments.
+- Daily closing cash.
+- Cash in hand.
+- Transaction history and automatic cashbook posting.
+- Petty cash fund management.
+- Expense vouchers and reimbursement.
+- Counter, branch and staff-wise cash.
+- PNB CSP, CSC and Cyber Cafe cash tracking.
+- Cash transfers.
+- Physical cash count.
+- System versus physical balance.
+- Shortage and excess investigation.
+- Closing approval and handover.
+- Ledger and voucher integration.
+- Cash-to-bank and bank-to-cash transfers.
+- Cash flow and consolidated reports.
+
+**CRITICAL BUSINESS SEPARATION:**
+
+PNB CSP customer banking cash deposits and withdrawals must remain separate from MUN COMPUTER's own business cash, income and expenses.
+
+## MODULE 82 – BANK RECONCILIATION & MULTI-BANK MANAGEMENT
+
+Implement:
+
+- Multiple bank account register.
+- Company and branch account mapping.
+- Bank account types and balances.
+- Bank ledger and statement management.
+- CSV/Excel statement import.
+- Automated transaction matching.
+- Unmatched and duplicate transaction detection.
+- Bank charges and interest.
+- BRS preparation.
+- Cheque issue, deposit, clearance and bounced tracking.
+- Stop-payment records.
+- Bank transfers and EMI integration.
+- Company-wise and consolidated bank position.
+- Reports and audit history.
+
+**CRITICAL BUSINESS SEPARATION:**
+
+MUN COMPUTER's own bank accounts must remain separate from PNB CSP customer banking operations.
+
+Controls:
+
+- Unmatched transactions must not be automatically reconciled.
+- Manual reconciliation requires a reason and appropriate approval.
+- No unauthorized deletion.
+
+## MODULE 83 – ENTERPRISE VOUCHER & DOUBLE-ENTRY ACCOUNTING
+
+Implement:
+
+- Centralized voucher management.
+- Automatic double-entry accounting.
+- Dynamic company-wise voucher numbering.
+- Branch and counter tracking.
+- Multi-level approval.
+- Maker-checker-approver workflow.
+- Debit and credit validation.
+- Ledger and sub-ledger mapping.
+- Recurring and reversing journals.
+- Adjustment and closing journals.
+- Attachments and supporting documents.
+- Duplicate prevention.
+- Edit, cancellation and reversal controls.
+- Accounting period lock.
+- Complete audit trail.
+- Trial Balance integration.
+- PDF and print.
+- Company-wise and consolidated reports.
+
+Controls:
+
+- Posted vouchers must always satisfy Debit = Credit.
+- Posted vouchers cannot be deleted.
+- Corrections must use authorized reversal entries.
+- Maintain unique voucher numbers.
+- Support Draft, Pending, Approved, Posted, Reversed and Cancelled statuses.
+
+## MODULE 84 – ENTERPRISE GENERAL LEDGER
+
+Implement:
+
+- Dynamic multi-level Chart of Accounts.
+- Assets, liabilities, equity, income and expense accounts.
+- Company-specific Chart of Accounts.
+- Group account mapping.
+- General Ledger and sub-ledger.
+- Customer and supplier control accounts.
+- Cash, bank and petty cash accounts.
+- Inventory and fixed asset accounts.
+- GST and TDS accounts.
+- Cost and profit centres.
+- Department, branch and counter mapping.
+- Opening and closing balances.
+- Voucher-to-GL automatic posting.
+- Source transaction drill-down.
+- Ledger reconciliation.
+- Inactive account protection.
+- Trial Balance verification.
+- Company-wise and consolidated reports.
+- Audit and export.
+
+Controls:
+
+- Every posted transaction must map to the correct GL account.
+- Sub-ledger and control account balances must match.
+- Company ledgers must remain separate.
+- Used accounts cannot be deleted; deactivate them instead.
+
+## MODULE 85 – FINANCIAL STATEMENTS & REPORTING
+
+Implement:
+
+- Automated Trial Balance.
+- Profit & Loss Statement.
+- Balance Sheet.
+- Cash Flow Statement.
+- Statement of Changes in Equity.
+- Company-wise and consolidated statements.
+- Previous-year comparison.
+- Monthly, quarterly, half-yearly and annual reports.
+- Actual versus budget comparison.
+- Department, branch and service profitability.
+- Gross and net profit.
+- Current and non-current classification.
+- Financial ratios.
+- Working capital and liquidity.
+- Retained earnings.
+- Intercompany elimination.
+- Statement approval and locking.
+- Ledger and voucher drill-down.
+- PDF and Excel exports.
+
+Controls:
+
+- Statements must derive from actual General Ledger records.
+- Trial Balance debit and credit totals must agree.
+- Assets = Liabilities + Equity.
+- Approved statements can only be reopened through authorized controls.
+
+## MODULE 86 – FINANCIAL PERFORMANCE INTELLIGENCE
+
+Implement:
+
+- Liquidity ratios.
+- Solvency and leverage ratios.
+- Profitability ratios.
+- Operational ratios.
+- ROI and ROCE.
+- Cash conversion cycle.
+- Operating cash flow.
+- DSCR.
+- Break-even analysis.
+- Contribution margin.
+- Customer and service profitability.
+- Branch and counter scorecards.
+- Company and consolidated KPI.
+- Trend analysis.
+- Verified benchmarks only.
+- Financial health scorecard.
+- KPI target versus actual.
+- Alerts and recommendations.
+- PDF and Excel reports.
+
+Controls:
+
+- Use actual data only for actual performance.
+- Missing data must display N/A, not fabricated numbers.
+- Make calculation formulas transparent.
+- Keep forecast and actual figures separate.
+
+## MODULE 87 – TREASURY & FINANCIAL PLANNING
+
+Implement:
+
+- Real-time cash and bank position.
+- Multi-company treasury.
+- Daily, weekly and monthly forecasts.
+- Rolling liquidity forecast.
+- Working capital planning.
+- Fund allocation and utilization.
+- Intercompany fund transfers.
+- Payment priority and scheduling.
+- Receivable and supplier payment forecasts.
+- Short and long-term financial planning.
+- Surplus and shortage alerts.
+- Financial risk analysis.
+- Bank-wise fund analysis.
+- Budget integration.
+- Scenario planning.
+- Approval workflows.
+- Company-wise and consolidated reports.
+- Audit trail.
+
+Controls:
+
+- Clearly separate actual and forecast balances.
+- No unapproved fund transfers.
+- Intercompany transfers require linked double-sided accounting entries.
+- Prevent duplicate fund allocation.
+- Forecast values must not appear as verified bank balances.
+
+## MODULE 88 – INVESTMENT & SURPLUS FUND MANAGEMENT
+
+Implement:
+
+- Multi-company investment register.
+- Surplus fund identification.
+- Investment allocation and approval.
+- Fixed Deposit, Recurring Deposit and approved business investment tracking.
+- Portfolio management.
+- Principal and interest tracking.
+- Accrued interest.
+- Maturity and renewal.
+- Premature withdrawal and penalty.
+- Risk classification.
+- ROI calculation.
+- Tax and TDS tracking.
+- Cash flow forecast.
+- General Ledger integration.
+- Company-wise and consolidated reports.
+- Supporting documents.
+- Maturity alerts.
+- Audit and export.
+
+Controls:
+
+- Admin approval is mandatory.
+- Principal and interest must remain separate.
+- Expected interest must be distinct from actual interest.
+- Do not present expected returns as guaranteed.
+
+## MODULE 89 – CAPITAL & EQUITY MANAGEMENT
+
+Implement:
+
+- Multi-company capital management.
+- Owner, partner and shareholder profiles.
+- Initial and additional contributions.
+- Partner ledger.
+- Withdrawals and drawings.
+- Profit and loss sharing.
+- Ownership percentage.
+- Capital allocation across business units.
+- Partner loans tracked separately.
+- Funding source records.
+- Capital planning.
+- Working capital contributions.
+- Equity and retained earnings.
+- Authorized adjustments and revaluation.
+- Partner settlement.
+- Company-wise and consolidated reports.
+- Approval and audit history.
+- Export.
+
+Controls:
+
+- Owner capital, partner loans and business income must remain separate.
+- Ownership changes require effective dates and approval.
+- Withdrawals require approval.
+- Ownership changes must not rewrite historical posted profit allocations.
+- Company equity must remain isolated.
+
+## MODULE 90 – FINANCIAL DOCUMENT & DIGITAL ARCHIVE
+
+Implement:
+
+- Central financial document vault.
+- Automatic invoice, receipt and voucher archiving.
+- Bank statements and reconciliation evidence.
+- GST/TDS returns and tax payment documents.
+- Loan and EMI agreements.
+- Fixed asset purchase and warranty documents.
+- Customer and supplier financial documents.
+- Company, branch, department and counter classification.
+- OCR extraction only when configured.
+- Version history.
+- Duplicate detection.
+- Expiry reminders.
+- Search and filters.
+- Secure PDF and image preview.
+- Role-based view, download and print.
+- Access audit log.
+- Encrypted backup and recovery.
+- Transaction linking.
+- Authorized PDF and ZIP export.
+
+Controls:
+
+- Original documents cannot be replaced or deleted without authorization.
+- OCR-extracted data must be verified before financial posting.
+- Backup integrity must be checked.
+
+## MODULE 91 – FINANCIAL DATA IMPORT, EXPORT & MIGRATION
+
+Implement:
+
+- Excel and CSV financial data import.
+- Opening balance import.
+- Customer and supplier ledger migration.
+- Chart of Accounts migration.
+- Historical transaction import.
+- Bank statement import.
+- Invoice and payment data import.
+- Column mapping.
+- Import preview.
+- Duplicate detection.
+- Data format and mandatory field validation.
+- Debit-credit validation.
+- Missing field detection.
+- Invalid record reports.
+- Import approval workflow.
+- PDF, Excel and CSV exports.
+- Company-wise and consolidated export.
+- Import/export history.
+- Migration batch ID.
+- Source and destination mapping.
+- Dry-run migration.
+- Rollback support.
+- Database integrity verification.
+- Transaction reference preservation.
+- Migration audit trail.
+
+Controls:
+
+- Preview and validation before import.
+- Prevent duplicate financial transactions.
+- Invalid or incomplete data must not be posted.
+- Take a verified database backup before migration.
+- Reconcile record counts and debit-credit totals after migration.
+- Generate detailed failed-record reports.
+- No unauthorized modification of original records.
+
+## MODULE 92 – FINANCIAL DATA SECURITY, PRIVACY & ACCESS GOVERNANCE
+
+Implement:
+
+- Secure data transmission.
+- Encryption at rest for sensitive financial data.
+- Role-based and company-based access control.
+- Field-level financial data permissions.
+- Maker-checker-approver security.
+- Multi-factor authentication.
+- Device and session management.
+- Suspicious login detection.
+- Unauthorized data access prevention.
+- Financial document download and print audit.
+- API key and secret management.
+- Database access protection.
+- Backup encryption and recovery security.
+- Data retention and secure deletion policy.
+- Sensitive data masking.
+- Admin security override audit.
+- Security incident management.
+- Login and activity monitoring dashboard.
+- Company-wise data isolation.
+- Complete security audit reports.
+
+Controls:
+
+- Never store passwords in plain text.
+- Verify permissions on both frontend and backend/API.
+- Security logs must not be editable or deletable by ordinary users.
+- Record and investigate security incidents.
+- Use secure key management; do not hardcode secrets.
+
+## MODULE 93 – FINANCIAL NOTIFICATION & AUTOMATION
+
+Implement:
+
+- Real-time financial event notifications.
+- Customer payment due and overdue alerts.
+- Supplier payment schedule alerts.
+- GST and TDS reminders.
+- Loan EMI and interest due alerts.
+- FD/RD maturity notifications.
+- Budget variance and overspending alerts.
+- Cash shortage and liquidity alerts.
+- Bank reconciliation difference alerts.
+- Pending financial approval notifications.
+- Suspicious transaction alerts.
+- Financial year closing reminders.
+- Invoice and payment confirmation notifications.
+- Staff, Manager and Admin-specific notifications.
+- In-app notification centre.
+- Email, SMS and WhatsApp integration where a provider is configured.
+- Notification templates and scheduling.
+- Read/unread status.
+- Delivery status tracking.
+- Failed notification retry.
+- Error logs.
+- User notification preferences.
+- Duplicate notification prevention.
+- Complete notification audit trail.
+
+Controls:
+
+- Never send a Paid confirmation without verified payment.
+- Separate forecast alerts from actual financial alerts.
+- Show successful external delivery only when provider confirmation is received.
+- Prevent duplicate notifications.
+- Enforce user-specific access permissions.
+
+## MODULE 94 – COMPLETE FINANCIAL ENGINE INTEGRATION, TESTING & PRODUCTION AUDIT
+
+Integrate and test all Modules 01–93.
+
+Mandatory verification:
+
+1. All 94 module registrations and navigation.
+2. All module-to-module connections.
+3. Database schema and relationships.
+4. General Ledger and double-entry accounting.
+5. Voucher-to-ledger automatic posting.
+6. GST and TDS calculations.
+7. Inventory and COGS integration.
+8. Fixed asset and depreciation.
+9. Bank and cash reconciliation.
+10. Customer and supplier ledgers.
+11. Financial statement accuracy.
+12. Multi-company data isolation.
+13. Role-based access and security.
+14. API and payment gateway verification.
+15. Backup, restore and disaster recovery.
+16. Import, export and migration.
+17. Notification automation.
+18. Duplicate transaction prevention.
+19. Performance and load testing.
+20. Error detection and repair.
+21. End-to-end financial workflow testing.
+22. Production deployment readiness report.
+23. Final Financial Engine Audit Certificate in PDF.
+
+Testing requirements:
+
+- Test real database operations, not just UI rendering.
+- Verify create, read, update, approval, posting, reversal and reporting workflows.
+- Test all buttons, links, dropdowns, forms, filters and actions.
+- Test every role and unauthorized access scenarios.
+- Verify transaction integrity and rollback.
+- Test backup restoration.
+- Identify and repair critical, high, medium and low severity issues.
+- Record test results and evidence.
+- Do not declare production readiness while critical issues remain.
+
+---
+
+# 7. CENTRAL FINANCIAL ENGINE ARCHITECTURE
+
+All 94 modules must use one centralized accounting architecture.
+
+## 7.1 Central Shared Engines
+
+Reuse and integrate the following shared systems:
+
+1. Central Accounting Engine.
+2. Central Double-Entry Engine.
+3. Central Chart of Accounts.
+4. Central General Ledger.
+5. Central Sub-ledger.
+6. Central Voucher Engine.
+7. Central Transaction Registry.
+8. Central Approval Engine.
+9. Central Audit Engine.
+10. Central Notification Engine.
+11. Central Document Management.
+12. Central Backup and Recovery.
+13. Central Authentication and Permission System.
+14. Central Customer and Supplier Master.
+15. Central Import and Export Engine.
+16. Central Reporting and Analytics Engine.
+17. Central Financial Settings.
+18. Central Company and Branch Registry.
+
+Do not create duplicate engines for different modules.
+
+## 7.2 Mandatory Accounting Relationships
+
+- Sales and invoices → Accounts Receivable → Receipt → Voucher → General Ledger.
+- Purchases and supplier bills → Accounts Payable → Payment → Voucher → General Ledger.
+- Inventory movement → Inventory Valuation → COGS → General Ledger.
+- Fixed assets → Depreciation → Expense and Asset Ledger.
+- Cashbook → Cash Ledger → General Ledger.
+- Bank transactions → Bank Reconciliation → Bank Ledger.
+- Loan transactions → EMI Schedule → Interest and Liability Ledger.
+- GST/TDS → Tax Ledger → Compliance Reports.
+- Franchise revenue → Royalty Calculation → Settlement → Ledger.
+- Budget → Actual Transactions → Variance Reports.
+- Financial Closing → Verified Ledger Balances → Financial Statements.
+- Customer payment → Payment Verification → Receipt → Voucher → Ledger.
+- Supplier payment → Payment Verification → Payment Voucher → Ledger.
+- Salary processing → Payroll Approval → Salary Payment → Ledger.
+- Investment → Principal/Interest Tracking → Voucher → Ledger.
+- Capital contribution → Approval → Capital Voucher → Equity Ledger.
+
+## 7.3 Transaction Integrity
+
+Every posted financial transaction must have:
+
+- Unique Transaction ID.
+- Company ID.
+- Branch ID where applicable.
+- Counter ID where applicable.
+- Financial Year.
+- Source Module.
+- Source Transaction Reference.
+- Voucher Reference.
+- Debit Account.
+- Credit Account.
+- Amount.
+- Transaction Date.
+- Posting Date.
+- Created By.
+- Approved By where applicable.
+- Audit History.
+
+All related multi-table financial operations must use atomic database transactions.
+
+Prevent duplicate accounting entries.
+
+Maintain source-to-ledger traceability.
+
+---
+
+# 8. SPECIAL BUSINESS RULES FOR MUN COMPUTER
+
+These rules must be preserved throughout all 94 modules.
+
+## 8.1 PNB CSP and MUN COMPUTER Financial Separation
+
+PNB CSP customer banking transactions must be recorded separately from MUN COMPUTER's own business transactions.
+
+Separate:
+
+- Customer banking cash deposits.
+- Customer banking cash withdrawals.
+- AEPS transactions.
+- Money transfer transactions.
+- Banking settlement records.
+- MUN COMPUTER service income.
+- MUN COMPUTER expenses.
+- MUN COMPUTER cash.
+- MUN COMPUTER bank balances.
+- MUN COMPUTER profit and loss.
+
+PNB CSP customer cash must never be automatically treated as MUN COMPUTER income or expense.
+
+Only actual MUN COMPUTER commissions, service charges and verified business income may be recognized as business income.
+
+## 8.2 CSC and Cyber Cafe Accounting
+
+Support separate service-wise accounting for:
+
+- CSC services.
+- PAN services.
+- Government services.
+- Indian Gas VLE services.
+- Online applications.
+- Cyber Cafe services.
+- Banking services.
+- Other configurable services.
+
+Customer collection, external service cost, commission and actual profit must be separately traceable.
+
+## 8.3 Service Pricing Integration
+
+Integrate with Phase 03 and Phase 04 pricing:
+
+Customer Charge + Service Cost = Financial transaction inputs.
+
+Profit must be calculated according to the approved pricing structure:
+
+**Profit = Customer Charge − Service Cost**
+
+Preserve historical pricing snapshots for old transactions.
+
+New pricing must follow the approved settings and approval workflow.
+
+---
+
+# 9. FINANCIAL SECURITY & USER PERMISSIONS
+
+Integrate with the existing ERP roles and approved Phase 02/03 security architecture.
+
+Minimum roles:
+
+- Administrator.
+- Manager.
+- Employee/Staff.
+- Auditor – restricted read-only access.
+- Customer – own records only.
+- Partner – own authorized records only.
+
+Apply:
+
+- Backend/API permission validation.
+- Role-based access.
+- Company-wise data isolation.
+- Field-level permission.
+- Sensitive financial data masking.
+- Multi-factor authentication.
+- Session control.
+- Approval restrictions.
+- Download and print audit.
+- Secure API credential storage.
+- Security incident monitoring.
+
+Preserve previously approved security settings:
+
+- Session duration: 60 minutes.
+- Auto logout after 60 minutes of inactivity.
+- Maximum failed login attempts: 5.
+- Account lockout duration: 3 minutes.
+- Two-factor authentication for Admin, Manager and Staff.
+
+Preserve the approved settings-change workflow:
+
+- Manager proposes important settings changes.
+- Admin reviews and approves or rejects.
+- The person proposing a change cannot approve their own proposal.
+- Only approved changes become active.
+
+Do not weaken previously approved security rules.
+
+---
+
+# 10. FINANCIAL APPROVAL & AUDIT RULES
+
+Implement centralized maker-checker-approver controls.
+
+- Transaction creator cannot approve their own transaction.
+- Pending transactions must not be posted.
+- Posted vouchers cannot be deleted.
+- Posted financial transactions cannot be silently edited.
+- Corrections must use authorized reversal or adjustment entries.
+- Approval and rejection must record user, date, time and reason.
+- Financial overrides require authorization.
+- Period locks must prevent unauthorized posting.
+- All important changes must have audit history.
+- Audit logs must be protected from ordinary user modification.
+
+---
+
+# 11. DATABASE & MIGRATION REQUIREMENTS
+
+Before modifying the database:
+
+1. Inspect the existing database.
+2. Map all existing financial tables.
+3. Identify duplicate or overlapping data structures.
+4. Reuse existing tables and services where appropriate.
+5. Design safe, versioned migrations.
+6. Create verified backups.
+7. Add required relationships and indexes.
+8. Validate foreign keys and constraints.
+9. Use atomic database transactions.
+10. Verify migration rollback.
+
+Preserve all existing production data.
+
+Do not replace the database architecture without documenting the reason and obtaining approval.
+
+If SQLite is used with a deployment platform whose filesystem is ephemeral or non-persistent, identify the limitation and propose an appropriate persistent storage architecture.
+
+Do not claim persistent production storage without verification.
+
+---
+
+# 12. BACKUP & DISASTER RECOVERY
+
+Integrate the existing backup system.
+
+Implement or verify:
+
+- Automatic scheduled backups where hosting supports scheduling.
+- Manual Admin backup.
+- Database backup.
+- Financial document backup.
+- Backup encryption.
+- Backup integrity verification.
+- Backup history.
+- Restore workflow.
+- Recovery testing.
+- Rollback instructions.
+- Disaster recovery documentation.
+
+Do not claim automatic scheduled backups if the hosting platform does not support the required scheduler or Cron.
+
+A backup is not considered verified until restoration has been tested.
+
+---
+
+# 13. IMPORT, EXPORT & DATA MIGRATION
+
+Support:
+
+- Excel import/export.
+- CSV import/export.
+- PDF reports.
+- Opening balance migration.
+- Customer ledger migration.
+- Supplier ledger migration.
+- Chart of Accounts migration.
+- Historical transaction migration.
+- Bank statement import.
+- Invoice and payment migration.
+
+Before import:
+
+1. Preview the data.
+2. Map columns.
+3. Validate required fields.
+4. Detect duplicates.
+5. Verify debit-credit totals.
+6. Generate an error report.
+7. Obtain required approval.
+8. Create a verified backup.
+9. Run the migration.
+10. Verify record counts and balances.
+
+Invalid records must not be posted.
+
+Maintain migration batch IDs and audit history.
+
+---
+
+# 14. NOTIFICATION & EXTERNAL INTEGRATION RULES
+
+Support provider-based integration for:
+
+- Email.
+- SMS.
+- WhatsApp Business API.
+- Payment gateways.
+- UPI.
+- Bank APIs.
+- Tax-related authorized APIs.
+- OCR providers.
+- AI services.
+- Accounting software integrations.
+
+Rules:
+
+- Store API secrets securely on the server.
+- Never hardcode secrets.
+- Never claim an integration is live without valid credentials and provider confirmation.
+- Prevent duplicate webhook processing.
+- Maintain API logs.
+- Track delivery status.
+- Retry failed notifications safely.
+- Never send a Paid confirmation without verified payment.
+- Clearly distinguish manual import from live synchronization.
+
+---
+
+# 15. FINANCIAL REPORTING REQUIREMENTS
+
+All financial reports must derive from actual database and General Ledger records.
+
+Required reports:
+
+- Cashbook.
+- Daybook.
+- General Ledger.
+- Sub-ledger.
+- Trial Balance.
+- Profit & Loss.
+- Balance Sheet.
+- Cash Flow Statement.
+- Customer Due.
+- Supplier Payable.
+- Bank Reconciliation.
+- Daily Collection.
+- Daily Expense.
+- Counter-wise Cash.
+- Service-wise Profit.
+- Branch-wise Performance.
+- Budget vs Actual.
+- Tax and GST.
+- TDS.
+- Payroll.
+- Fixed Assets.
+- Depreciation.
+- Loan and EMI.
+- Investment.
+- Capital and Equity.
+- Franchise Settlement.
+- Financial KPI.
+- Financial Risk.
+- Audit and Compliance.
+- Consolidated Group Reports.
+
+Support:
+
+- PDF.
+- Excel.
+- CSV.
+- Date filters.
+- Company filters.
+- Branch filters.
+- Counter filters.
+- Service filters.
+- User filters.
+- Payment mode filters.
+- Transaction status filters.
+
+Missing data must display N/A rather than fabricated values.
+
+---
+
+# 16. USER INTERFACE & NAVIGATION
+
+Preserve the existing MUN COMPUTER branding and approved ERP design.
+
+Implement:
+
+- Professional corporate interface.
+- Responsive desktop, laptop, tablet and mobile layouts.
+- Consistent sidebar navigation.
+- Role-specific financial menus.
+- Search and filters.
+- Sorting and pagination.
+- Working forms.
+- Input validation.
+- Loading states.
+- Success and error messages.
+- Empty states.
+- Print-friendly reports.
+- Accessible controls.
+- Financial dashboard.
+- Module-specific detail pages.
+
+Do not create duplicate menus or duplicate financial modules.
+
+Do not redesign unrelated working modules without a technical reason.
+
+All buttons, links, forms, filters, dropdowns and actions must work.
+
+---
+
+# 17. FINANCIAL CALCULATION & VALIDATION RULES
+
+Verify the following:
+
+1. Debit equals Credit for every posted voucher.
+2. Trial Balance debit total equals credit total.
+3. Assets equal Liabilities plus Equity.
+4. Customer sub-ledger equals Customer Control Account.
+5. Supplier sub-ledger equals Supplier Control Account.
+6. Cashbook agrees with cash ledger.
+7. Bank statement reconciliation is traceable.
+8. Inventory valuation agrees with stock records.
+9. COGS is calculated using the selected valuation method.
+10. Fixed asset depreciation is correctly calculated.
+11. Loan principal and interest are separately accounted for.
+12. GST/TDS calculations use configured rules.
+13. Customer due and advance balances are accurate.
+14. Supplier payable balances are accurate.
+15. Budget and forecast figures remain separate from actual transactions.
+16. Intercompany transactions have linked accounting entries.
+17. Financial closing produces verified opening balances.
+18. Reversals retain links to original transactions.
+19. Duplicate postings are prevented.
+20. All financial reports reconcile to the underlying ledger.
+
+Make calculation formulas transparent and testable.
+
+---
+
+# 18. EXISTING ERP PRESERVATION RULES
+
+This is an extension and repair of the existing ERP.
+
+DO NOT:
+
+- Replace the existing ERP with a new application.
+- Create a separate demo application.
+- Remove working modules.
+- Break existing authentication.
+- Replace the database architecture without justification and approval.
+- Create duplicate accounting engines.
+- Create duplicate customer or supplier masters.
+- Hardcode financial balances.
+- Use fake data as production data.
+- Create non-functional buttons.
+- Store important production records only in browser LocalStorage.
+- Expose passwords or API keys.
+- Silently change approved business rules.
+- Claim untested integrations are live.
+
+Preserve all existing approved features.
+
+Use safe migrations and backward-compatible changes.
+
+If an architectural limitation is found, document it and propose a safe migration plan before making a destructive change.
+
+---
+
+# 19. COMPLETE TESTING REQUIREMENTS
+
+Test the actual project, not only the UI.
+
+## 19.1 Module Testing
+
+Test all Modules 01–94.
+
+Verify:
+
+- Create.
+- Read.
+- Update where permitted.
+- Delete or archive where authorized.
+- Approval.
+- Rejection.
+- Posting.
+- Reversal.
+- Search.
+- Filters.
+- Reports.
+- Export.
+- Permissions.
+- Audit history.
+
+## 19.2 Integration Testing
+
+Verify:
+
+- Customer to invoice.
+- Invoice to receivable.
+- Payment to receipt.
+- Receipt to voucher.
+- Voucher to General Ledger.
+- Supplier bill to payable.
+- Supplier payment to voucher.
+- Inventory to COGS.
+- Asset to depreciation.
+- Loan to EMI and liability ledger.
+- Bank statement to reconciliation.
+- Tax to tax ledger.
+- Budget to actual comparison.
+- Franchise settlement to ledger.
+- Financial closing to financial statements.
+
+## 19.3 Security Testing
+
+Test:
+
+- Admin access.
+- Manager access.
+- Staff access.
+- Auditor read-only access.
+- Customer own-record access.
+- Unauthorized API requests.
+- Unauthorized downloads.
+- Unauthorized approvals.
+- Company data isolation.
+- Session expiration.
+- OTP and 2FA.
+- Security audit history.
+
+## 19.4 Database Testing
+
+Test:
+
+- Database integrity.
+- Foreign key relationships.
+- Unique constraints.
+- Duplicate prevention.
+- Atomic transactions.
+- Rollback.
+- Migration.
+- Backup.
+- Restore.
+- Historical record preservation.
+
+## 19.5 Performance Testing
+
+Test:
+
+- Large ledger queries.
+- Large transaction histories.
+- Search and filters.
+- Financial reports.
+- Import and export.
+- Dashboard loading.
+- Concurrent transaction handling.
+- Database performance.
+
+Record all test results and evidence.
+
+---
+
+# 20. EXECUTION ORDER
+
+Follow this order without skipping stages.
+
+### STAGE 1 – ORIGINAL ZIP EXTRACTION & PROJECT AUDIT
+
+Inspect the original project and prepare the actual project audit.
+
+### STAGE 2 – EXISTING MODULE AND DATABASE REVIEW
+
+Review Phases 01–04, existing financial features, database and integrations.
+
+### STAGE 3 – COMPLETE FINANCIAL ARCHITECTURE DESIGN
+
+Map all 94 modules to the central accounting architecture.
+
+### STAGE 4 – DATABASE BACKUP & MIGRATIONS
+
+Create verified backups and safe, versioned migrations.
+
+### STAGE 5 – CORE ACCOUNTING ENGINE
+
+Implement and verify Double-Entry, Chart of Accounts, Voucher Engine and General Ledger.
+
+### STAGE 6 – FINANCIAL OPERATIONS MODULES
+
+Implement cashbook, payments, customer dues, supplier payables, bank, payroll, tax, assets, loans and budgeting.
+
+### STAGE 7 – ADVANCED ENTERPRISE MODULES
+
+Implement analytics, BI, treasury, risk, compliance, multi-company and advanced workspace systems.
+
+### STAGE 8 – MODULE 69–94 IMPLEMENTATION
+
+Implement the final 26 approved modules.
+
+### STAGE 9 – CROSS-MODULE INTEGRATION
+
+Connect all 94 modules through shared transaction IDs, accounting services, ledgers and approvals.
+
+### STAGE 10 – SECURITY & PERMISSION TESTING
+
+Verify all roles, access restrictions and financial approvals.
+
+### STAGE 11 – END-TO-END FUNCTIONAL TESTING
+
+Test actual database operations and financial workflows.
+
+### STAGE 12 – ERROR DETECTION & REPAIR
+
+Repair verified defects and document unresolved issues.
+
+### STAGE 13 – BACKUP & RESTORE VERIFICATION
+
+Test actual restoration.
+
+### STAGE 14 – PRODUCTION READINESS AUDIT
+
+Verify build, database, security, performance and deployment requirements.
+
+### STAGE 15 – FINAL ZIP & DOCUMENTATION
+
+Deliver the complete updated project and reports.
+
+Do not mark a stage complete without evidence.
+
+---
+
+# 21. REQUIRED FINAL DELIVERABLES
+
+After completing implementation, provide:
+
+1. Complete updated project source code.
+2. Final updated project ZIP.
+3. Module-wise implementation report for Modules 01–94.
+4. Database schema and migration summary.
+5. Financial architecture and integration report.
+6. Module-to-module integration report.
+7. Broken feature repair report.
+8. Security and permission audit report.
+9. Backup and recovery test report.
+10. Financial calculation verification report.
+11. Complete test Pass/Fail report.
+12. Known limitations and unresolved issues.
+13. External integration status report.
+14. Production deployment instructions.
+15. Final Financial Engine Audit Certificate in PDF.
+16. Rollback and recovery instructions.
+
+Clearly identify each module as:
+
+- Implemented and tested.
+- Existing and verified.
+- Partially implemented.
+- UI only / simulated.
+- Blocked by missing credentials or infrastructure.
+- Not implemented.
+
+Do not mark an item complete without verification.
+
+---
+
+# 22. FINAL ACCEPTANCE CRITERIA
+
+The project is complete only when:
+
+- All approved Modules 01–94 have been addressed.
+- All approved requirements are preserved.
+- Phase 01–04 functionality remains intact.
+- All financial modules use the central accounting architecture.
+- Double-entry accounting is verified.
+- General Ledger and sub-ledgers reconcile.
+- Financial reports derive from actual records.
+- Database integrity passes.
+- Role-based security passes.
+- Company-wise data isolation passes.
+- Duplicate accounting postings are prevented.
+- Backup restoration has been tested.
+- Critical and high-severity issues are resolved or explicitly documented as production blockers.
+- All available functional tests have documented results.
+- The project builds and runs successfully.
+- The final source code and ZIP are delivered.
+
+---
+
+# 23. FINAL EXECUTION INSTRUCTION
+
+**START BY INSPECTING THE ATTACHED ORIGINAL MUN COMPUTER BUSINESS MANAGER PROJECT ZIP.**
+
+Do not merely generate a plan, mockup, preview, sample dashboard or disconnected prototype.
+
+Work directly on the actual existing ERP project.
+
+Implement and integrate the complete Phase 05 Financial Engine Modules 01–94.
+
+Preserve all previously approved functionality from Phase 01–04.
+
+Use one central accounting architecture, one General Ledger, one Chart of Accounts, one Voucher Engine, one Approval Engine and one Audit Engine.
+
+Test every available function, repair verified defects and deliver the complete updated project ZIP with documentation.
+
+If the environment cannot complete a step, clearly identify the limitation.
+
+Never falsely claim implementation, testing, successful integration or production readiness.
+
+**FINAL GOAL: ONE COMPLETE, SECURE, INTEGRATED, TESTED AND PRODUCTION-READY MUN COMPUTER BUSINESS MANAGER ERP WITH ALL 94 FINANCIAL ENGINE MODULES.**

@@ -1,0 +1,1374 @@
+# MUN COMPUTER BUSINESS MANAGER
+# COMPLETE APPLICATION MANAGEMENT SYSTEM – MASTER IMPLEMENTATION, AUDIT & REPAIR PROMPT
+
+## 1. MAIN OBJECTIVE
+
+You are acting as a Senior ERP Software Architect, Full-Stack Developer, Database Engineer, UI/UX Designer, Security Engineer and QA Automation Engineer.
+
+Your responsibility is to inspect, audit, repair, integrate and fully implement the complete Application Management System inside the EXISTING MUN COMPUTER BUSINESS MANAGER project.
+
+The original project ZIP is the primary source of truth.
+
+This is NOT a request to create a new demo application, redesign an isolated module, or generate a separate prototype.
+
+You MUST work on the existing project and preserve its existing functionality, database, authentication, business logic, integrations and user interface.
+
+## 2. CRITICAL PROJECT PRESERVATION RULES
+
+Before making any changes:
+
+1. Extract and inspect the complete original ZIP project.
+2. Understand the existing folder and file structure.
+3. Inspect the existing frontend and backend architecture.
+4. Inspect the existing database implementation, schema, relationships and migrations.
+5. Inspect all existing ERP modules and their dependencies.
+6. Inspect the existing authentication and role permission system.
+7. Identify incomplete, broken, duplicate and non-functional features.
+8. Create a complete implementation plan.
+
+STRICT RULES:
+
+- Do not create a replacement project.
+- Do not delete existing working modules.
+- Do not replace the existing database unnecessarily.
+- Do not remove existing business records.
+- Do not create duplicate customer, payment or application databases.
+- Do not break existing login functionality.
+- Do not break existing sidebar navigation.
+- Do not introduce unnecessary frameworks or architectural changes.
+- Preserve existing APIs and integrations wherever possible.
+- Use database migrations for necessary schema changes.
+- Preserve backward compatibility with existing records.
+- Never use mock data as production data.
+- Never display fake success messages.
+
+If an existing feature is already working, preserve it and improve it only when necessary.
+
+## 3. APPLICATION ASSIGNMENT SYSTEM
+
+Implement a complete application assignment workflow.
+
+Requirements:
+
+- Admin can assign applications to Staff and Counters.
+- Authorized Managers can assign applications.
+- Staff can take responsibility for eligible applications.
+- Staff can submit reassignment requests.
+- Unauthorized Staff cannot transfer another Staff member's application.
+- Admin has complete application control.
+- Maintain assignment history.
+- Store Assigned By, Assigned To, Date and Time.
+- Maintain reassignment request approval history.
+- Display current assignment and previous assignment records.
+
+Additional requirements:
+
+- Support individual Staff assignment.
+- Support Counter assignment.
+- Support both Staff and Counter assignment where the existing architecture allows it.
+- Display unassigned applications.
+- Display applications assigned to the logged-in Staff member.
+- Display applications assigned to a particular Counter.
+- Allow authorized users to filter applications by assigned Staff and Counter.
+- Prevent unauthorized access to another Staff member's records.
+- Record every assignment, transfer, acceptance and reassignment request in the audit log.
+
+Reassignment workflow:
+
+1. Staff submits a reassignment request.
+2. Authorized Manager or Admin reviews the request according to permission settings.
+3. Request is Approved or Rejected.
+4. If approved, assignment changes.
+5. Previous assignment remains in history.
+6. Notify relevant users through the configured notification system.
+
+## 4. DYNAMIC REFERENCE NUMBER MANAGEMENT
+
+Support multiple reference fields:
+
+- Application Number
+- Acknowledgement Number
+- External Reference Number
+- Tracking Number
+- Transaction ID
+- Receipt Number
+- Department Reference Number
+
+Admin must be able to:
+
+- Create custom reference fields.
+- Edit and disable fields.
+- Configure fields by Service.
+- Set mandatory or optional fields.
+- Configure unique reference validation.
+- Search applications using reference numbers.
+
+Maintain reference modification history.
+
+Additional requirements:
+
+- Different Services may use different reference fields.
+- Support text, number, date and appropriate structured input types.
+- Allow multiple reference entries when required.
+- Store reference creation date and modification date.
+- Store the user who added or modified a reference.
+- Prevent duplicate values where uniqueness is configured.
+- Validate uniqueness within the appropriate scope, such as globally or per Service.
+- Do not delete existing reference history when a field is disabled.
+- Allow authorized users to view historical reference values.
+- Do not confuse internal Application ID with an external government or department reference.
+
+The existing Application ID format must remain:
+
+MCA-2026-27-000001
+
+Reuse the existing Financial Year-based ID generation system from Phase 03. Do not create a second competing Application ID generator.
+
+## 5. APPLICATION CREATION SYSTEM
+
+Implement two application creation workflows.
+
+### Workflow A – Customer First
+
+1. Search and select an existing Customer.
+2. Display Customer Profile information.
+3. Select the required Service.
+4. Load the Service-specific Application Form.
+5. Load Service-specific Required Documents.
+6. Complete the Application Form.
+7. Upload required documents.
+8. Validate all required information.
+9. Save as Draft or Submit the Application.
+
+### Workflow B – Service First
+
+1. Select the required Service.
+2. Search and select an existing Customer.
+3. Allow authorized users to register a new Customer if required.
+4. Load the selected Service's Application Form.
+5. Load the Required Documents.
+6. Complete and validate the Application.
+7. Save as Draft or Submit.
+
+### Customer Profile Integration
+
+From the Customer Profile, provide a New Application action.
+
+Automatically retrieve relevant information:
+
+- Customer ID
+- Customer Name
+- Father/Husband Name
+- Date of Birth
+- Gender
+- Mobile Number
+- WhatsApp Number
+- Address
+- Other relevant customer information
+
+Allow authorized users to correct or enter Service-specific information without unnecessarily changing the original Customer Profile.
+
+Do not create duplicate Customer records when an existing Customer is selected.
+
+## 6. APPLICATION ID AND FINANCIAL YEAR SYSTEM
+
+Reuse the existing Phase 03 Application ID configuration.
+
+Required format:
+
+MCA-2026-27-000001
+
+Rules:
+
+- Automatic generation.
+- Financial Year-based sequence.
+- Separate sequence for Application IDs.
+- No duplicate IDs.
+- No reuse of previously issued IDs.
+- Sequence generation must be transaction-safe.
+- Financial Year runs April to March.
+- Use Asia/Kolkata timezone.
+- Historical Application IDs must never change.
+- Display Application ID prominently in the Application Profile, receipt, print and reports.
+
+Never generate an Application ID on the frontend alone.
+
+The backend/database must enforce uniqueness.
+
+## 7. APPLICATION STATUS WORKFLOW
+
+Implement the following Advanced Application Status System:
+
+1. Draft
+2. Submitted
+3. Under Review
+4. Processing
+5. Pending Customer
+6. Pending Office
+7. Approved
+8. Rejected
+9. Completed
+10. Cancelled
+11. On Hold
+12. Reopened
+
+### Status Rules
+
+- Draft applications may be edited by authorized users.
+- Submitted applications enter the official processing workflow.
+- Under Review means information and documents are being checked.
+- Processing means work is actively progressing.
+- Pending Customer means additional information or documents are required from the customer.
+- Pending Office means action or a decision is awaited from an external office.
+- Approved means the relevant authority has approved the application.
+- Rejected means the application has been rejected by the relevant authority or process.
+- Completed means the agreed service work is completed.
+- Cancelled means the application has been cancelled.
+- On Hold means processing is temporarily paused.
+- Reopened means an eligible closed application has been reopened with authorization.
+
+Do not automatically mark a government application as Approved or Completed merely because MUN COMPUTER has submitted or processed it.
+
+### Status History
+
+For every status change, record:
+
+- Previous Status
+- New Status
+- Changed By
+- Date and Time
+- Remarks
+- Reason
+- Supporting Documents, if applicable
+
+Maintain a complete status timeline.
+
+Do not overwrite previous status history.
+
+### Status Transition Control
+
+- Define permitted status transitions.
+- Validate every transition on the backend.
+- Restrict sensitive transitions by permission.
+- Require a reason for Rejected, Cancelled, On Hold and Reopened actions.
+- Record unauthorized or failed transition attempts where appropriate.
+- Do not allow arbitrary status changes through direct API requests.
+
+## 8. DYNAMIC APPLICATION FORM BUILDER
+
+Implement a complete Service-specific Dynamic Form Builder.
+
+Each Service must have its own configurable Application Form.
+
+Admin must be able to:
+
+- Create new form fields.
+- Edit existing form fields.
+- Remove or disable fields.
+- Change field order.
+- Configure field labels.
+- Configure field descriptions.
+- Set Required or Optional.
+- Set field validation.
+- Set default values where appropriate.
+- Configure dropdown options.
+- Preview the form.
+- Publish a form version.
+- Maintain form version history.
+
+### Supported Field Types
+
+At minimum:
+
+- Short Text
+- Long Text
+- Number
+- Date
+- Mobile Number
+- Email
+- Dropdown
+- Radio Button
+- Checkbox
+- Multi-select
+- File Upload
+- Aadhaar Number
+- PAN Number
+- Address
+- Yes/No
+
+Only implement specialized fields where appropriate and validate their values securely.
+
+### Form Versioning
+
+Important rules:
+
+- Existing Applications must preserve the form version used when they were submitted.
+- Updating a Service Form must not silently change previously submitted Application data.
+- New Applications should use the currently published form version.
+- Draft Applications may be migrated to a newer version only through an explicit, safe process.
+- Keep historical field labels and submitted values readable.
+
+### Data Validation
+
+- Validate required fields.
+- Validate mobile number formats.
+- Validate dates and numeric values.
+- Validate dropdown selections against configured options.
+- Reject unexpected or manipulated field values.
+- Perform backend validation even if frontend validation exists.
+
+## 9. SERVICE-SPECIFIC REQUIRED DOCUMENT MANAGEMENT
+
+Integrate the Application Form with the Service Management Required Documents configuration.
+
+Each Service can have a separate Required Document List.
+
+Admin can:
+
+- Create new document requirements.
+- Edit document requirements.
+- Disable document requirements.
+- Set Required or Optional.
+- Configure allowed file types.
+- Configure maximum file size.
+- Allow multiple files where necessary.
+- Configure document descriptions and instructions.
+
+Supported document formats:
+
+- PDF
+- JPG
+- JPEG
+- PNG
+
+Maximum file size:
+
+10 MB per file, following the existing Phase 03 configuration.
+
+### Document Categories
+
+Support categories such as:
+
+- Aadhaar
+- PAN
+- Voter ID
+- Photograph
+- Address Proof
+- Income Certificate
+- Bank Document
+- Application Form
+- Other
+
+Allow Admin to add additional categories.
+
+### Document Verification Status
+
+Each uploaded document must support:
+
+- Pending
+- Verified
+- Rejected
+
+For rejected documents:
+
+- Rejection Reason is mandatory.
+- Customer or authorized Staff can upload a replacement where permitted.
+- Preserve previous document records and verification history.
+
+### Document Security
+
+- Store documents in private storage.
+- Do not expose private documents through public URLs.
+- Validate file extension, MIME type and file size.
+- Use secure file access authorization.
+- Prevent executable file uploads.
+- Restrict viewing, downloading and deleting by permission.
+- Admin retains full control.
+- Log document upload, verification, download and deletion actions.
+- Never expose Aadhaar or other sensitive documents in public links.
+
+## 10. APPLICATION DOCUMENT CHECKLIST
+
+Every Application must have a document checklist.
+
+Display:
+
+- Required Documents
+- Optional Documents
+- Uploaded Documents
+- Missing Documents
+- Pending Verification
+- Verified Documents
+- Rejected Documents
+
+Show a clear completion indicator.
+
+Example:
+
+Required Documents: 5
+
+Uploaded: 4
+
+Verified: 3
+
+Pending: 1
+
+Missing: 1
+
+Do not allow final submission if mandatory requirements are incomplete, unless an explicitly authorized exception process is used.
+
+Any exception must require a reason and create an audit record.
+
+## 11. APPLICATION PROFILE AND DETAILS PAGE
+
+Every Application must have a complete Application Profile.
+
+Include:
+
+1. Application ID
+2. Customer Information
+3. Customer Contact Information
+4. Service Information
+5. Application Form Data
+6. Uploaded Documents
+7. Document Verification
+8. Application Status
+9. Reference Numbers
+10. Assigned Staff
+11. Assigned Counter
+12. Submission Date
+13. Expected Completion Date
+14. Actual Completion Date
+15. Processing Time
+16. Internal Notes
+17. Customer Remarks
+18. Status History
+19. Assignment History
+20. Follow-up History
+21. Notification History
+22. Activity Timeline
+23. Related Receipts
+24. Related Payments
+25. Related Invoices
+
+Provide appropriate actions according to the logged-in user's permissions.
+
+## 12. APPLICATION FOLLOW-UP AND REMINDER SYSTEM
+
+Implement a complete follow-up system.
+
+Features:
+
+- Follow-up Date
+- Follow-up Time
+- Follow-up Reason
+- Assigned Staff
+- Follow-up Status
+- Next Follow-up Date
+- Follow-up Remarks
+- Follow-up History
+
+Follow-up Status:
+
+- Pending
+- Completed
+- Rescheduled
+- Cancelled
+
+Support reminders for:
+
+- Pending Customer Documents
+- Pending Office Response
+- Delayed Applications
+- Upcoming Expected Completion
+- Overdue Follow-ups
+
+Show reminders on the relevant Dashboard.
+
+Do not send external notifications unless the relevant provider is configured and the customer has the required consent.
+
+## 13. APPLICATION NOTES AND COMMUNICATION HISTORY
+
+Support two separate note types:
+
+### Internal Notes
+
+- Visible only to authorized MUN COMPUTER users.
+- Not visible to customers.
+- Include creator and timestamp.
+- Maintain edit history.
+
+### Customer-facing Remarks
+
+- Approved information intended for customers.
+- Must not expose internal comments.
+- Support printable remarks where appropriate.
+- Record the author and timestamp.
+
+Maintain communication history for relevant application updates.
+
+## 14. APPLICATION EDIT, CANCEL, REOPEN AND DELETE CONTROL
+
+Implement permission-based actions.
+
+### Edit
+
+- Admin can edit according to system policy.
+- Manager and Staff can edit only when permitted.
+- Restrict edits after submission according to status and permission.
+- Maintain field-level or record-level change history where practical.
+
+### Cancel
+
+- Require cancellation reason.
+- Restrict cancellation by role and status.
+- Preserve application history.
+- Do not delete related financial transactions.
+
+### Reopen
+
+- Require authorized permission.
+- Require reopening reason.
+- Preserve previous completion or closure history.
+- Record the reopening user and time.
+
+### Delete
+
+- Prefer Archive or Soft Delete.
+- Admin controls deletion.
+- Manager may submit a deletion proposal if permission allows.
+- Do not permanently delete an application linked to financial or legal records without an authorized retention and review process.
+- Preserve audit history.
+- Provide safe recovery where possible.
+
+## 15. APPLICATION DUPLICATE DETECTION
+
+Implement duplicate detection using relevant information:
+
+- Customer ID
+- Service ID
+- Similar application details
+- External Application Number
+- Reference Number
+- Relevant Service-specific identifiers
+
+Display duplicate warnings before creating a new Application.
+
+Do not automatically merge or delete duplicate applications.
+
+Where duplicates are legitimate, authorized users may continue after providing a reason.
+
+Record duplicate overrides in the audit log.
+
+## 16. APPLICATION SEARCH, FILTER AND SORT
+
+Implement instant search and advanced filters.
+
+Search using:
+
+- Application ID
+- Customer ID
+- Customer Name
+- Mobile Number
+- WhatsApp Number
+- Service Name
+- Service ID
+- External Application Number
+- Acknowledgement Number
+- Tracking Number
+- Transaction ID
+- Receipt Number
+- Department Reference Number
+- Village
+- Assigned Staff
+
+Filters:
+
+- Date Range
+- Financial Year
+- Service Category
+- Service
+- Application Status
+- Document Status
+- Assigned Staff
+- Counter
+- Customer
+- Reference Number
+- Expected Completion Date
+- Overdue Applications
+- Pending Applications
+- Created By
+
+Sorting:
+
+- Newest First
+- Oldest First
+- Application ID
+- Customer Name
+- Expected Completion Date
+- Last Updated
+- Status
+
+Include pagination and efficient database queries.
+
+Apply role and counter permissions before returning search results.
+
+## 17. APPLICATION PRINT, PDF AND ACKNOWLEDGEMENT
+
+Implement printable Application documents.
+
+Support:
+
+- Application Acknowledgement
+- Application Details
+- Document Checklist
+- Application Status Report
+- Application History, where authorized
+
+Use existing Phase 03 print settings:
+
+- A4 paper
+- Preview before printing
+- MUN COMPUTER logo
+- Authorized signature and stamp where configured
+- Professional layout
+- One copy by default
+
+Display:
+
+- Application ID
+- Customer Name
+- Service Name
+- Submission Date
+- Relevant Reference Numbers
+- Documents Submitted
+- Current Status
+- Terms & Conditions
+- Disclaimer
+
+Allow PDF generation and printing.
+
+Do not display confidential internal notes on customer-facing documents.
+
+Do not imply that MUN COMPUTER is a government office or guarantees government approval.
+
+## 18. CUSTOMER NOTIFICATION INTEGRATION
+
+Integrate Application Management with the existing Phase 03 notification configuration.
+
+Supported channels:
+
+- SMS
+- Email
+- WhatsApp
+- Internal Dashboard Notification
+
+Potential notification events:
+
+- Application Submitted
+- Application Status Updated
+- Additional Document Required
+- Document Rejected
+- Document Verified
+- Application Approved
+- Application Rejected
+- Application Completed
+- Application On Hold
+- Application Reopened
+- Follow-up Reminder
+
+### Consent Rules
+
+Respect the customer's individual consent settings.
+
+Before sending:
+
+1. Check the relevant customer consent.
+2. Check the customer's current contact details.
+3. Check whether the selected provider is configured.
+4. Check whether the notification event is enabled.
+5. Record the notification result.
+
+Promotional messages must require separate promotional consent.
+
+Do not treat OTP verification as blanket consent.
+
+Do not send messages if consent is withdrawn.
+
+Do not display fake sent or delivered statuses.
+
+If an external provider is unavailable, clearly show the notification as Pending, Failed or Not Configured as appropriate.
+
+Maintain notification history.
+
+## 19. APPLICATION FINANCIAL INTEGRATION
+
+Integrate with the existing Phase 05 Financial Engine architecture and any financial modules already present.
+
+Do not create a duplicate payment, receipt, invoice or expense system.
+
+Where applicable, connect Applications with:
+
+- Customer Payments
+- Payment Pending
+- Receipts
+- Invoices
+- Service Customer Charge
+- Service Cost
+- Profit Calculation
+- Refunds, where supported
+
+Use the existing Phase 03 financial configuration.
+
+Important rules:
+
+- Application ID must link to relevant financial records.
+- Payment records must retain their own unique transaction identity.
+- Historical transaction amounts must not change when Service pricing is updated.
+- Do not create duplicate payments when an Application is edited.
+- Do not mark payment as received without verified payment confirmation.
+- Keep payment and application status logically separate.
+
+If Phase 05 is not yet implemented, create compatible integration interfaces and clearly identify unavailable financial features. Do not fabricate financial data.
+
+## 20. APPLICATION DASHBOARD AND WIDGETS
+
+Integrate Application Management with the existing role-specific Dashboard.
+
+Use the Phase 03 Dashboard configuration.
+
+Relevant widgets:
+
+- Total Applications
+- Today's Applications
+- Submitted Applications
+- Under Review
+- Processing
+- Pending Customer
+- Pending Office
+- Approved Applications
+- Rejected Applications
+- Completed Applications
+- Cancelled Applications
+- On Hold Applications
+- Overdue Applications
+- Upcoming Follow-ups
+- Unassigned Applications
+- My Assigned Applications
+- Pending Document Verification
+
+### Quick Actions
+
+- New Application
+- Search Application
+- Assign Application
+- Update Application Status
+- Upload Documents
+- Verify Documents
+- Add Follow-up
+
+Dashboard data must be calculated from actual database records.
+
+Apply role, Staff and Counter access restrictions.
+
+Clicking a widget should open the corresponding filtered Application List.
+
+## 21. APPLICATION REPORTS
+
+Implement reports:
+
+1. Application Register
+2. Daily Application Report
+3. Monthly Application Report
+4. Financial Year Application Report
+5. Service-wise Application Report
+6. Category-wise Application Report
+7. Staff-wise Application Report
+8. Counter-wise Application Report
+9. Status-wise Application Report
+10. Pending Application Report
+11. Overdue Application Report
+12. Completed Application Report
+13. Rejected Application Report
+14. Cancelled Application Report
+15. Document Pending Report
+16. Follow-up Report
+17. Reference Number Report
+18. Application Processing Time Report
+
+Export formats:
+
+- PDF
+- Excel
+- CSV
+
+Filters:
+
+- Date Range
+- Service
+- Category
+- Staff
+- Counter
+- Status
+- Customer
+- Financial Year
+
+All exports must respect permissions and be recorded in the export audit history.
+
+## 22. APPLICATION PERMISSION SYSTEM
+
+Reuse the existing Phase 02 and Phase 03 role and permission system.
+
+Roles:
+
+- Admin
+- Manager
+- Staff
+
+Admin must control Manager and Staff permissions through the existing role-based and individual permission model.
+
+Permissions should cover:
+
+- View Applications
+- Create Applications
+- Edit Applications
+- Submit Applications
+- Assign Applications
+- Reassign Applications
+- Approve Reassignment Requests
+- Change Status
+- Upload Documents
+- View Documents
+- Verify Documents
+- Reject Documents
+- Manage Reference Numbers
+- Add Internal Notes
+- Add Customer Remarks
+- Create Follow-ups
+- Cancel Applications
+- Reopen Applications
+- Archive Applications
+- Export Reports
+- Print Applications
+
+Apply least-privilege access.
+
+Never rely on frontend hiding alone.
+
+Enforce all sensitive permissions on the backend/API.
+
+## 23. AUDIT LOG AND ACTIVITY TIMELINE
+
+Record important actions:
+
+- Application Created
+- Application Edited
+- Application Submitted
+- Application Assigned
+- Assignment Changed
+- Reassignment Requested
+- Reassignment Approved
+- Reassignment Rejected
+- Status Changed
+- Document Uploaded
+- Document Verified
+- Document Rejected
+- Reference Added
+- Reference Edited
+- Follow-up Created
+- Follow-up Completed
+- Application Cancelled
+- Application Reopened
+- Application Archived
+- Application Exported
+- Application Printed
+
+Each audit record should include:
+
+- User ID
+- User Role
+- Action
+- Application ID
+- Previous Value, where relevant
+- New Value, where relevant
+- Date and Time
+- IP Address or available security context
+- Reason, where required
+
+Audit logs must be protected against unauthorized modification.
+
+Never log passwords, OTPs, full Aadhaar numbers or confidential document contents.
+
+## 24. DATABASE DESIGN AND MIGRATION
+
+Inspect the existing database before creating new tables.
+
+Reuse existing Customers, Services, Users, Counters, Payments, Receipts, Invoices and other relevant tables.
+
+Create or extend tables only where necessary.
+
+Potential logical entities include:
+
+- Applications
+- Application Form Versions
+- Application Form Fields
+- Application Form Responses
+- Application Status History
+- Application Assignments
+- Application Reassignment Requests
+- Application References
+- Application Reference Field Definitions
+- Application Documents
+- Application Document Verification History
+- Application Follow-ups
+- Application Notes
+- Application Activity Logs
+- Application Notification History
+
+These are logical entities, not mandatory table names. Follow the existing project naming conventions and database architecture.
+
+Database requirements:
+
+- Proper primary keys.
+- Foreign key relationships.
+- Appropriate indexes.
+- Unique constraints.
+- Transaction-safe operations.
+- Referential integrity.
+- Soft deletion where appropriate.
+- Migration rollback where practical.
+- Backward compatibility.
+
+Do not create duplicate Customer or Service records.
+
+Do not store critical relationships only as unvalidated text.
+
+Use database transactions for operations involving multiple related records.
+
+## 25. API AND BACKEND IMPLEMENTATION
+
+Inspect the existing backend and follow its architecture.
+
+Implement or extend APIs for:
+
+- Application Creation
+- Application Listing
+- Application Details
+- Application Editing
+- Application Submission
+- Application Status Updates
+- Application Assignment
+- Reassignment Requests
+- Reference Number Management
+- Dynamic Form Configuration
+- Document Upload
+- Document Verification
+- Follow-up Management
+- Application Search
+- Application Reports
+- Application Archive and Restore
+
+API requirements:
+
+- Authentication required.
+- Backend permission validation.
+- Input validation.
+- Secure file handling.
+- Proper error handling.
+- Database transaction handling.
+- Consistent response formats.
+- Pagination for large lists.
+- Protection against unauthorized record access.
+- No hardcoded secrets.
+
+Never report a successful operation until the backend confirms success.
+
+If the project currently has only a frontend or mock backend, preserve the current architecture and clearly identify what is simulated versus actually persisted.
+
+Do not claim that real database persistence, OTP delivery, SMS, WhatsApp or email integration works unless it is genuinely implemented and configured.
+
+## 26. SECURITY AND DATA PRIVACY
+
+Follow the existing Phase 02 and Phase 03 security configuration.
+
+Security requirements:
+
+- Secure authentication.
+- Role-based authorization.
+- Individual permission checks.
+- Server-side validation.
+- CSRF protection where applicable.
+- XSS protection.
+- SQL injection protection.
+- Secure file upload.
+- Private document storage.
+- Secure session management.
+- Safe error messages.
+- Rate limiting for sensitive endpoints.
+- Audit logging.
+
+Sensitive data requirements:
+
+- Mask Aadhaar by default.
+- Restrict Aadhaar viewing to authorized users.
+- Do not expose sensitive information in URLs.
+- Do not expose private files through public links.
+- Do not log OTPs or passwords.
+- Maintain customer consent and verification history.
+- Respect applicable data retention and privacy requirements.
+
+Reuse existing Phase 03 session and security settings. Do not create conflicting security rules.
+
+## 27. UI/UX AND NAVIGATION
+
+Integrate the Application Management System into the existing MUN COMPUTER interface.
+
+Do not redesign the entire ERP.
+
+Follow existing:
+
+- Sidebar Navigation
+- Top Header
+- Dashboard Layout
+- Theme System
+- Typography
+- Button Styles
+- Table Styles
+- Form Styles
+- Modal Design
+- Responsive Layout
+
+Application Management should include:
+
+1. Application Dashboard
+2. All Applications
+3. New Application
+4. My Applications
+5. Unassigned Applications
+6. Pending Applications
+7. Document Verification
+8. Follow-ups
+9. Application Reports
+10. Application Settings, subject to Admin permissions
+
+### Interface Requirements
+
+- Professional ERP design.
+- Clean and consistent layout.
+- Responsive desktop, laptop, tablet and mobile support.
+- Fast search.
+- Advanced filters.
+- Clear status indicators.
+- Readable tables.
+- Pagination.
+- Loading states.
+- Empty states.
+- Error states.
+- Confirmation dialogs for important actions.
+- Clear success and failure messages based on actual backend results.
+
+Do not add decorative controls that do not work.
+
+## 28. PERFORMANCE AND RELIABILITY
+
+Optimize:
+
+- Application listing.
+- Search.
+- Filtering.
+- Database queries.
+- Document loading.
+- Report generation.
+- Dashboard calculations.
+- Large data handling.
+
+Use pagination and appropriate indexes.
+
+Avoid loading every Application and every document into the browser at once.
+
+Prevent duplicate form submissions.
+
+Handle concurrent updates safely.
+
+Use database transactions for important multi-step operations.
+
+Display meaningful errors without exposing internal server details.
+
+## 29. INTEGRATION WITH EXISTING ERP MODULES
+
+Application Management must work with the existing:
+
+- Authentication System
+- Admin Panel
+- Manager Panel
+- Staff Panel
+- Customer Management
+- Service Management
+- Master Settings
+- Permission System
+- Notification System
+- Document Management
+- Counter Management
+- Dashboard
+- Financial Engine, when available
+- Receipt and Invoice System, when available
+- Reports System
+
+### Customer Management Integration
+
+Use the existing Customer ID format:
+
+MCC-2026-27-000001
+
+Reuse the existing Customer Profile and Customer History.
+
+Do not create a separate Customer database.
+
+### Service Management Integration
+
+Use the existing Service ID format:
+
+MCS-2026-27-000001
+
+Retrieve:
+
+- Service Name
+- Service Category
+- Customer Charge
+- Service Cost
+- Processing Time
+- Required Documents
+- Dynamic Application Form
+- Service Status
+- Service Availability
+- Terms and Conditions
+
+Do not allow new Applications for Inactive, Suspended, Archived or Unavailable Services unless an explicit authorized exception is configured.
+
+Existing Applications must remain accessible even if their Service is later suspended, deactivated or archived.
+
+### Approval Workflow
+
+Reuse the existing Phase 03 approval workflow:
+
+- Manager proposes important changes.
+- Admin reviews the proposal.
+- Admin Approves or Rejects.
+- Manager cannot approve their own proposal.
+- Only approved changes become active.
+
+Do not introduce a conflicting approval workflow.
+
+## 30. ERROR HANDLING AND SYSTEM LOGGING
+
+Implement clear error handling for:
+
+- Invalid Application Data
+- Duplicate Application
+- Invalid Customer
+- Invalid Service
+- Missing Required Documents
+- Invalid File Format
+- File Size Exceeded
+- Unauthorized Access
+- Invalid Status Transition
+- Duplicate Reference Number
+- Assignment Conflict
+- Database Failure
+- Notification Provider Failure
+
+Use the existing error logging system.
+
+Never expose passwords, OTPs, API secrets, full Aadhaar numbers or private document contents in logs.
+
+## 31. TESTING AND QUALITY ASSURANCE
+
+Perform comprehensive testing.
+
+### Functional Tests
+
+- Create Application using Customer First.
+- Create Application using Service First.
+- Create Application from Customer Profile.
+- Verify Customer information auto-fill.
+- Verify Service-specific Dynamic Form.
+- Verify Required Document Checklist.
+- Upload valid documents.
+- Reject invalid file types.
+- Verify file size restriction.
+- Submit Application.
+- Update Application Status.
+- Assign Application to Staff.
+- Assign Application to Counter.
+- Submit Reassignment Request.
+- Approve and Reject Reassignment Requests.
+- Add Reference Numbers.
+- Verify custom reference fields.
+- Search by Application ID.
+- Search by External Reference Number.
+- Create and complete Follow-ups.
+- Print Application.
+- Generate PDF.
+- Export Reports.
+- Archive and Restore Applications.
+
+### Permission Tests
+
+- Admin full access.
+- Manager permission-based access.
+- Staff permission-based access.
+- Unauthorized Staff cannot access restricted Applications.
+- Unauthorized Staff cannot transfer another Staff member's Application.
+- Unauthorized users cannot verify documents.
+- Unauthorized users cannot export restricted data.
+- Direct API calls must not bypass permissions.
+
+### Data Integrity Tests
+
+- No duplicate Application IDs.
+- No duplicate Customer records created accidentally.
+- No broken Customer relationships.
+- No broken Service relationships.
+- No loss of historical Application data.
+- No loss of status history.
+- No loss of assignment history.
+- No loss of document history.
+- No alteration of historical financial transactions.
+
+### Regression Tests
+
+Verify that:
+
+- Existing login still works.
+- Existing Admin panel still works.
+- Existing Manager panel still works.
+- Existing Staff panel still works.
+- Existing Customer Management still works.
+- Existing Service Management still works.
+- Existing Dashboard still works.
+- Existing sidebar navigation still works.
+- Existing database records remain intact.
+- Existing Phase 01, Phase 02 and Phase 03 functionality remains intact.
+
+Fix any regression before declaring completion.
+
+## 32. IMPLEMENTATION PROCESS
+
+Follow this order:
+
+### Stage 1 – Inspection
+
+- Extract the original ZIP.
+- Inspect project architecture.
+- Inspect database and migrations.
+- Inspect existing modules.
+- Identify missing and broken functionality.
+- Prepare an implementation plan.
+
+### Stage 2 – Database and Backend
+
+- Design necessary schema changes.
+- Create safe migrations.
+- Implement backend services.
+- Implement APIs.
+- Implement permission validation.
+- Implement transaction handling.
+
+### Stage 3 – Core Application Management
+
+- Application creation.
+- Application ID generation.
+- Customer integration.
+- Service integration.
+- Dynamic Form Builder.
+- Required Document Management.
+- Application Profile.
+
+### Stage 4 – Workflow Management
+
+- Status workflow.
+- Assignment system.
+- Reassignment requests.
+- Reference number management.
+- Follow-up system.
+- Notes and activity timeline.
+
+### Stage 5 – Integration
+
+- Notifications.
+- Dashboard.
+- Reports.
+- Print and PDF.
+- Financial integration where available.
+
+### Stage 6 – Security and Testing
+
+- Permission testing.
+- Data integrity testing.
+- Security validation.
+- Regression testing.
+- Performance testing.
+- Error handling.
+
+### Stage 7 – Final Audit
+
+- Verify every feature.
+- Fix incomplete or broken functionality.
+- Confirm all existing modules remain operational.
+- Document remaining external integrations.
+- Provide a final implementation report.
+
+## 33. FINAL DELIVERY REQUIREMENTS
+
+After implementation, provide a clear report containing:
+
+1. Existing Project Architecture Summary.
+2. Existing Database Audit.
+3. Files Created.
+4. Files Modified.
+5. Database Migrations Added.
+6. APIs Created or Updated.
+7. Features Successfully Implemented.
+8. Features Repaired.
+9. Permission and Security Changes.
+10. Tests Performed.
+11. Test Results.
+12. Remaining Issues.
+13. External API Integrations Still Required.
+14. Deployment Instructions.
+15. Backup and Rollback Instructions.
+
+Clearly classify each feature as:
+
+- Completed and Tested
+- Partially Implemented
+- Pending External Integration
+- Not Implemented
+- Blocked
+
+Do not mark a feature Completed unless it has actually been implemented and tested.
+
+## 34. FINAL NON-NEGOTIABLE INSTRUCTIONS
+
+1. Work inside the existing MUN COMPUTER BUSINESS MANAGER project.
+2. Treat the original project ZIP as the primary source of truth.
+3. Preserve all working features and business records.
+4. Preserve Phase 01, Phase 02 and Phase 03.
+5. Follow the existing project architecture.
+6. Reuse existing Customer, Service, User, Counter and Financial records.
+7. Do not create duplicate databases or modules.
+8. Do not use fake production data.
+9. Do not show fake success messages.
+10. Implement real working functionality wherever the existing backend supports it.
+11. Clearly identify anything that requires external API credentials or server configuration.
+12. Do not silently skip incomplete requirements.
+13. Do not stop after creating UI screens.
+14. Connect the UI, APIs and database wherever the existing architecture supports them.
+15. Test all important workflows before declaring completion.
+16. Preserve existing functionality throughout implementation.
+
+**FINAL OBJECTIVE:**
+
+Deliver a fully integrated, secure, reliable, responsive and production-oriented Application Management System for MUN COMPUTER BUSINESS MANAGER.
+
+The final result must work as part of the existing ERP—not as a separate demo, isolated prototype or replacement project.

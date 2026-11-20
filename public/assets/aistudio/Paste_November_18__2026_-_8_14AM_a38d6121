@@ -1,0 +1,1504 @@
+# COMPLETE FINAL MASTER DEVELOPMENT PROMPT
+# DIGITAL SERVICE CENTER / CSC MANAGEMENT SOFTWARE
+
+## PROJECT OBJECTIVE
+
+Build a complete, professional, dynamic and responsive Digital Service Center Management Software for a CSC / Online Service Center.
+
+The software must include:
+
+- Admin Panel
+- Operator Panel
+- Customer Panel
+- Complete Service Category Management
+- Dynamic Service Rate Management
+- PVC Card Printing Management
+- Individual & Wholesale PVC Orders
+- Application Management
+- Document Management
+- Payment & Due Management
+- Customer Management
+- Complaint & Grievance Management
+- NPCI Services
+- Cyber Crime Services
+- MMSBY Services
+- Ayushman Bharat Services
+- Reports & Analytics
+- Receipt / Invoice Generation
+
+IMPORTANT: Do not hardcode service rates. All services, categories, prices, government fees and availability must be manageable from the Admin Panel.
+
+# PART 1: COMPLETE SERVICE CATEGORY & SUB-SERVICE LIST
+
+Create the following 21 Main Categories and all their Sub-Services.
+
+## CATEGORY 1: WEST BENGAL GOVERNMENT SCHEMES
+
+1. Lakshmir Bhandar
+2. Swasthya Sathi
+3. Krishak Bandhu
+4. Bangla Shasya Bima
+5. Jai Bangla Pension Scheme
+6. Old Age Pension
+7. Widow Pension
+8. Disability Pension
+9. Kanyashree Prakalpa
+10. Rupashree Prakalpa
+11. Sabooj Sathi
+12. Aikyashree Scholarship
+13. Sikhashree Scholarship
+14. Student Credit Card
+15. Taruner Swapna
+16. Yuvasree Scheme
+17. Khadya Sathi / Digital Ration Card
+18. Duare Sarkar Services
+19. Bangla Awas Yojana
+20. Housing Scheme Assistance
+21. Caste Certificate Scheme Assistance
+22. Income Certificate Assistance
+23. Disability Certificate Assistance
+24. Krishak Registration Assistance
+25. Farmer Benefit Status Check
+26. Government Scheme Application Status
+27. Scheme Beneficiary List Check
+28. Scheme Document Upload Assistance
+29. Scheme Correction Assistance
+30. Scheme Grievance Assistance
+
+## CATEGORY 2: CENTRAL GOVERNMENT SCHEMES
+
+1. PM-KISAN Registration
+2. PM-KISAN e-KYC Assistance
+3. PM-KISAN Beneficiary Status
+4. PM-KISAN Correction
+5. Ayushman Bharat PM-JAY
+6. Pradhan Mantri Awas Yojana
+7. PM Ujjwala Yojana
+8. PM Vishwakarma Yojana
+9. PM-SYM Pension
+10. Atal Pension Yojana Assistance
+11. National Pension Scheme Assistance
+12. Sukanya Samriddhi Yojana Assistance
+13. PM Jan Dhan Yojana Assistance
+14. PM Fasal Bima Yojana
+15. PM Matru Vandana Yojana
+16. National Scholarship Portal
+17. e-Shram Registration
+18. EPFO Services
+19. ESIC Services
+20. Government Scheme Eligibility Check
+21. Beneficiary Status Check
+22. Scheme Application Assistance
+23. Scheme Correction Assistance
+24. Scheme Document Download
+
+## CATEGORY 3: IDENTITY & DOCUMENT SERVICES
+
+1. Aadhaar PVC Card Order Assistance
+2. Aadhaar Card Download
+3. Aadhaar Print
+4. Aadhaar Update Appointment Assistance
+5. Aadhaar Address Update Assistance
+6. Aadhaar Mobile Update Appointment Assistance
+7. Aadhaar Correction Assistance
+8. Aadhaar Status Check
+9. Aadhaar PVC Status Check
+10. PAN Card New Application
+11. PAN Card Correction
+12. PAN Card Download
+13. e-PAN Download
+14. PAN-Aadhaar Linking Status
+15. Voter ID New Registration
+16. Voter ID Correction
+17. Voter ID Download
+18. Voter ID Address Change
+19. Voter List Search
+20. EPIC Status Check
+21. Ration Card New Application Assistance
+22. Ration Card Correction
+23. Ration Card Member Add / Delete Assistance
+24. Ration Card Download
+25. Ration Card Status Check
+26. Driving Licence Application Assistance
+27. Learner Licence Assistance
+28. Driving Licence Download
+29. Vehicle RC Download
+30. Passport Application Assistance
+31. Passport Appointment Assistance
+32. Passport Status Check
+33. Birth Certificate Download
+34. Death Certificate Download
+35. Other Identity Document Assistance
+
+## CATEGORY 4: CERTIFICATE & LAND SERVICES
+
+1. Residential Certificate
+2. Domicile Certificate
+3. Income Certificate
+4. Caste Certificate – SC
+5. Caste Certificate – ST
+6. Caste Certificate – OBC
+7. EWS Certificate
+8. Minority Certificate Assistance
+9. Disability Certificate Assistance
+10. Legal Heir Certificate Assistance
+11. Character Certificate Assistance
+12. Birth Certificate Application
+13. Death Certificate Application
+14. Marriage Certificate Assistance
+15. Land Record Search
+16. Khatian Search
+17. Plot Information
+18. Mouza Information
+19. RS / LR Information
+20. Mutation Application Assistance
+21. Mutation Status Check
+22. Land Conversion Assistance
+23. Land Tax Payment Assistance
+24. Record of Rights Download
+25. Porcha Download
+26. Deed Search Assistance
+27. Property Document Assistance
+28. Land Dispute Application Assistance
+
+## CATEGORY 5: GRIEVANCE & COMPLAINT SERVICES
+
+### West Bengal Government Grievance
+
+1. Chief Minister / CMO West Bengal Complaint
+2. Departmental Complaint
+3. Duare Sarkar Complaint
+4. Bangla Sahayata Kendra Complaint
+5. Lakshmir Bhandar Complaint
+6. Swasthya Sathi Complaint
+7. Krishak Bandhu Complaint
+8. Bangla Shasya Bima Complaint
+9. Pension Complaint
+10. Ration Card Complaint
+11. Land Department Complaint
+12. WBSEDCL Electricity Complaint
+13. WB Police Complaint
+
+### MLA / MP / Public Representative
+
+14. MLA Complaint
+15. MP Complaint
+16. MLA Fund Complaint
+17. MP LAD Complaint
+18. Gram Panchayat Complaint
+19. Panchayat Samiti Complaint
+20. Zilla Parishad Complaint
+21. Municipality Complaint
+22. Councillor Complaint
+
+### District Administration
+
+23. DM Complaint
+24. ADM Complaint
+25. SDO Complaint
+26. BDO Complaint
+27. Executive Magistrate Complaint
+28. BL&LRO / BLLRO Complaint
+29. District Social Welfare Complaint
+30. District Education Complaint
+31. District Health Complaint
+32. Food & Supply Department Complaint
+33. Labour Department Complaint
+34. SP / Police Superintendent Complaint
+35. Local Police Station Complaint
+
+### Higher Authority & Central Government
+
+36. Prime Minister Office Complaint
+37. Governor Complaint
+38. Chief Secretary Complaint
+39. Home Secretary Complaint
+40. Human Rights Commission Complaint
+41. Women Commission Complaint
+42. SC/ST Commission Complaint
+43. Minority Commission Complaint
+44. Child Rights Commission Complaint
+45. Lokayukta Complaint
+46. Vigilance Complaint
+47. CPGRAMS Complaint
+48. PM-KISAN Complaint
+49. EPFO Complaint
+50. ESIC Complaint
+51. Railway Complaint
+52. Post Office Complaint
+53. Banking Complaint
+54. Income Tax Complaint
+55. Passport Seva Complaint
+56. UIDAI Complaint
+57. Election Commission Complaint
+58. Consumer Complaint
+59. PMAY Complaint
+60. Ayushman Bharat Complaint
+
+### RTI Services
+
+61. Central RTI Application
+62. West Bengal RTI Application
+63. DM Office RTI
+64. SDO Office RTI
+65. BDO Office RTI
+66. Panchayat RTI
+67. Municipality RTI
+68. Police Department RTI
+69. Education Department RTI
+70. Health Department RTI
+71. Land Department RTI
+72. First Appeal Assistance
+73. Second Appeal Assistance
+74. RTI Status Check
+75. RTI Reply Download
+76. RTI Application Drafting
+
+### Consumer & Public Grievance
+
+77. National Consumer Helpline
+78. Consumer Court Assistance
+79. Online Shopping Complaint
+80. Bank Fraud Complaint
+81. Insurance Complaint
+82. Electricity Complaint
+83. Water Supply Complaint
+84. Road / Drainage Complaint
+85. Hospital Complaint
+86. School / College Complaint
+87. Scholarship Complaint
+88. Pension Complaint
+89. Corruption Complaint
+90. Cyber Crime Complaint
+
+### Grievance Service Types
+
+- Application Drafting
+- Online Grievance Filing Assistance
+- RTI & Appeal Assistance
+- Complaint Status Tracking
+- Acknowledgement Download
+- Follow-up Assistance
+
+## CATEGORY 6: JOB & EXAMINATION SERVICES
+
+1. Government Job Application
+2. Private Job Application
+3. WBPSC Application
+4. WBCS Application
+5. WB Police Recruitment
+6. Kolkata Police Recruitment
+7. WBSSC Application
+8. WB Primary TET
+9. WB Upper Primary TET
+10. SSC Application
+11. SSC CGL
+12. SSC CHSL
+13. SSC MTS
+14. SSC GD
+15. Railway Recruitment
+16. RRB NTPC
+17. RRB Group D
+18. Railway ALP
+19. Railway Technician
+20. UPSC Application
+21. IBPS Application
+22. SBI Recruitment
+23. Banking Examination
+24. India Post GDS
+25. Army Recruitment
+26. Navy Recruitment
+27. Air Force Recruitment
+28. Admit Card Download
+29. Exam Result Check
+30. Answer Key Download
+31. Merit List Check
+32. Application Correction
+33. Exam Fee Payment Assistance
+
+## CATEGORY 7: EDUCATION & STUDENT SERVICES
+
+1. School Admission Assistance
+2. College Admission Assistance
+3. University Admission
+4. Scholarship Application
+5. Aikyashree Scholarship
+6. Swami Vivekananda Scholarship
+7. OASIS Scholarship
+8. NSP Scholarship
+9. Kanyashree Application
+10. Sikhashree Scholarship
+11. Student Credit Card
+12. Examination Form Fill-up
+13. Registration Form
+14. Admit Card Download
+15. Result Download
+16. Marksheet Download
+17. Certificate Download
+18. Migration Certificate Assistance
+19. Duplicate Marksheet Assistance
+20. University Form Fill-up
+21. College Fee Payment
+22. School Fee Payment
+23. Scholarship Status Check
+24. Scholarship Correction
+25. DigiLocker Education Documents
+26. ABC ID Assistance
+27. APAAR ID Assistance
+28. Student Document Printing
+
+## CATEGORY 8: PRINTING & DIGITAL SERVICES
+
+1. Black & White Print
+2. Colour Print
+3. Photocopy
+4. Scanning
+5. Lamination
+6. Passport Size Photo
+7. Stamp Size Photo
+8. Photo Editing
+9. Photo Background Change
+10. Document Resize
+11. PDF Creation
+12. PDF Merge
+13. PDF Split
+14. PDF Compression
+15. Image to PDF
+16. PDF to Image
+17. Online Form Fill-up
+18. Email Creation Assistance
+19. Email Sending Assistance
+20. Document Typing
+21. Bengali Typing
+22. English Typing
+23. Application Writing
+24. Resume / CV Creation
+25. Biodata Creation
+26. Online Document Upload
+27. Digital Signature Assistance
+28. File Download
+29. Document Formatting
+30. ID Card Design
+
+## CATEGORY 9: PVC CARD PRINTING SERVICES
+
+### PVC Card Types
+
+1. Aadhaar PVC Card
+2. Voter ID PVC Card
+3. Ration Card PVC
+4. PAN PVC Card
+5. Ayushman Bharat PVC Card
+6. ABHA PVC Card
+7. e-Shram PVC Card
+8. Labour Card PVC
+9. Annapurna Card PVC
+10. Other PVC Card
+
+### Individual PVC Printing
+
+1. Individual PVC Card Order
+2. Single Card Printing
+3. Multiple Card Printing
+4. Different Card Types in One Order
+5. Customer-wise PVC Order
+6. PVC Card Reprint
+7. PVC Card Delivery Tracking
+
+### Wholesale PVC Printing
+
+1. Wholesale Shop Registration
+2. Shop-wise PVC Order
+3. Multiple Card Types in One Wholesale Order
+4. Quantity Slab Rate
+5. Wholesale Payment
+6. Wholesale Due Management
+7. Shop-wise Order History
+8. Wholesale Delivery Tracking
+
+### PVC Rate Management
+
+Create two completely separate rate systems:
+
+A. Individual Rate Slabs
+
+Initial sample slabs, editable by Admin:
+
+- 1 Card = ₹80
+- 2–3 Cards = ₹77.50 per card
+- 4–6 Cards = ₹75 per card
+- 7–9 Cards = ₹72.50 per card
+- 10–13 Cards = ₹70 per card
+- 14–16 Cards = ₹67.50 per card
+
+Admin can edit, delete, add, activate or deactivate all slabs.
+
+B. Wholesale Rate Slabs
+
+- No default wholesale rate.
+- No hardcoded wholesale quantity slab.
+- Admin will manually create all wholesale slabs.
+- Admin can add unlimited slabs.
+- Each slab includes minimum quantity, maximum quantity and per-card rate.
+- Slabs must not overlap.
+- If no applicable slab exists, do not automatically calculate a guessed rate.
+
+### PVC Order Calculation
+
+Line Total = Quantity × Applicable Per-Card Rate
+
+Grand Total = Sum of All Line Totals
+
+Remaining Due = Grand Total − Advance − Additional Payments
+
+Support multiple payments for one order.
+
+## CATEGORY 10: RECHARGE & BILL PAYMENT
+
+1. Mobile Recharge
+2. Prepaid Recharge
+3. Postpaid Bill Payment
+4. DTH Recharge
+5. Electricity Bill Payment
+6. WBSEDCL Bill Payment
+7. CESC Bill Payment
+8. Water Bill Payment
+9. Gas Bill Payment
+10. LPG Booking Assistance
+11. Broadband Bill Payment
+12. Landline Bill Payment
+13. FASTag Recharge
+14. Insurance Premium Payment Assistance
+15. Loan EMI Payment Assistance
+16. Credit Card Bill Payment Assistance
+17. Other Utility Bill Payment
+
+## CATEGORY 11: TRAVEL & TICKET BOOKING
+
+1. Train Ticket Booking Assistance
+2. Train PNR Status
+3. Train Seat Availability
+4. Train Time Table
+5. Train Ticket Cancellation Assistance
+6. Bus Ticket Booking
+7. Flight Ticket Booking
+8. Flight Status
+9. Hotel Booking Assistance
+10. Tour Package Assistance
+11. IRCTC Services (where authorized)
+12. Travel Document Printing
+
+## CATEGORY 12: BUSINESS & TAX SERVICES
+
+1. Udyam Registration
+2. Udyam Certificate Download
+3. Udyam Correction
+4. GST Registration
+5. GST Return Filing Assistance
+6. GST Certificate Download
+7. GST Status Check
+8. Income Tax Return Filing Assistance
+9. PAN Application
+10. TAN Application Assistance
+11. Trade Licence Assistance
+12. Shop & Establishment Registration
+13. FSSAI Registration Assistance
+14. Digital Signature Certificate Assistance
+15. Business Registration Assistance
+16. Partnership Deed Typing
+17. Business Project Report
+18. Invoice Creation
+19. Business Document Printing
+20. Tax Payment Assistance
+
+## CATEGORY 13: BANKING & FINANCIAL SERVICES
+
+1. Bank Account Opening Assistance
+2. Savings Account Assistance
+3. Jan Dhan Account Assistance
+4. Bank KYC Assistance
+5. Bank Statement Download Assistance
+6. Passbook Printing
+7. Balance Enquiry Assistance
+8. Mini Statement Assistance
+9. Money Transfer Assistance
+10. NEFT / RTGS / IMPS Assistance
+11. AEPS Services (only through authorized provider)
+12. Micro ATM Services (only through authorized provider)
+13. Bank Account Seeding Assistance
+14. Aadhaar Bank Linking Assistance
+15. DBT Status Check
+16. Loan Application Assistance
+17. Personal Loan Assistance
+18. Business Loan Assistance
+19. Agricultural Loan Assistance
+20. Insurance Application Assistance
+21. Pension Application Assistance
+22. Financial Grievance Assistance
+
+## CATEGORY 14: LABOUR & EMPLOYMENT SERVICES
+
+1. e-Shram Registration
+2. e-Shram Card Download
+3. e-Shram Correction
+4. Labour Card Application
+5. Labour Card Renewal
+6. Labour Card Status
+7. Construction Worker Registration Assistance
+8. Labour Welfare Scheme Assistance
+9. Employment Exchange Registration
+10. Job Seeker Registration
+11. Job Card Application
+12. MGNREGA Job Card Download
+13. MGNREGA Work Status
+14. PF Balance Check Assistance
+15. EPFO UAN Assistance
+16. PF Withdrawal Assistance
+17. EPFO Claim Status
+18. ESIC Registration Assistance
+19. ESIC Card Download Assistance
+20. Pension & Labour Grievance Assistance
+
+## CATEGORY 15: POLICE, LEGAL & SAFETY SERVICES
+
+1. Police Complaint Drafting
+2. Online Police Complaint Assistance
+3. FIR Copy Download Assistance
+4. Lost Document Complaint
+5. Lost Mobile Complaint
+6. General Diary Application Assistance
+7. Police Verification Assistance
+8. Character Certificate Assistance
+9. Passport Police Verification Status
+10. Tenant Verification Assistance
+11. Legal Notice Typing
+12. Affidavit Typing
+13. Agreement Typing
+14. Rent Agreement Drafting
+15. Application Drafting
+16. Court Case Status Assistance
+17. e-Courts Services Assistance
+18. Legal Aid Information
+19. Women Safety Complaint Assistance
+20. Emergency Contact Information
+
+## CATEGORY 16: HEALTH & MEDICAL SERVICES
+
+1. Hospital Appointment Assistance
+2. Doctor Appointment Assistance
+3. Hospital Information
+4. Government Hospital Information
+5. Blood Group Information / Directory
+6. Medical Report Printing
+7. Medical Document Scanning
+8. Health ID Assistance
+9. ABHA ID Creation Assistance
+10. ABHA Card Download
+11. ABHA Card Print
+12. Health Record Linking Assistance
+13. Ayushman Bharat Services
+14. MMSBY Services
+15. Health Scheme Eligibility Check
+16. Health Scheme Application Assistance
+17. Health Scheme Grievance
+18. Medical Insurance Information
+19. Medical Appointment Status
+20. Hospital Grievance Assistance
+
+## CATEGORY 17: ONLINE DOCUMENT & CERTIFICATE DOWNLOAD
+
+1. Aadhaar Card Download
+2. PAN Card Download
+3. Voter ID Download
+4. Ration Card Download
+5. Birth Certificate Download
+6. Death Certificate Download
+7. Caste Certificate Download
+8. Income Certificate Download
+9. Residential Certificate Download
+10. Domicile Certificate Download
+11. EWS Certificate Download
+12. Disability Certificate Download
+13. Marriage Certificate Download
+14. Land Record Download
+15. Khatian / Porcha Download
+16. Driving Licence Download
+17. Vehicle RC Download
+18. Ayushman Card Download
+19. ABHA Card Download
+20. e-Shram Card Download
+21. Labour Card Download
+22. Scholarship Certificate Download
+23. Marksheet Download
+24. Admit Card Download
+25. DigiLocker Document Download
+26. Other Government Document Download
+
+## CATEGORY 18: OTHER ONLINE & CITIZEN SERVICES
+
+1. DigiLocker Account Assistance
+2. UMANG App Assistance
+3. Government Portal Registration
+4. Online Account Creation Assistance
+5. Mobile Number Update Assistance
+6. Email Update Assistance
+7. Online Application Assistance
+8. Document Verification Assistance
+9. Government Application Tracking
+10. Online Appointment Booking
+11. Digital Form Submission
+12. Citizen Service Application
+13. Online Payment Assistance
+14. Document Correction Assistance
+15. Other Citizen Services
+
+## CATEGORY 19: NPCI & DIGITAL PAYMENT SERVICES
+
+### Aadhaar Seeding & NPCI Mapper
+
+1. Aadhaar Seeding Status Check
+2. Aadhaar Bank Linking Assistance
+3. NPCI Mapper Status Check
+4. Bank Account Mapping Assistance
+5. DBT Mapping Status
+6. Bank Seeding Request Tracking
+7. Wrong Bank Mapping Complaint
+8. DBT Not Received Complaint
+9. De-seeding Assistance
+10. Bank Mapping Change Assistance
+
+### UPI Services
+
+11. UPI Registration Assistance
+12. UPI ID Creation Assistance
+13. UPI PIN Set / Reset Guidance
+14. Bank Account Linking Assistance
+15. UPI Transaction Status
+16. Failed Transaction Complaint
+17. Pending Transaction Assistance
+18. Debited but Not Credited Complaint
+19. Wrong UPI Transfer Complaint
+20. UPI Refund Status
+21. UPI QR Code Generation Assistance
+22. UPI AutoPay Mandate Assistance
+23. UPI AutoPay Cancellation Guidance
+24. UPI Transaction History Assistance
+25. UPI Fraud Complaint Assistance
+
+### BHIM & FASTag
+
+26. BHIM App Assistance
+27. BHIM Transaction Status
+28. FASTag Status Check
+29. FASTag Balance Check
+30. FASTag Recharge
+31. FASTag Blacklist Assistance
+32. FASTag Wrong Deduction Complaint
+33. FASTag Double Deduction Complaint
+34. FASTag Refund Status
+35. FASTag Closure / Replacement Assistance
+36. FASTag KYC Assistance
+
+### NACH / APB / DBT
+
+37. NACH Mandate Status
+38. NACH Mandate Cancellation Assistance
+39. Unwanted Auto Debit Complaint
+40. Failed NACH Transaction Assistance
+41. Aadhaar Payment Bridge Assistance
+42. DBT Status Check
+43. Subsidy Payment Complaint
+44. Scholarship DBT Complaint
+45. Pension DBT Complaint
+46. LPG DBT Complaint
+
+### NPCI Grievance
+
+47. UPI Grievance Assistance
+48. Aadhaar Seeding Grievance
+49. NPCI Mapper Grievance
+50. FASTag Grievance
+51. Digital Payment Dispute Assistance
+52. Complaint Reference Tracking
+53. DigiSaathi Support Information
+
+IMPORTANT: NPCI-related services must be routed through the relevant bank, PSP or authorized official channel. Do not claim that a service center can directly modify NPCI mapper records without bank authorization.
+
+## CATEGORY 20: CYBER CRIME CELL & ONLINE FRAUD SERVICES
+
+### National Cyber Crime Portal
+
+1. New Cyber Crime Complaint Assistance
+2. Cyber Crime Portal Registration Assistance
+3. Complaint Status Check
+4. Acknowledgement Number Check
+5. Additional Information Upload Assistance
+6. Complaint Follow-up Assistance
+7. Cyber Complaint Drafting
+
+### Financial Cyber Fraud
+
+8. UPI Fraud Complaint
+9. Google Pay Fraud Complaint
+10. PhonePe Fraud Complaint
+11. Paytm Fraud Complaint
+12. BHIM Fraud Complaint
+13. Bank Account Fraud Complaint
+14. ATM Fraud Complaint
+15. Debit / Credit Card Fraud Complaint
+16. Internet Banking Fraud Complaint
+17. OTP Fraud Complaint
+18. Phishing Fraud Complaint
+19. QR Code Fraud Complaint
+20. Online Shopping Fraud
+21. Fake Customer Care Fraud
+22. Fake Refund Fraud
+23. SIM Swap Fraud
+24. Fake Loan App Fraud
+25. Investment / Trading Fraud
+26. Cryptocurrency Fraud
+27. Job / Work-from-Home Fraud
+28. Lottery / Prize Fraud
+29. Money Transfer Fraud
+
+### Social Media & Account Hacking
+
+30. Facebook Account Hacking Complaint
+31. Instagram Account Hacking Complaint
+32. WhatsApp Account Hacking Complaint
+33. Telegram Account Hacking Complaint
+34. Fake Profile Complaint
+35. Impersonation Complaint
+36. Social Media Harassment
+37. Cyberbullying Complaint
+38. Online Threat Complaint
+39. Blackmail Complaint
+40. Private Image Misuse Complaint
+41. Online Stalking Complaint
+42. Defamation Complaint
+
+### Mobile, Email & E-commerce
+
+43. Gmail / Email Hacking Complaint
+44. Mobile / SIM Fraud Complaint
+45. Fake Website Complaint
+46. Phishing Link Complaint
+47. Identity Theft Complaint
+48. Data Theft Complaint
+49. Online Account Misuse Complaint
+50. Amazon / Flipkart / Meesho Fraud
+51. Fake Seller Complaint
+52. Product Not Delivered Complaint
+53. Online Payment / Refund Complaint
+
+### Women & Child Cyber Safety
+
+54. Online Harassment Complaint
+55. Fake Profile Complaint
+56. Cyberbullying Complaint
+57. Online Blackmail Complaint
+58. Private Image Misuse Complaint
+59. Child Online Safety Complaint
+60. Cyber Sexual Harassment Complaint
+
+### Cyber Police & Emergency Assistance
+
+61. Local Cyber Cell Complaint Assistance
+62. District Cyber Cell Complaint
+63. Police Station Complaint Drafting
+64. SP Office Complaint Drafting
+65. FIR Copy Assistance
+66. Evidence Preparation Assistance
+67. Bank Dispute Application Drafting
+68. Cyber Complaint Follow-up
+69. Cyber Complaint Status Tracking
+70. Financial Fraud Emergency Reporting Guidance
+
+Emergency Information:
+- National Cyber Crime Portal: https://cybercrime.gov.in/
+- Cyber Financial Fraud Helpline: 1930
+
+For financial fraud, immediately contact 1930 and the bank. Do not delay emergency reporting while waiting for service-center assistance.
+
+## CATEGORY 21: MUKHYAMANTRI SWASTHYA BIMA YOJANA (MMSBY) SERVICES
+
+1. MMSBY Beneficiary Eligibility Check
+2. New Beneficiary Registration Assistance
+3. MMSBY Aadhaar e-KYC Assistance
+4. MMSBY e-KYC Status Check
+5. Aadhaar OTP Verification Assistance (if available)
+6. Beneficiary Details Verification
+7. Family Member Details Check
+8. Aadhaar Details Correction Assistance
+9. Name Correction Assistance
+10. Date of Birth Correction Assistance
+11. Gender Correction Assistance
+12. Mobile Number Update Assistance
+13. Ration Card Details Verification
+14. Application Status Check
+15. MMSBY Beneficiary Card Download (if available)
+16. MMSBY Card Print
+17. Duplicate Card Assistance
+18. Hospital Eligibility Information
+19. Empanelled Hospital Information
+20. Treatment & Cashless Benefit Information
+21. Hospital-related Grievance Assistance
+22. MMSBY Application Problem Assistance
+23. e-KYC Pending Problem Assistance
+24. Beneficiary Details Tracking
+25. Application Follow-up Assistance
+
+IMPORTANT: Verify the exact official scheme name, eligibility, portal and available services before enabling the live module. Do not assume that MMSBY and Swasthya Sathi are the same scheme.
+
+# PART 2: AYUSHMAN BHARAT PM-JAY SERVICES
+
+Create a separate dedicated Ayushman Bharat PM-JAY service module.
+
+## Ayushman Bharat Services
+
+1. Beneficiary Eligibility Check
+2. New Ayushman Card Registration Assistance (where authorized)
+3. Aadhaar e-KYC
+4. Aadhaar OTP e-KYC
+5. Face Authentication e-KYC
+6. Fingerprint / Biometric e-KYC
+7. IRIS Scan e-KYC (if available)
+8. Ayushman Card e-KYC Status Check
+9. Pending e-KYC Assistance
+10. Aadhaar Linking Assistance
+11. Family Member Search
+12. Add Family Member Assistance (if authorized)
+13. Beneficiary Details Verification
+14. Name Correction Assistance
+15. Date of Birth Correction Assistance
+16. Gender Correction Assistance
+17. Mobile Number Verification
+18. Ayushman Card Download
+19. Ayushman Card PDF Download
+20. Ayushman Card Print
+21. Duplicate Card Assistance
+22. Family Member Card Download
+23. Hospital Search
+24. Empanelled Hospital Information
+25. Treatment & Cashless Benefit Information
+26. Card Approval Status Check
+27. e-KYC Rejection Assistance
+28. e-KYC Pending Problem Assistance
+29. Ayushman Bharat Grievance Assistance
+30. Application Follow-up Assistance
+
+Only enable authentication methods that are officially supported by the authorized PM-JAY system and operator credentials.
+
+# PART 3: ADMIN PANEL – COMPLETE CONTROL SYSTEM
+
+Admin must have complete control over all 21 categories and their sub-services.
+
+## Service Category Management
+
+- Add Category
+- Edit Category
+- Delete Category
+- Activate Category
+- Deactivate Category
+- Change Category Name
+- Change Category Icon
+- Change Category Description
+- Set Category Display Order
+
+## Sub-Service Management
+
+- Add New Service
+- Edit Service
+- Delete Service
+- Duplicate Service
+- Activate / Deactivate Service
+- Change Service Name
+- Change Description
+- Change Category
+- Set Service Charge
+- Set Government Fee
+- Set Unit Type
+- Set Document Requirements
+- Set Service Availability
+- View Service History
+
+All categories and services must be dynamic. Admin must be able to add new services at any time without changing the source code.
+
+# PART 4: DYNAMIC RATE MANAGEMENT
+
+Create a dedicated Service Rate Management module.
+
+## Supported Unit Types
+
+1. Per Application
+2. Per Page
+3. Per Card
+4. Per Copy
+5. Per Document
+6. Per Transaction
+7. Per Set
+8. Fixed Charge
+
+## Rate Fields
+
+- Service Category
+- Service Name
+- Service Description
+- Service Charge
+- Government Fee
+- Total Amount
+- Unit Type
+- Effective Date
+- Active / Inactive Status
+
+Calculation:
+
+Total Amount = Service Charge + Government Fee
+
+## Rate Management Rules
+
+1. All service rates must be blank when the system is first installed.
+2. No hardcoded business rates.
+3. Admin manually enters every rate.
+4. Admin can increase or decrease rates.
+5. Admin can update Government Fees.
+6. Admin can change Unit Types.
+7. Admin can activate or deactivate rates.
+8. New rates apply only to new orders.
+9. Existing orders retain their original rate snapshot.
+10. Rate history must never be automatically deleted.
+11. Only authorized Admin can change rates.
+12. Every rate change must be recorded with Admin ID, old rate, new rate, date and time.
+
+# PART 5: PVC CARD PRINTING MANAGEMENT
+
+Create a separate PVC Card Printing Management module.
+
+## PVC Card Type Management
+
+Admin can:
+
+- Add PVC Card Type
+- Edit PVC Card Type
+- Delete PVC Card Type
+- Activate / Deactivate Card Type
+- Set Card Description
+- Manage Individual Rates
+- Manage Wholesale Rates
+
+## Individual Rate Slabs
+
+Use these as editable sample initial slabs:
+
+| Quantity | Rate Per Card |
+|---|---:|
+| 1 | ₹80 |
+| 2–3 | ₹77.50 |
+| 4–6 | ₹75 |
+| 7–9 | ₹72.50 |
+| 10–13 | ₹70 |
+| 14–16 | ₹67.50 |
+
+Admin can change all slabs and add unlimited new slabs.
+
+## Wholesale Rate Management
+
+- Wholesale rates must be entered manually by Admin.
+- No default wholesale price.
+- No hardcoded wholesale slab.
+- Admin can create unlimited quantity slabs.
+- Every slab has minimum quantity, maximum quantity, price per card and status.
+- Prevent overlapping quantity slabs.
+- If no matching slab exists, show an error and ask Admin to configure a slab.
+
+## Wholesale Shop Management
+
+Fields:
+
+- Shop Name
+- Owner Name
+- Mobile Number
+- Alternative Mobile Number
+- Address
+- Registration Date
+- Remarks
+- Active / Inactive Status
+
+Shop profile must show:
+
+- Total Orders
+- Total Cards Ordered
+- Total Sales
+- Total Payments
+- Total Due
+- Order History
+
+## PVC Individual Order Form
+
+- Customer Name
+- Mobile Number
+- Card Type
+- Quantity
+- Applicable Rate Per Card
+- Total Amount
+- Advance Payment
+- Additional Payments
+- Remaining Due
+- Order Date
+- Delivery Status
+- Remarks
+
+## PVC Wholesale Order Form
+
+- Select Wholesale Shop
+- Shop Owner Details
+- Mobile Number
+- Address
+- Add Multiple Card Types
+- Quantity Per Card Type
+- Applicable Wholesale Rate
+- Line Item Total
+- Grand Total
+- Advance Payment
+- Additional Payments
+- Remaining Due
+- Order Date
+- Delivery Status
+- Remarks
+
+A single order must support multiple card types.
+
+Calculation:
+
+Line Total = Quantity × Rate Per Card
+
+Grand Total = Sum of All Line Item Totals
+
+Remaining Due = Grand Total − Advance − Additional Payments
+
+# PART 6: CUSTOMER MANAGEMENT
+
+Create a Customer Management module.
+
+Customer Fields:
+
+- Customer ID
+- Customer Name
+- Mobile Number
+- Alternative Mobile
+- Email
+- Address
+- District
+- Block / Municipality
+- Registration Date
+- Remarks
+- Account Status
+
+Customer Profile must display:
+
+- All Orders
+- All Applications
+- Selected Services
+- Payment History
+- Total Sales
+- Total Paid
+- Total Due
+- PVC Order History
+- Complaint History
+- Uploaded Documents
+
+# PART 7: OPERATOR PANEL
+
+Create a separate Operator Panel.
+
+Admin can create Operator accounts and assign permissions.
+
+Operator permissions can include:
+
+- Customer Registration
+- New Order Creation
+- Application Entry
+- Document Upload
+- Payment Entry
+- Receipt Printing
+- Application Status Update
+- PVC Order Entry
+- Customer Search
+- Report View (if authorized)
+
+Operators must not be able to change service rates unless Admin explicitly grants that permission.
+
+# PART 8: APPLICATION & ORDER MANAGEMENT
+
+Every order must have a unique Order ID.
+
+Required Fields:
+
+- Order ID
+- Customer ID
+- Customer Name
+- Mobile Number
+- Selected Category
+- Selected Service
+- Application Details
+- Uploaded Documents
+- Service Charge
+- Government Fee
+- Total Amount
+- Advance Payment
+- Additional Payments
+- Remaining Due
+- Order Date
+- Application Status
+- Payment Status
+- Operator ID
+- Admin Remarks
+
+## Application Status
+
+- Draft
+- Pending
+- Document Required
+- Document Verified
+- Ready to Process
+- Processing
+- e-KYC Pending
+- e-KYC Completed
+- Submitted
+- Under Verification
+- Approved
+- Rejected
+- Card Generated
+- Card Downloaded
+- Delivered
+- Completed
+- Cancelled
+
+## Payment Status
+
+- Unpaid
+- Partial
+- Paid
+- Due
+- Refunded
+
+Customer can view their own application and order status.
+
+# PART 9: GRIEVANCE & COMPLAINT TRACKING
+
+Every grievance must have a separate tracking record.
+
+Fields:
+
+- Customer Name
+- Mobile Number
+- Address
+- District
+- Block / Municipality
+- Complaint Category
+- Department
+- Authority
+- Complaint Subject
+- Complaint Details
+- Uploaded Documents
+- Service Charge
+- Government Fee
+- Total Amount
+- Internal Tracking ID
+- External Acknowledgement Number
+- Submission Date
+- Follow-up Date
+- Complaint Status
+- Admin Remarks
+
+Complaint Status:
+
+- Draft
+- Document Pending
+- Ready to Submit
+- Submitted
+- Acknowledgement Received
+- Under Process
+- Forwarded
+- Reply Received
+- Resolved
+- Rejected
+- Closed
+
+Keep complaint history, acknowledgement copies, replies and follow-up records.
+
+# PART 10: DOCUMENT MANAGEMENT
+
+Create secure document management for all services.
+
+Features:
+
+- Upload Documents
+- Document Preview
+- Download Documents
+- Verify Documents
+- Request Re-upload
+- Document Category
+- Customer-wise Document History
+- Application-wise Document History
+- Access Permission
+- Secure Storage
+- Audit History
+
+Never expose customer documents publicly.
+
+# PART 11: PAYMENT & DUE MANAGEMENT
+
+Support:
+
+- Cash Payment
+- UPI Payment
+- Bank Transfer
+- Other Admin-configured Payment Methods
+- Advance Payment
+- Partial Payment
+- Multiple Payments
+- Due Collection
+- Refund Entry
+- Payment History
+
+Calculation:
+
+Remaining Due = Total Amount − Total Payments
+
+Generate a unique receipt for each payment.
+
+# PART 12: RECEIPT & INVOICE MANAGEMENT
+
+Create professional printable receipts.
+
+Receipt Fields:
+
+- Business / Service Center Name
+- Logo
+- Address
+- Contact Number
+- Receipt Number
+- Order ID
+- Customer Name
+- Mobile Number
+- Service Name
+- Quantity
+- Service Charge
+- Government Fee
+- Total Amount
+- Paid Amount
+- Due Amount
+- Payment Method
+- Payment Date
+- Operator Name
+- Remarks
+
+Provide:
+
+- Print Receipt
+- Download PDF
+- Reprint Receipt
+- Payment Receipt History
+
+# PART 13: ADMIN DASHBOARD
+
+Show the following statistics:
+
+- Total Customers
+- Total Categories
+- Total Services
+- Active Services
+- Inactive Services
+- Total Orders
+- Pending Applications
+- Processing Applications
+- Completed Applications
+- Total Sales
+- Total Collection
+- Total Due
+- Today's Sales
+- Monthly Sales
+- PVC Individual Orders
+- PVC Wholesale Orders
+- Total PVC Cards Printed
+- PVC Pending Orders
+- Total Grievances
+- Pending Grievances
+- MMSBY Orders
+- Ayushman Bharat Orders
+- e-KYC Pending
+- e-KYC Completed
+
+Use clear charts, summary cards and date filters.
+
+# PART 14: REPORTS & EXPORTS
+
+Create these reports:
+
+1. Daily Sales Report
+2. Monthly Sales Report
+3. Date-wise Sales Report
+4. Customer-wise Report
+5. Category-wise Report
+6. Service-wise Report
+7. Operator-wise Report
+8. Payment Report
+9. Due Report
+10. Advance Payment Report
+11. Refund Report
+12. PVC Individual Report
+13. PVC Wholesale Report
+14. PVC Card Type Report
+15. PVC Quantity Report
+16. Wholesale Shop-wise Report
+17. Grievance Report
+18. RTI Report
+19. NPCI Service Report
+20. Cyber Crime Report
+21. MMSBY Report
+22. Ayushman Bharat Report
+23. e-KYC Report
+24. Pending Application Report
+25. Completed Application Report
+
+All reports must support:
+
+- Start Date
+- End Date
+- Search
+- Filter
+- Sort
+- Pagination
+- Excel Export
+- PDF Export
+- Print
+
+# PART 15: SECURITY & PRIVACY
+
+Implement:
+
+1. Secure Admin Login
+2. Secure Operator Login
+3. Customer Authentication
+4. Role-Based Access Control
+5. Permission Management
+6. Password Hashing
+7. Session Security
+8. Secure File Storage
+9. Database Backup
+10. Audit Logs
+11. Rate Change Logs
+12. Payment Logs
+13. Application History
+14. Login Activity History
+
+IMPORTANT SECURITY RULES:
+
+- Never store OTP.
+- Never store Aadhaar OTP.
+- Never store UPI PIN.
+- Never store ATM PIN.
+- Never store CVV.
+- Never store bank passwords.
+- Never bypass biometric or Aadhaar authentication.
+- Use only official portals and authorized service-provider integrations.
+- Collect sensitive information only when necessary and with customer consent.
+- Mask Aadhaar numbers wherever displayed.
+- Follow applicable data protection and government portal rules.
+- Do not promise approval, refund, benefit or complaint resolution.
+
+# PART 16: DATABASE & TECHNICAL REQUIREMENTS
+
+Create a properly normalized database with separate tables or equivalent entities for:
+
+- Users
+- Admins
+- Operators
+- Customers
+- Categories
+- Services
+- Service Rates
+- Rate History
+- Unit Types
+- Orders
+- Order Items
+- Order Rate Snapshots
+- Applications
+- Application Status History
+- Documents
+- Payments
+- Payment Receipts
+- PVC Card Types
+- Individual PVC Rate Slabs
+- Wholesale PVC Rate Slabs
+- Wholesale Shops
+- PVC Orders
+- PVC Order Items
+- Grievances
+- Complaint Follow-ups
+- RTI Records
+- NPCI Records
+- Cyber Crime Records
+- MMSBY Records
+- Ayushman Records
+- Notifications
+- Audit Logs
+- System Settings
+
+Use proper database relationships, unique IDs, timestamps, validation and transaction-safe calculations.
+
+# PART 17: DESIGN & USER EXPERIENCE
+
+Design a modern professional Digital Service Center dashboard.
+
+Requirements:
+
+- Clean and professional UI
+- Mobile Responsive
+- Desktop Responsive
+- Tablet Responsive
+- Sidebar Navigation
+- Searchable Service Categories
+- Searchable Sub-Services
+- Easy Customer Registration
+- Easy Order Creation
+- Clear Payment Information
+- Attractive Dashboard
+- Data Tables
+- Pagination
+- Date Filters
+- Status Badges
+- Printable Receipts
+- PDF Download
+- Excel Export
+
+Use a consistent design system across Admin, Operator and Customer Panels.
+
+# PART 18: FINAL DEVELOPMENT RULES
+
+1. Do not remove or damage existing software functionality.
+2. Implement all 21 Main Categories.
+3. Add all listed Sub-Services.
+4. All categories and services must be dynamically manageable.
+5. No hardcoded general service rates.
+6. All rates must be controlled by Admin.
+7. Keep Individual and Wholesale PVC rates separate.
+8. Save historical rate snapshots for every order.
+9. Support multiple services and card types in one order where applicable.
+10. Keep Government Fee and Service Center Charge separate.
+11. Provide complete Customer, Operator and Admin workflows.
+12. Provide application tracking and payment tracking.
+13. Implement proper security and access control.
+14. Test all calculations and reports.
+15. Do not create fake government portal integrations.
+16. Enable only officially supported services and authentication methods.
+17. Build the complete system as a production-ready application.
+
+# FINAL PROJECT GOAL
+
+Build a complete Dynamic Digital Service Center Management Software containing all 21 service categories and their sub-services, with full Admin Control, Operator Management, Customer Management, Dynamic Rate Management, PVC Individual & Wholesale Printing, MMSBY, Ayushman Bharat e-KYC, NPCI, Cyber Crime, Grievance & RTI, Application Tracking, Payment Management, Due Management, Receipt Generation, Reports, Excel/PDF Export and Security.
+
+The system must be easy to operate, scalable, professional, mobile responsive and ready for future service additions.
+
+**Do not leave any module as a static demo. Implement working database-backed functionality for every feature.**

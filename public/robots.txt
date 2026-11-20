@@ -1,0 +1,8 @@
+# robots.txt for MUN COMPUTER (https://www.muncomputer.org & https://app.muncomputer.org)
+User-agent: *
+Allow: /
+Allow: /assets/
+Disallow: /api/
+Disallow: /storage/
+
+Sitemap: https://www.muncomputer.org/sitemap.xml

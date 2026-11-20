@@ -1,0 +1,2188 @@
+# MUN COMPUTER BUSINESS MANAGER
+# COMPLETE ENTERPRISE ERP
+# MASTER IMPLEMENTATION, AUDIT, REPAIR & INTEGRATION PROMPT
+## FINAL CONSOLIDATED CONFIGURATION – QUESTION 1–51
+
+**Project:** MUN COMPUTER BUSINESS MANAGER  
+**Configuration:** Question 1–51  
+**Architecture:** Enterprise ERP  
+**Priority:** Production-Oriented Implementation  
+**Implementation Mode:** Existing Project Preservation, Audit, Repair and Complete Integration  
+**Primary Source:** Original Project ZIP
+
+---
+
+# PART A – MASTER PROJECT OBJECTIVE
+
+## 1. MAIN OBJECTIVE
+
+You are acting as a Senior ERP Software Architect, Full-Stack Developer, Database Engineer, UI/UX Designer, Security Engineer and QA Automation Engineer.
+
+Your responsibility is to inspect, audit, repair, complete and integrate the entire MUN COMPUTER BUSINESS MANAGER ERP system inside the EXISTING PROJECT.
+
+The original project ZIP is the primary source of truth.
+
+This is NOT a request to create a new demo application, isolated prototype, replacement project or separate database.
+
+Your objective is to deliver a unified ERP containing all confirmed requirements from Question 1–51.
+
+The final application must integrate:
+
+- Foundation and Architecture
+- Authentication and Security
+- Master Settings
+- Dashboard
+- Customer Management
+- Service Management
+- Application Management
+- Financial Engine
+- Payment and Accounting
+- Customer CRM
+- Notifications
+- Reports and MIS
+- SLA and Automation
+- Customer Delivery
+- Cancellation and Refund
+- Backup and Disaster Recovery
+- Complete ERP Integration
+
+## 2. CRITICAL EXISTING PROJECT PRESERVATION RULES
+
+Before making changes:
+
+1. Extract and inspect the complete original ZIP.
+2. Inspect the entire project folder structure.
+3. Identify the existing frontend and backend technologies.
+4. Inspect the database, schema, relationships and migrations.
+5. Inspect authentication and authorization.
+6. Inspect Admin, Manager and Staff modules.
+7. Inspect existing Customer and Service Management.
+8. Inspect existing Dashboard and navigation.
+9. Inspect existing Financial and Payment modules.
+10. Inspect existing APIs and integrations.
+11. Identify incomplete, broken, duplicated and non-functional features.
+12. Prepare a complete implementation and repair plan.
+
+STRICT RULES:
+
+- Do not create a replacement project.
+- Do not delete existing working modules.
+- Do not unnecessarily replace the database.
+- Do not remove existing business records.
+- Do not create duplicate Customer databases.
+- Do not create duplicate Payment databases.
+- Do not create duplicate Application databases.
+- Do not break existing login functionality.
+- Do not break existing sidebar navigation.
+- Do not unnecessarily change the existing architecture.
+- Preserve existing APIs and integrations wherever possible.
+- Use database migrations for necessary schema changes.
+- Preserve backward compatibility.
+- Never use mock data as production data.
+- Never display fake success messages.
+- Never claim a feature is completed without implementation and testing.
+
+If a feature already works, preserve it and improve it only when necessary.
+
+## 3. EXISTING ARCHITECTURE AND TECHNOLOGY
+
+First identify the actual technologies used by the original project.
+
+Do not assume the project uses a particular framework or database without inspecting it.
+
+Follow the existing architecture.
+
+If the project uses React, TypeScript, Vite, Tailwind or another existing frontend technology, preserve the working implementation.
+
+If the project uses PHP and MySQL or another backend, preserve its existing backend architecture.
+
+Do not introduce unnecessary frameworks.
+
+Maintain clear separation between:
+
+- Frontend
+- Backend
+- API
+- Database
+- Authentication
+- Business Logic
+- File Storage
+- Notification Providers
+- Reporting
+- Background Jobs
+
+If the current project is frontend-only, clearly identify backend requirements and implement compatible interfaces without falsely claiming real database persistence.
+
+## 4. GLOBAL ERP INTEGRATION RULES
+
+All modules must use the same centralized database and existing business records.
+
+Reuse:
+
+- Users
+- Roles
+- Permissions
+- Customers
+- Services
+- Counters
+- Applications
+- Payments
+- Receipts
+- Invoices
+- Expenses
+- Documents
+- Notifications
+- Audit Logs
+- Settings
+
+Every module must communicate through validated backend services and APIs.
+
+Avoid duplicated business logic.
+
+Maintain referential integrity and complete activity history.
+
+## 5. GLOBAL FINANCIAL YEAR AND ID CONFIGURATION
+
+Reuse the existing Phase 03 Master Settings.
+
+Financial Year:
+
+- April to March.
+- Timezone: Asia/Kolkata.
+- Currency: INR ₹.
+- Date Format: DD/MM/YYYY.
+
+Existing ID formats:
+
+**Customer ID:** `MCC-2026-27-000001`
+
+**Service ID:** `MCS-2026-27-000001`
+
+**Application ID:** `MCA-2026-27-000001`
+
+**Receipt ID:** `MCR-2026-27-000001`
+
+**Invoice ID:** `MCI-2026-27-000001`
+
+Rules:
+
+- Automatic generation.
+- Separate sequence per record type.
+- Financial Year-based counters where configured.
+- Unique IDs.
+- No reuse of previously issued IDs.
+- Historical IDs never change.
+- Use transaction-safe backend/database generation.
+- Never rely on frontend-only ID generation.
+
+---
+
+# PART B – FOUNDATION, SECURITY AND MASTER SETTINGS
+
+## 6. FOUNDATION AND ARCHITECTURE
+
+Preserve and complete the existing foundation.
+
+Requirements:
+
+- Modular architecture.
+- Organized folder structure.
+- Reusable components.
+- Centralized configuration.
+- Backend-ready API architecture.
+- Database migrations.
+- Consistent error handling.
+- Secure environment configuration.
+- Maintainable business logic.
+- Responsive UI.
+- Scalable module integration.
+
+Do not rebuild a working foundation unnecessarily.
+
+## 7. AUTHENTICATION AND USER MANAGEMENT
+
+Integrate the existing authentication system.
+
+Roles:
+
+- Admin
+- Manager
+- Staff
+
+Requirements:
+
+- Secure Login.
+- Username and Password.
+- OTP-based verification according to existing security configuration.
+- Role-based Dashboard.
+- User Management.
+- User Creation by Admin only.
+- Role-based access.
+- Individual permissions.
+- User activation and deactivation.
+- Secure password reset.
+- Login history.
+- Session management.
+- Account lockout.
+- Security audit.
+
+Reuse existing Phase 03 security settings:
+
+- Session duration: 60 minutes.
+- Auto logout after 60 minutes of inactivity.
+- Strong password policy.
+- Maximum 5 failed login attempts.
+- Account lockout duration: 3 minutes.
+- Two-factor authentication for Admin, Manager and Staff.
+
+Do not introduce conflicting security settings.
+
+## 8. ROLE AND PERMISSION MANAGEMENT
+
+Admin controls Manager and Staff permissions through the existing role-based and individual permission system.
+
+Enforce permissions on the backend.
+
+Manager cannot approve their own important configuration proposals.
+
+Use the existing approval workflow:
+
+1. Manager submits a proposal.
+2. Admin reviews it.
+3. Admin Approves or Rejects.
+4. Only approved changes become active.
+5. Maintain proposal and approval history.
+
+## 9. MASTER SETTINGS
+
+Preserve the existing Master Settings module.
+
+Company Profile:
+
+- MUN COMPUTER
+- Village Mamudpur (Chowmatha More)
+- Post Office Juginda
+- Police Station Domkal
+- District Murshidabad
+- West Bengal
+- PIN 742406
+- Mobile/WhatsApp: +91 8101352105
+- Email: MUNCOMPUTER2019@GMAIL.COM
+
+Do not invent missing company information.
+
+Additional settings:
+
+- Company Logo
+- Signature
+- Stamp
+- Website
+- GST/PAN details where supplied
+- Service Pricing
+- Language
+- Financial Year
+- Timezone
+- ID Prefixes
+- Receipt and Invoice Templates
+- Payment Methods
+- QR Configuration
+- Print Configuration
+- Notification Providers
+- Backup Configuration
+- Security Configuration
+- Appearance
+- Dashboard Settings
+
+Master Settings access: Admin only.
+
+Preserve all existing configuration history.
+
+## 10. LANGUAGE, APPEARANCE AND PRINT SETTINGS
+
+Supported languages:
+
+- English
+- Bengali
+- Hindi
+
+English is the default language.
+
+Support user-wise language preferences.
+
+Use:
+
+- DD/MM/YYYY
+- INR ₹
+- Indian number grouping
+- Western digits
+- Asia/Kolkata timezone
+
+Appearance:
+
+- Light Mode
+- Dark Mode
+- Professional black-and-white design
+- Left Sidebar
+- Top Header
+- Responsive desktop, laptop, tablet and mobile layouts.
+
+Print:
+
+- A4 paper.
+- Preview before printing.
+- Company logo.
+- Authorized signature and stamp.
+- One copy by default.
+
+Receipt and Invoice:
+
+- Simple Professional.
+- Detailed Professional.
+- Automatic unique numbering.
+- Terms and Conditions.
+- Disclaimer.
+- Payment QR where configured.
+
+---
+
+# PART C – CUSTOMER MANAGEMENT AND CRM
+
+## 11. COMPLETE CUSTOMER MANAGEMENT
+
+Reuse the existing Customer database.
+
+Customer Information:
+
+- Automatic Customer ID.
+- Customer Name – Required.
+- Father/Husband Name – Optional.
+- Date of Birth – Optional.
+- Gender – Required.
+- Mobile Number – Required.
+- WhatsApp Number – Required.
+- Aadhaar – Optional.
+- PAN/Voter ID – Optional.
+- Village – Required.
+- Post Office.
+- Police Station.
+- District.
+- PIN Code.
+- Customer Photo.
+- Documents.
+
+Address:
+
+- Present Address.
+- Permanent Address.
+- Same as Present Address checkbox.
+
+Customer ID:
+
+`MCC-2026-27-000001`
+
+Duplicate control:
+
+- Check Mobile Number.
+- Check Aadhaar where provided.
+- Show duplicate warning.
+- Block duplicate registration by default.
+- Allow authorized override with reason and audit history.
+
+Customer Documents:
+
+- PDF
+- JPG
+- JPEG
+- PNG
+- Multiple uploads.
+- Categories.
+- Private storage.
+- Permission-controlled access.
+
+## 12. COMPLETE CUSTOMER PROFILE
+
+Include:
+
+1. Personal Information.
+2. Present and Permanent Address.
+3. Customer Photo.
+4. Uploaded Documents.
+5. Application History.
+6. Service History.
+7. Payment History.
+8. Receipt and Invoice History.
+9. Customer Notes.
+10. Activity Timeline.
+11. Edit Profile.
+12. Print Customer Profile.
+
+Status:
+
+- Active
+- Inactive
+- Blocked
+
+Maintain status history.
+
+Search:
+
+- Customer Name.
+- Mobile.
+- WhatsApp.
+- Customer ID.
+- Aadhaar.
+- PAN.
+- Voter ID.
+- Village.
+- Application ID.
+
+Include instant search, advanced filters, registration date and status filters.
+
+## 13. CUSTOMER PERMISSIONS, IMPORT AND EXPORT
+
+Editing:
+
+- Admin.
+- Manager.
+- Staff.
+
+Access depends on Admin-assigned permissions.
+
+Deletion:
+
+- Admin only.
+- Soft Delete.
+- Restore.
+- Delete History.
+- Permanent deletion only through an authorized retention and review process.
+
+Customer ID Card:
+
+- Automatic PDF.
+- Print.
+- Photo.
+- Name.
+- Customer ID.
+- Mobile.
+- MUN COMPUTER logo.
+- Secure QR Code.
+
+Registration:
+
+- Manual Registration.
+- Excel Import.
+- Bulk Registration.
+- Import Preview.
+- Validation.
+- Duplicate Detection.
+- Error Report.
+
+Export:
+
+- PDF.
+- Excel.
+- CSV.
+- Permission controlled.
+- Export history.
+
+## 14. CUSTOMER NOTES AND FOLLOW-UP
+
+Include:
+
+- Internal Notes.
+- Follow-up Date.
+- Reminder.
+- Assigned Staff.
+- Follow-up Status.
+- Follow-up History.
+- Customer Reminder History.
+
+Follow-up Status:
+
+- Pending.
+- Completed.
+- Rescheduled.
+- Cancelled.
+
+## 15. CUSTOMER MOBILE, WHATSAPP, OTP AND CONSENT
+
+Mobile verification:
+
+- OTP to registered mobile number.
+- OTP expiry.
+- Resend limits.
+- Attempt limits.
+- Verification history.
+
+Consent Categories:
+
+1. SMS Message Consent.
+2. WhatsApp Message Consent.
+3. Application Status Update Consent.
+4. Payment Reminder Consent.
+5. Service-related Notification Consent.
+6. Promotional/Offer Message Consent.
+7. Personal Data Processing and Privacy Consent.
+
+Rules:
+
+- Separate consent for each category.
+- No forced blanket consent.
+- Customer can change or withdraw consent.
+- Record date, time and verification information.
+- OTP confirms control of the number; it is not blanket consent.
+- Maintain database consent proof.
+- PDF download and print consent proof.
+
+Mobile Number Change:
+
+- Verify old number where possible.
+- Verify new number through OTP.
+- Admin special verification if old number is unavailable.
+- Preserve old/new number history.
+
+WhatsApp Number Change:
+
+- Change option.
+- OTP verification.
+- Maintain history.
+
+Verification Status:
+
+- Unverified.
+- Mobile Verified.
+- Consent Verified.
+- Fully Verified.
+- Verification Expired.
+- Re-verification Required.
+
+## 16. CUSTOMER MERGE AND CRM
+
+Customer Merge:
+
+- Admin only.
+- Select main Customer.
+- Select duplicate Customer records.
+- Merge eligible Applications, Payments and Documents.
+- Preserve old Customer IDs.
+- Preserve all histories.
+- Maintain merge audit.
+- Provide recovery mechanism where technically safe.
+
+Customer CRM features:
+
+- Customer Profile Print.
+- Customer ID Card PDF and Print.
+- Customer QR Code.
+- Customer-wise Application History.
+- Customer-wise Payment History.
+- Customer-wise Service History.
+- Birthday Reminder.
+- Follow-up Reminder.
+- Activity Timeline.
+- Consent and OTP Verification History.
+
+Customer QR must open a secure authenticated profile, never a public personal-data page.
+
+---
+
+# PART D – SERVICE MANAGEMENT
+
+## 17. SERVICE CATEGORY MANAGEMENT
+
+Example categories:
+
+- PAN Card.
+- Aadhaar Services.
+- Voter Card Services.
+- Government Scheme.
+- Banking Services.
+- Online Application.
+- CSC Services.
+- Indian Gas Services.
+- Other Services.
+
+Categories must be configurable.
+
+Permissions:
+
+- Admin and permitted Manager can manage categories.
+- Manager can propose new categories.
+- Admin approval required before activation.
+- Admin controls deletion.
+- Maintain history and audit.
+
+## 18. SERVICE MANAGEMENT
+
+Service Fields:
+
+- Automatic Service ID.
+- Service Name – Required.
+- Service Category – Required.
+- Service Description.
+- Service Logo/Icon.
+- Customer Charge.
+- Service Cost.
+- Automatic Profit.
+- Processing Time.
+- Required Documents.
+- Application Form.
+- Service Status.
+- Service Availability.
+- Terms and Conditions.
+- Created By.
+- Created Date.
+
+Service ID:
+
+`MCS-2026-27-000001`
+
+Pricing:
+
+- Customer Charge.
+- Service Cost.
+- Automatic Profit = Customer Charge − Service Cost.
+- Manager submits pricing change proposal.
+- Admin approves or rejects.
+- Old rate remains active until approval.
+- Historical transactions retain their original pricing snapshots.
+- Maintain complete rate history.
+
+## 19. SERVICE DOCUMENT AND FORM BUILDER
+
+Each Service has its own Required Document List.
+
+Admin can:
+
+- Create Document Fields.
+- Edit Document Fields.
+- Disable Document Fields.
+- Set Required or Optional.
+- Set allowed formats.
+- Set file size.
+- Configure multiple uploads.
+- Configure descriptions.
+
+Each Service has its own Dynamic Application Form.
+
+Admin can:
+
+- Create Fields.
+- Edit Fields.
+- Remove or disable Fields.
+- Set Required or Optional.
+- Configure field types.
+- Configure validation.
+- Configure dropdown options.
+- Configure display order.
+- Preview and Publish Forms.
+
+Supported fields:
+
+- Short Text.
+- Long Text.
+- Number.
+- Date.
+- Mobile.
+- Email.
+- Dropdown.
+- Radio.
+- Checkbox.
+- Multi-select.
+- File Upload.
+- Address.
+- Yes/No.
+- Aadhaar and PAN fields where required.
+
+Preserve historical form versions and submitted values.
+
+## 20. SERVICE STATUS, AVAILABILITY AND PROCESSING TIME
+
+Service Status:
+
+- Active.
+- Inactive.
+- Temporarily Suspended.
+- Archived.
+
+Availability:
+
+- Available.
+- Unavailable.
+
+Historical Applications must remain accessible after Service deactivation.
+
+Processing Time:
+
+- Fixed Time, such as 7 days.
+- Minimum–Maximum Time, such as 7–15 days.
+- Admin chooses per Service.
+
+Calculate Expected Completion Date using configured processing rules.
+
+Maintain processing time history.
+
+## 21. SERVICE SEARCH, DELETE AND PERMISSIONS
+
+Advanced Search:
+
+- Service Name.
+- Service ID.
+- Category.
+- Status.
+- Availability.
+- Customer Charge.
+- Service Cost.
+- Processing Time.
+- Created Date.
+
+Delete:
+
+- Admin can delete subject to safe retention rules.
+- Manager can submit deletion proposal.
+- Admin approval required.
+- Use Soft Delete and Archive.
+- Provide Restore.
+- Maintain Delete History.
+- Never remove historical Application or Financial relationships.
+
+---
+
+# PART E – APPLICATION MANAGEMENT
+
+## 22. APPLICATION CREATION WORKFLOWS
+
+Support both workflows.
+
+Customer First:
+
+1. Select Customer.
+2. Select Service.
+3. Load Service-specific Form.
+4. Load Required Documents.
+5. Complete Form.
+6. Upload Documents.
+7. Validate.
+8. Save Draft or Submit.
+
+Service First:
+
+1. Select Service.
+2. Select Customer.
+3. Allow authorized Customer creation if required.
+4. Load Dynamic Form.
+5. Load Required Documents.
+6. Complete Form.
+7. Validate.
+8. Submit.
+
+Allow New Application directly from Customer Profile.
+
+Auto-fill relevant Customer information without creating duplicate Customers.
+
+## 23. APPLICATION ID AND HISTORY
+
+Reuse:
+
+`MCA-2026-27-000001`
+
+Rules:
+
+- Automatic.
+- Financial Year based.
+- Unique.
+- Transaction-safe.
+- No reuse.
+- Historical IDs unchanged.
+
+Maintain complete Application history.
+
+## 24. APPLICATION STATUS WORKFLOW
+
+Statuses:
+
+1. Draft.
+2. Submitted.
+3. Under Review.
+4. Processing.
+5. Pending Customer.
+6. Pending Office.
+7. Approved.
+8. Rejected.
+9. Completed.
+10. Cancelled.
+11. On Hold.
+12. Reopened.
+
+Maintain:
+
+- Previous Status.
+- New Status.
+- Changed By.
+- Date and Time.
+- Remarks.
+- Reason.
+- Supporting Documents where relevant.
+
+Require reasons for sensitive transitions.
+
+Do not confuse MUN COMPUTER's internal completion with government approval.
+
+## 25. APPLICATION ASSIGNMENT AND REASSIGNMENT
+
+Admin can assign Applications to Staff and Counters.
+
+Authorized Manager can assign Applications.
+
+Staff can take eligible unassigned Applications and submit reassignment requests.
+
+Unauthorized Staff cannot transfer another Staff member's Application.
+
+Maintain:
+
+- Current Assignment.
+- Previous Assignment.
+- Assigned By.
+- Assigned To.
+- Counter.
+- Date and Time.
+- Assignment Reason.
+- Reassignment Request.
+- Approval/Rejection History.
+
+Admin has complete control.
+
+Apply backend permissions.
+
+## 26. DYNAMIC REFERENCE NUMBER MANAGEMENT
+
+Support:
+
+- Application Number.
+- Acknowledgement Number.
+- External Reference Number.
+- Tracking Number.
+- Transaction ID.
+- Receipt Number.
+- Department Reference Number.
+
+Admin can:
+
+- Create custom reference fields.
+- Edit and disable fields.
+- Configure by Service.
+- Set Required or Optional.
+- Configure input type.
+- Configure unique validation.
+- Search Applications by references.
+
+Maintain modification history.
+
+## 27. APPLICATION DOCUMENT MANAGEMENT
+
+Integrate with Service-specific Required Documents.
+
+Support:
+
+- PDF.
+- JPG.
+- JPEG.
+- PNG.
+- Maximum 10 MB per file.
+
+Document Status:
+
+- Pending.
+- Verified.
+- Rejected.
+
+Maintain:
+
+- Document Checklist.
+- Missing Documents.
+- Uploaded Documents.
+- Verified Documents.
+- Rejected Documents.
+- Rejection Reason.
+- Replacement History.
+- Verification History.
+
+Do not allow final submission with missing mandatory documents unless an authorized exception is recorded.
+
+## 28. APPLICATION PROFILE
+
+Include:
+
+- Application ID.
+- Customer Information.
+- Service Information.
+- Application Form Data.
+- Documents.
+- Document Verification.
+- Status.
+- Reference Numbers.
+- Assigned Staff.
+- Counter.
+- Submission Date.
+- Expected Completion Date.
+- Actual Completion Date.
+- Processing Time.
+- Internal Notes.
+- Customer Remarks.
+- Status History.
+- Assignment History.
+- Follow-up History.
+- Notification History.
+- Activity Timeline.
+- Related Receipts.
+- Related Payments.
+- Related Invoices.
+
+## 29. APPLICATION FOLLOW-UP AND NOTES
+
+Follow-up:
+
+- Follow-up Date.
+- Follow-up Time.
+- Reason.
+- Assigned Staff.
+- Status.
+- Next Follow-up Date.
+- Remarks.
+- History.
+
+Support reminders for:
+
+- Pending Customer Documents.
+- Pending Office Response.
+- Delayed Applications.
+- Upcoming Completion.
+- Overdue Follow-ups.
+
+Notes:
+
+- Internal Notes, visible only to authorized staff.
+- Customer-facing Remarks, separate from internal notes.
+- Maintain creator, timestamp and edit history.
+
+## 30. APPLICATION EDIT, CANCEL, REOPEN AND DUPLICATE CONTROL
+
+Edit:
+
+- Admin.
+- Authorized Manager.
+- Authorized Staff.
+
+Apply status-based restrictions.
+
+Cancel:
+
+- Require reason.
+- Preserve history.
+- Preserve related financial records.
+
+Reopen:
+
+- Require permission.
+- Require reason.
+- Preserve previous closure history.
+
+Delete:
+
+- Prefer Archive or Soft Delete.
+- Admin controls.
+- Manager may propose deletion.
+- Never delete financial/legal records through an unsafe cascading operation.
+
+Duplicate Detection:
+
+- Customer ID.
+- Service ID.
+- Similar application details.
+- External Application Number.
+- Reference Number.
+
+Show warning.
+
+Allow authorized override with reason and audit history.
+
+## 31. APPLICATION SEARCH AND REPORTS
+
+Search:
+
+- Application ID.
+- Customer ID.
+- Customer Name.
+- Mobile.
+- WhatsApp.
+- Service Name.
+- Service ID.
+- Reference Numbers.
+- Village.
+- Assigned Staff.
+
+Filters:
+
+- Date Range.
+- Financial Year.
+- Category.
+- Service.
+- Status.
+- Document Status.
+- Staff.
+- Counter.
+- Customer.
+- Expected Completion Date.
+- Overdue.
+- Created By.
+
+Provide pagination, sorting and permission-aware search.
+
+## 32. APPLICATION PRINT AND PDF
+
+Support:
+
+- Application Acknowledgement.
+- Application Details.
+- Document Checklist.
+- Application Status Report.
+- Application History where authorized.
+
+Use A4, Preview, Logo, Signature and Stamp where configured.
+
+Do not expose internal notes.
+
+Do not imply government affiliation or guaranteed government approval.
+
+## 33. APPLICATION NOTIFICATION AND FINANCIAL INTEGRATION
+
+Use existing Phase 03 notification settings.
+
+Channels:
+
+- SMS.
+- Email.
+- WhatsApp.
+- Internal Dashboard.
+
+Events:
+
+- Application Submitted.
+- Status Updated.
+- Document Required.
+- Document Rejected.
+- Document Verified.
+- Approved.
+- Rejected.
+- Completed.
+- On Hold.
+- Reopened.
+- Follow-up Reminder.
+
+Check individual consent before sending.
+
+Do not claim delivery without provider confirmation.
+
+Financial integration must reuse existing or planned Financial Engine:
+
+- Customer Charge.
+- Service Cost.
+- Profit.
+- Payments.
+- Pending Payments.
+- Receipts.
+- Invoices.
+- Refunds.
+- Outstanding Balance.
+
+Do not create duplicate financial records.
+
+If Financial Engine is not yet available, create compatible interfaces and clearly identify the pending integration.
+
+## 34. APPLICATION DASHBOARD, AUDIT AND SECURITY
+
+Dashboard widgets:
+
+- Total Applications.
+- Today's Applications.
+- Submitted.
+- Under Review.
+- Processing.
+- Pending Customer.
+- Pending Office.
+- Approved.
+- Rejected.
+- Completed.
+- Cancelled.
+- On Hold.
+- Overdue.
+- Pending Documents.
+- Pending Follow-ups.
+- Unassigned.
+- My Assigned Applications.
+- Pending Document Verification.
+
+Quick Actions:
+
+- New Application.
+- Search Application.
+- Assign Application.
+- Update Status.
+- Upload Documents.
+- Verify Documents.
+- Add Follow-up.
+
+Audit important actions:
+
+- Create.
+- Edit.
+- Submit.
+- Assign.
+- Reassign.
+- Status Change.
+- Upload.
+- Verify.
+- Reject.
+- Reference Change.
+- Follow-up.
+- Cancel.
+- Reopen.
+- Archive.
+- Export.
+- Print.
+
+Use role-based access and backend authorization.
+
+Never log passwords, OTPs, full Aadhaar numbers or confidential document contents.
+
+---
+
+# PART F – ENTERPRISE MODULES: QUESTION 36–51
+
+## 35. APPLICATION ASSIGNMENT & REASSIGNMENT MANAGEMENT
+
+Implement a centralized assignment engine integrated with Application Management.
+
+Requirements:
+
+- Admin can assign applications to Staff and Counters.
+- Authorized Managers can assign applications.
+- Staff can take responsibility for eligible unassigned applications.
+- Staff can submit reassignment requests.
+- Unauthorized Staff cannot transfer another Staff member's application.
+- Admin has complete application control.
+- Support Staff assignment.
+- Support Counter assignment.
+- Support combined Staff and Counter assignment where appropriate.
+- Display unassigned applications.
+- Display My Applications.
+- Display Counter Applications.
+- Maintain complete assignment history.
+- Record Assigned By, Assigned To, Counter, Date, Time and Reason.
+- Maintain reassignment approval history.
+- Display previous and current assignments.
+- Notify relevant users after assignment changes.
+
+**Important:** This is a centralized feature. Do not create a second Assignment System if the existing Application Assignment module already implements it.
+
+## 36. DYNAMIC REFERENCE NUMBER MANAGEMENT
+
+Implement centralized Dynamic Reference Management.
+
+Default fields:
+
+- Application Number.
+- Acknowledgement Number.
+- External Reference Number.
+- Tracking Number.
+- Transaction ID.
+- Receipt Number.
+- Department Reference Number.
+
+Admin can:
+
+- Create custom reference fields.
+- Edit and disable fields.
+- Configure by Service.
+- Set mandatory or optional.
+- Configure input type.
+- Configure uniqueness.
+- Search by reference.
+- Maintain reference modification history.
+
+Do not create duplicate reference tables or conflicting reference generators.
+
+## 37. DYNAMIC APPLICATION WORKFLOW ENGINE
+
+Implement a configurable workflow engine.
+
+Features:
+
+- Service-specific workflow.
+- Configurable status transitions.
+- Role-based transition permissions.
+- Required remarks.
+- Required document conditions.
+- Approval steps.
+- Internal processing stages.
+- Status history.
+- Workflow versioning.
+- Admin-controlled configuration.
+
+Default statuses remain those defined in Section 24.
+
+A workflow configuration update must not rewrite historical Application status records.
+
+## 38. SMART DOCUMENT MANAGEMENT SYSTEM
+
+Implement centralized Document Management integrated with Customer, Service and Application modules.
+
+Features:
+
+- Customer-wise documents.
+- Application-wise documents.
+- Service-specific document requirements.
+- Multiple uploads.
+- PDF, JPG, JPEG and PNG.
+- Maximum 10 MB per file.
+- Document categories.
+- Verification.
+- Pending, Verified and Rejected.
+- Rejection reason.
+- Replacement uploads.
+- Version history.
+- Expiry date where relevant.
+- Preview.
+- Secure download.
+- Permission-based access.
+- Document access audit.
+
+Security:
+
+- Private storage.
+- Validate MIME type and file contents.
+- Reject executable uploads.
+- Prevent public exposure.
+- Restrict download and deletion.
+- Admin-controlled deletion.
+- Preserve historical document records.
+
+Do not create duplicate Customer or Application document stores.
+
+## 39. PAYMENT & ACCOUNTING INTEGRATION
+
+Integrate all Application and Service transactions with the centralized Financial Engine.
+
+Support:
+
+- Customer Charge.
+- Service Cost.
+- Automatic Profit.
+- Cash.
+- UPI.
+- Other Payment.
+- Advance Payment.
+- Partial Payment.
+- Full Payment.
+- Pending Payment.
+- Payment Verification.
+- Receipt.
+- Invoice.
+- Customer Outstanding.
+- Refund.
+- Daily Collection.
+- Monthly Collection.
+- Counter-wise Collection.
+- Staff-wise Collection.
+- Service-wise Revenue.
+- Financial Year Reports.
+
+Reuse existing Phase 03 payment and pricing configuration.
+
+Rules:
+
+- Unique payment transaction IDs.
+- Prevent duplicate payments.
+- Preserve historical pricing.
+- Verify UPI before marking received.
+- Keep Application and Payment status separate.
+- Maintain payment verification history.
+- Maintain accounting audit.
+- Use safe database transactions.
+
+Do not fabricate financial data.
+
+## 40. COMPLETE CUSTOMER CRM
+
+Extend the existing Customer module into a unified CRM.
+
+Include:
+
+- Customer Profile.
+- Customer Documents.
+- Application History.
+- Service History.
+- Payment History.
+- Receipt and Invoice History.
+- Internal Notes.
+- Communication History.
+- Follow-up.
+- Reminders.
+- Assigned Staff.
+- Activity Timeline.
+- Customer Verification.
+- Consent History.
+- Mobile Change History.
+- WhatsApp Change History.
+- Customer Merge.
+- Customer ID Card.
+- Secure Customer QR.
+
+Customer Segmentation:
+
+- New.
+- Regular.
+- Active.
+- Inactive.
+- Follow-up Required.
+- Pending Payment.
+- Service Completed.
+
+Segmentation must be configurable.
+
+Reuse existing Customer IDs and database records.
+
+Apply consent and privacy rules.
+
+## 41. SMART NOTIFICATION SYSTEM
+
+Integrate:
+
+- SMS.
+- Email.
+- Official WhatsApp Business API.
+- Internal Dashboard Notifications.
+
+Events:
+
+- Customer Registration.
+- Application Submitted.
+- Application Status Update.
+- Document Required.
+- Document Rejected.
+- Document Verified.
+- Payment Received.
+- Payment Pending.
+- Receipt Generated.
+- Invoice Generated.
+- Service Completed.
+- Delivery Ready.
+- Follow-up Reminder.
+- SLA Warning.
+- SLA Breach.
+- Refund Update.
+- Login OTP.
+- Password Reset OTP.
+
+Features:
+
+- Template Management.
+- Bengali, English and Hindi.
+- Service-specific templates.
+- Notification History.
+- Provider Delivery Status.
+- Failed Notification Tracking.
+- Retry Management.
+- Scheduling.
+- Admin-controlled events.
+
+Respect separate consent categories.
+
+Promotional messages require separate consent.
+
+Do not treat OTP as blanket consent.
+
+Never claim delivery without provider confirmation.
+
+## 42. ENTERPRISE DASHBOARD & ANALYTICS
+
+Implement role-specific interactive dashboards.
+
+Widgets:
+
+- Total Customers.
+- Total Applications.
+- Today's Applications.
+- Today's Collection.
+- Total Collection.
+- Pending Payments.
+- Total Expenses.
+- Today Profit.
+- Pending Applications.
+- Processing Applications.
+- Completed Applications.
+- Rejected Applications.
+- Overdue Applications.
+- Pending Documents.
+- Pending Follow-ups.
+- Unassigned Applications.
+- My Assigned Applications.
+- Pending Approvals.
+- Service-wise Performance.
+- Staff-wise Performance.
+- Counter-wise Performance.
+- Monthly Collection.
+- Monthly Application Trends.
+
+Quick Actions:
+
+- Add Customer.
+- New Application.
+- New Payment.
+- Create Receipt.
+- Create Invoice.
+- Add Expense.
+- Assign Application.
+- Verify Documents.
+- Add Follow-up.
+
+Support:
+
+- Admin Dashboard.
+- Manager Dashboard.
+- Staff Dashboard.
+- Counter Dashboard.
+- Role-based widgets.
+- Customizable widgets.
+- Date filters.
+- Financial Year filters.
+- Drill-down.
+- Interactive charts.
+
+All data must come from actual database records.
+
+## 43. ENTERPRISE MIS & REPORTS
+
+Implement a unified MIS.
+
+Customer Reports:
+
+- Customer Register.
+- New Customer.
+- Active Customer.
+- Inactive Customer.
+- Customer Service History.
+- Customer Payment History.
+
+Application Reports:
+
+- Application Register.
+- Daily Applications.
+- Monthly Applications.
+- Financial Year Applications.
+- Service-wise.
+- Category-wise.
+- Staff-wise.
+- Counter-wise.
+- Status-wise.
+- Pending.
+- Overdue.
+- Completed.
+- Rejected.
+- Processing Time.
+
+Financial Reports:
+
+- Daily Collection.
+- Monthly Collection.
+- Service-wise Revenue.
+- Outstanding.
+- Pending Payment.
+- Expense.
+- Profit and Loss.
+- Cash Closing.
+- Refund.
+
+Operational Reports:
+
+- Staff Performance.
+- Counter Performance.
+- Follow-up.
+- Document Verification.
+- SLA Breach.
+- Notification.
+- Customer Delivery.
+- Audit.
+
+Exports:
+
+- PDF.
+- Excel.
+- CSV.
+
+Apply role permissions and maintain export history.
+
+## 44. SLA & ESCALATION MANAGEMENT
+
+Implement Service Level Agreement management.
+
+Admin can configure per Service:
+
+- Expected Processing Time.
+- Minimum Processing Time.
+- Maximum Processing Time.
+- Working Days or Calendar Days.
+- Holiday Exclusion.
+- SLA Start Event.
+- Pause Conditions.
+- Resume Conditions.
+- Warning Threshold.
+- Breach Threshold.
+- Escalation Rules.
+
+SLA Status:
+
+- Within SLA.
+- Approaching Deadline.
+- Overdue.
+- SLA Paused.
+- Completed Within SLA.
+- Completed After SLA.
+
+Escalation:
+
+1. Notify assigned Staff before deadline.
+2. Notify Manager at configured warning threshold.
+3. Notify Admin after breach.
+4. Record escalation reason.
+5. Record action taken.
+6. Maintain escalation history.
+
+Pending Customer or Pending Office time may be excluded only if configured.
+
+Maintain actual elapsed time separately from paused time.
+
+Never guarantee external government processing times.
+
+## 45. CUSTOMER DELIVERY & HANDOVER MANAGEMENT
+
+Implement a complete Customer Delivery and Handover module.
+
+Purpose:
+
+Track the final delivery of documents, certificates, printouts, completed service outputs and other deliverables to customers.
+
+### Delivery Creation
+
+Allow authorized users to create a delivery record linked to:
+
+- Application ID.
+- Customer ID.
+- Service ID.
+- Assigned Staff.
+- Counter.
+- Deliverable Type.
+
+### Delivery Information
+
+Record:
+
+- Delivery ID.
+- Application ID.
+- Customer.
+- Service.
+- Deliverable Description.
+- Delivery Method.
+- Delivery Date.
+- Delivery Time.
+- Prepared By.
+- Delivered By.
+- Received By.
+- Delivery Status.
+- Remarks.
+
+### Delivery Methods
+
+- Physical Handover.
+- Customer Collection.
+- Authorized Representative.
+- Digital Delivery.
+- Other Configured Method.
+
+### Delivery Status
+
+- Not Ready.
+- Ready for Delivery.
+- Customer Notified.
+- Delivered.
+- Partially Delivered.
+- Delivery Failed.
+- Rescheduled.
+
+### Handover Verification
+
+Support:
+
+- Customer acknowledgement.
+- Authorized representative details.
+- OTP confirmation where configured.
+- Signature or acknowledgement document where available.
+- Delivery receipt.
+- Delivery history.
+
+Do not force OTP or collect unnecessary personal information.
+
+### Delivery Rules
+
+- Do not mark delivery completed without the required handover confirmation.
+- Maintain delivery audit.
+- Allow partial delivery where applicable.
+- Maintain remaining deliverables.
+- Notify customers only with relevant consent.
+- Do not automatically close an Application if required delivery steps remain incomplete.
+
+## 46. CANCELLATION & REFUND MANAGEMENT
+
+Implement centralized Cancellation and Refund Management.
+
+### Application Cancellation
+
+Support:
+
+- Cancellation Request.
+- Cancellation Reason.
+- Requested By.
+- Reviewed By.
+- Approved By.
+- Cancellation Date.
+- Cancellation Remarks.
+- Cancellation History.
+
+### Cancellation Workflow
+
+1. Authorized user submits cancellation request.
+2. System checks Application status.
+3. System checks linked Payments and Financial records.
+4. Authorized Admin or Manager reviews according to permissions.
+5. Request is Approved or Rejected.
+6. Application status changes only after approval where required.
+7. Preserve all historical records.
+
+### Refund Management
+
+Support:
+
+- Full Refund.
+- Partial Refund.
+- No Refund.
+- Refund Pending.
+- Refund Approved.
+- Refund Rejected.
+- Refund Processed.
+
+Refund information:
+
+- Refund ID.
+- Application ID.
+- Customer ID.
+- Original Payment ID.
+- Refund Amount.
+- Refund Method.
+- Refund Reason.
+- Requested By.
+- Approved By.
+- Processed By.
+- Refund Date.
+- Transaction Reference.
+- Remarks.
+
+### Financial Rules
+
+- Refund must link to an original payment.
+- Refund cannot exceed the refundable amount.
+- Prevent duplicate refund transactions.
+- Require approval according to permissions.
+- Preserve original payment records.
+- Update outstanding balance correctly.
+- Maintain complete financial audit.
+- Do not claim a refund has been paid until actual confirmation exists.
+
+## 47. SERVICE-WISE AUTOMATION ENGINE
+
+Implement a configurable automation engine for each Service.
+
+Admin can configure Service-specific automation rules.
+
+### Automation Triggers
+
+- Application Created.
+- Application Submitted.
+- Status Changed.
+- Document Uploaded.
+- Document Verified.
+- Document Rejected.
+- Payment Received.
+- Payment Pending.
+- Follow-up Due.
+- SLA Warning.
+- SLA Breach.
+- Application Completed.
+- Delivery Ready.
+- Refund Processed.
+
+### Automation Actions
+
+- Assign Staff.
+- Assign Counter.
+- Create Follow-up.
+- Create Reminder.
+- Change permitted internal status.
+- Generate notification.
+- Create task.
+- Trigger document checklist.
+- Create escalation.
+- Update internal workflow.
+
+### Automation Conditions
+
+- Service.
+- Application Status.
+- Payment Status.
+- Document Status.
+- Assigned Staff.
+- Counter.
+- Date and Time.
+- SLA Status.
+
+### Automation Safety
+
+- Admin controls automation configuration.
+- Manager can propose important automation changes.
+- Admin approval required.
+- Maintain automation version history.
+- Prevent infinite loops.
+- Prevent duplicate execution.
+- Record success and failure.
+- Provide retry controls.
+- Allow Admin to disable an automation.
+- Never automatically approve government applications.
+- Never automatically send promotional messages without separate consent.
+
+If background scheduling is unavailable, identify the required server Cron or job worker configuration.
+
+## 48. ENTERPRISE SECURITY & PRIVACY
+
+Implement a unified security and privacy framework.
+
+### Authentication
+
+Reuse existing authentication.
+
+- Secure Login.
+- Password Protection.
+- OTP.
+- Two-Factor Authentication.
+- Session Expiry.
+- Account Lockout.
+- Login History.
+
+### Authorization
+
+- Admin.
+- Manager.
+- Staff.
+- Role-based permissions.
+- Individual permissions.
+- Counter-based access.
+- Record-level access.
+- Backend authorization.
+
+### Data Security
+
+- Protect customer information.
+- Mask Aadhaar by default.
+- Restrict sensitive data access.
+- Secure private documents.
+- Prevent public document exposure.
+- Protect API credentials.
+- Validate all inputs.
+- Prevent SQL Injection.
+- Prevent XSS.
+- Apply CSRF protection where relevant.
+- Rate-limit sensitive endpoints.
+- Use secure file upload validation.
+
+### Privacy and Consent
+
+- Separate communication consents.
+- Record consent date and time.
+- Allow consent withdrawal.
+- Maintain consent history.
+- Restrict customer data export.
+- Audit sensitive profile access.
+- Follow applicable privacy and retention requirements.
+
+### Audit
+
+Record:
+
+- Login.
+- Logout.
+- Failed Login.
+- Customer Access.
+- Customer Changes.
+- Application Changes.
+- Payment Changes.
+- Permission Changes.
+- Settings Changes.
+- Document Access.
+- Export.
+- Refund.
+- Backup.
+- Restore.
+
+Never log:
+
+- Passwords.
+- OTPs.
+- API Secrets.
+- Full Aadhaar numbers.
+- Private document contents.
+
+## 49. BACKUP & DISASTER RECOVERY
+
+Implement a secure Backup and Disaster Recovery System.
+
+Reuse the existing Phase 03 backup configuration.
+
+### Backup Types
+
+- Daily Automatic Backup.
+- Manual Backup.
+- Database Backup.
+- Uploaded Document Backup.
+- Configuration Backup.
+- Full System Backup where supported.
+
+### Backup Storage
+
+- Server Storage.
+- Secure Download.
+- Additional Storage Destination where configured.
+
+### Backup Security
+
+- Encrypt backups containing sensitive data.
+- Protect backup access.
+- Maintain backup logs.
+- Validate backup integrity.
+- Avoid storing secrets in plaintext.
+- Protect backup files from unauthorized access.
+- Do not expose backup download URLs publicly.
+
+### Backup History
+
+Record:
+
+- Backup ID.
+- Backup Type.
+- Date and Time.
+- Created By.
+- Backup Size.
+- Status.
+- Storage Location.
+- Integrity Result.
+
+### Restore
+
+- Admin only.
+- Restore Preview where feasible.
+- Confirm before restore.
+- Verify backup integrity.
+- Protect against accidental overwrite.
+- Maintain restore history.
+- Record restore result.
+- Provide recovery instructions.
+
+### Retention
+
+Use the configured retention policy and applicable legal requirements.
+
+Do not promise unlimited backup storage where server capacity does not support it.
+
+### Disaster Recovery
+
+Document:
+
+- Backup Schedule.
+- Restore Procedure.
+- Database Recovery.
+- File Recovery.
+- Configuration Recovery.
+- Recovery Validation.
+- Failure Alerts.
+- Recovery Responsibilities.
+
+Automatic backups require an actual configured server Cron, scheduler or equivalent background service.
+
+Do not claim backups are running unless they are verified.
+
+## 50. COMPLETE ERP INTEGRATION
+
+Integrate all modules into one unified ERP.
+
+### Core Modules
+
+- Foundation.
+- Authentication.
+- Admin.
+- Manager.
+- Staff.
+- Master Settings.
+- Dashboard.
+
+### Business Modules
+
+- Customer Management.
+- Customer CRM.
+- Service Management.
+- Application Management.
+- Document Management.
+- Assignment Management.
+- Workflow Management.
+- Reference Management.
+- Follow-up Management.
+- Customer Delivery.
+
+### Financial Modules
+
+- Financial Engine.
+- Payment.
+- Receipt.
+- Invoice.
+- Expense.
+- Cash Closing.
+- Profit and Loss.
+- Outstanding.
+- Cancellation.
+- Refund.
+
+### Operational Modules
+
+- Notification.
+- SLA.
+- Escalation.
+- Automation.
+- MIS.
+- Reports.
+- Analytics.
+- Audit Logs.
+
+### Security and Infrastructure
+
+- Authentication.
+- Authorization.
+- Privacy.
+- Consent.
+- Backup.
+- Restore.
+- Error Logging.
+- System Health.
+
+### Integration Rules
+
+- Reuse centralized Customer records.
+- Reuse centralized Service records.
+- Reuse centralized User records.
+- Reuse centralized Counter records.
+- Reuse centralized Application records.
+- Reuse centralized Financial records.
+- Reuse centralized Document storage.
+- Reuse centralized Notifications.
+- Reuse centralized Audit logs.
+
+No module should maintain a separate conflicting version of the same business data.
+
+All important operations must preserve relationships between modules.
+
+## 51. COMPLETE TESTING, DEPLOYMENT AND FINAL DELIVERY
+
+Perform full functional, integration, security and regression testing.
+
+### Functional Testing
+
+Test:
+
+- Customer Registration.
+- Customer Search.
+- Customer Editing.
+- Customer Merge.
+- Consent and OTP.
+- Service Creation.
+- Service Pricing Approval.
+- Dynamic Form Builder.
+- Required Documents.
+- Application Creation.
+- Application Submission.
+- Status Workflow.
+- Assignment.
+- Reassignment.
+- Reference Number Management.
+- Document Verification.
+- Follow-ups.
+- Payment.
+- Receipt.
+- Invoice.
+- Customer Delivery.
+- Cancellation.
+- Refund.
+- SLA.
+- Automation.
+- Notifications.
+- Dashboard.
+- MIS Reports.
+- Backup.
+- Restore.
+
+### Permission Testing
+
+Test:
+
+- Admin full access.
+- Manager permission-based access.
+- Staff permission-based access.
+- Counter restrictions.
+- Record-level restrictions.
+- Unauthorized API access.
+- Approval workflow.
+- Manager cannot approve own proposal.
+- Unauthorized financial changes.
+- Unauthorized document access.
+- Unauthorized exports.
+- Unauthorized backup restore.
+
+### Data Integrity Testing
+
+Verify:
+
+- No duplicate Customer IDs.
+- No duplicate Service IDs.
+- No duplicate Application IDs.
+- No duplicate Receipt IDs.
+- No duplicate Invoice IDs.
+- No duplicate payment transactions.
+- No broken foreign keys.
+- No missing historical records.
+- No accidental deletion.
+- No alteration of historical pricing.
+- No loss of document history.
+- No loss of assignment history.
+- No loss of consent history.
+- No loss of financial history.
+
+### Regression Testing
+
+Verify that:
+
+- Existing Login works.
+- Existing Admin Panel works.
+- Existing Manager Panel works.
+- Existing Staff Panel works.
+- Existing Dashboard works.
+- Existing Customer Management works.
+- Existing Service Management works.
+- Existing Application Management works.
+- Existing Master Settings works.
+- Existing Sidebar works.
+- Existing Database records remain intact.
+- Existing Phase 01–03 functionality remains intact.
+
+### Deployment
+
+Before deployment:
+
+1. Create and verify a backup.
+2. Apply database migrations safely.
+3. Configure environment variables.
+4. Configure server permissions.
+5. Configure private file storage.
+6. Configure Cron or background jobs.
+7. Configure notification providers where available.
+8. Verify database connectivity.
+9. Verify API security.
+10. Run final smoke tests.
+
+Do not expose production secrets in source code.
+
+Do not claim production readiness if essential backend, hosting, security or provider configuration is missing.
+
+### Final Implementation Report
+
+Provide:
+
+1. Existing Project Architecture Summary.
+2. Existing Database Audit.
+3. Files Created.
+4. Files Modified.
+5. Database Migrations.
+6. APIs Created or Updated.
+7. Modules Completed.
+8. Modules Repaired.
+9. Features Integrated.
+10. Security Changes.
+11. Permission Changes.
+12. Tests Performed.
+13. Test Results.
+14. Remaining Issues.
+15. External Integrations Required.
+16. Deployment Instructions.
+17. Backup Instructions.
+18. Restore Instructions.
+19. Rollback Instructions.
+
+Classify every feature as:
+
+- Completed and Tested.
+- Partially Implemented.
+- Pending External Integration.
+- Not Implemented.
+- Blocked.
+
+Do not mark any feature Completed unless it has actually been implemented and tested.
+
+---
+
+# FINAL NON-NEGOTIABLE INSTRUCTIONS
+
+1. Implement all confirmed requirements from Question 1–51.
+2. Work inside the original MUN COMPUTER BUSINESS MANAGER project.
+3. Treat the original project ZIP as the primary source of truth.
+4. Preserve existing working modules and business records.
+5. Preserve Phase 01, Phase 02 and Phase 03.
+6. Preserve the confirmed Customer and Service configurations.
+7. Preserve the existing authentication and permission system.
+8. Use one centralized database.
+9. Do not create duplicate business modules.
+10. Do not use fake production data.
+11. Do not display fake success messages.
+12. Connect UI, backend, API and database wherever supported.
+13. Implement real data persistence where the backend supports it.
+14. Clearly identify missing external API credentials and server configuration.
+15. Do not silently skip any confirmed requirement.
+16. Do not stop after creating UI screens.
+17. Do not overwrite historical transactions or business records.
+18. Test all critical workflows.
+19. Fix regressions before declaring completion.
+20. Provide a complete implementation and audit report.
+
+# FINAL PROJECT COMPLETION OBJECTIVE
+
+Deliver one unified, secure, reliable, responsive and production-oriented MUN COMPUTER BUSINESS MANAGER Enterprise ERP.
+
+**FINAL SCOPE: QUESTION 1–51 – COMPLETE ENTERPRISE ERP CONFIGURATION.**
+
+All 51 confirmed requirements must be preserved and implemented in the existing project.
+
+The final result must be a fully integrated ERP system—not a demo, isolated prototype, duplicate module collection or replacement project.
+
+**FINAL PRIORITY: COMPLETE FUNCTIONALITY + DATA SAFETY + CENTRALIZED DATABASE + UNIFIED ERP INTEGRATION + SECURITY + TESTING + PRODUCTION READINESS.**

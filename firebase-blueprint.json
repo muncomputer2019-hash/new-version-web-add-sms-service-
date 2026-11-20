@@ -1,0 +1,1341 @@
+{
+  "entities": {
+    "UserPublicProfile": {
+      "title": "UserPublicProfile",
+      "description": "Public role and identity metadata for an authenticated MUN COMPUTER staff/admin user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 40
+        },
+        "fullName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "role": {
+          "type": "string",
+          "enum": ["ADMIN", "MANAGER", "STAFF", "AUDITOR", "CUSTOMER"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "ACTIVE", "SUSPENDED", "DEACTIVATED", "REJECTED"]
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "designation": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "departmentCode": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "joiningDate": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "profilePhotoUrl": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "isMasterAdmin": {
+          "type": "boolean"
+        },
+        "mobileVerified": {
+          "type": "boolean"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "userId", "fullName", "role", "status", "branch", "mobileVerified", "emailVerified", "createdAt", "updatedAt"]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Isolated PII (email, mobile, address) for a MUN COMPUTER user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "mobile": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "address": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "totpEnabled": {
+          "type": "boolean"
+        },
+        "totpSecret": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "mobile", "address", "createdAt", "updatedAt"]
+    },
+    "AdminMarker": {
+      "title": "AdminMarker",
+      "description": "Trusted admin marker document keyed by Firebase Auth UID.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "grantedBy": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "grantedBy", "createdAt", "updatedAt"]
+    },
+    "CustomerRecord": {
+      "title": "CustomerRecord",
+      "description": "Registered customer profile stored in Firestore.",
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "fullName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "fatherOrHusbandName": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "dob": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "gender": {
+          "type": "string",
+          "enum": ["Male", "Female", "Other"]
+        },
+        "mobile": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 24
+        },
+        "whatsapp": {
+          "type": "string",
+          "maxLength": 24
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "panNumber": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "voterId": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "aadhaarMasked": {
+          "type": "string",
+          "maxLength": 24
+        },
+        "village": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "postOffice": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "policeStation": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "district": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "pinCode": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "presentAddress": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "permanentAddress": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "sameAsPresent": {
+          "type": "boolean"
+        },
+        "segment": {
+          "type": "string",
+          "enum": ["Individual", "Corporate", "Government"]
+        },
+        "crmTag": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Active", "Inactive", "Blocked"]
+        },
+        "verificationStatus": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "consents": {
+          "type": "array"
+        },
+        "notesAndFollowUps": {
+          "type": "array"
+        },
+        "deletedAt": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["customerId", "fullName", "gender", "mobile", "village", "segment", "status", "createdByUid", "createdBy", "createdAt", "updatedAt"]
+    },
+    "ServiceCategory": {
+      "title": "ServiceCategory",
+      "description": "Service catalog category.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "code": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 40,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "displayOrder": { "type": "number" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "pending_approval", "archived"]
+        },
+        "proposedBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "approvedBy": {
+          "type": ["string", "null"],
+          "maxLength": 64
+        },
+        "createdBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "updatedBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["code", "name", "status", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "ServiceSubcategory": {
+      "title": "ServiceSubcategory",
+      "description": "Service catalog subcategory linked to a parent category.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "code": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 40,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "categoryId": { "type": "number" },
+        "categoryName": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "displayOrder": { "type": "number" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "archived"]
+        },
+        "createdBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "updatedBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["code", "categoryId", "categoryName", "name", "displayOrder", "status", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "ServiceItem": {
+      "title": "ServiceItem",
+      "description": "Configured center service with hierarchical links, rate breakdown, SLA, instructions, and form version.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "serviceId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "serviceCode": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^MC[0-9]{4}SRV-[0-9]{3,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 160
+        },
+        "categoryId": { "type": "number" },
+        "categoryName": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "subcategoryId": { "type": "number" },
+        "subcategoryName": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 600
+        },
+        "serviceCharge": { "type": "number" },
+        "serviceCost": { "type": "number" },
+        "govtFee": { "type": "number" },
+        "additionalCharges": { "type": "number" },
+        "totalCustomerCharge": { "type": "number" },
+        "customerCharge": { "type": "number" },
+        "profitAmount": { "type": "number" },
+        "status": {
+          "type": "string",
+          "enum": ["Active", "Inactive", "Temporarily Suspended", "Archived"]
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["Available", "Unavailable"]
+        },
+        "serviceInstructions": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "termsAndConditions": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "displayOrder": { "type": "number" },
+        "currentFormVersion": { "type": "number" },
+        "sla": { "type": "object" },
+        "requiredDocuments": { "type": "array" },
+        "formVersions": { "type": "array" },
+        "automationRules": { "type": "array" },
+        "processingTimeHistory": { "type": "array" },
+        "deletedAt": { "type": ["string", "null"], "maxLength": 64 },
+        "createdBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "updatedBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["serviceId", "serviceCode", "name", "categoryId", "customerCharge", "serviceCost", "profitAmount", "status", "availability", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "ApplicationRecord": {
+      "title": "ApplicationRecord",
+      "description": "Service application workflow document.",
+      "type": "object",
+      "properties": {
+        "applicationNo": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "customerId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "serviceId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Draft",
+            "Submitted",
+            "Under Review",
+            "Processing",
+            "Pending Customer",
+            "Pending Office",
+            "Approved",
+            "Rejected",
+            "Completed",
+            "Cancelled",
+            "On Hold",
+            "Reopened"
+          ]
+        },
+        "expectedCompletionDate": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdBy": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["applicationNo", "customerId", "serviceId", "status", "createdByUid", "createdBy", "createdAt", "updatedAt"]
+    },
+    "PaymentRecord": {
+      "title": "PaymentRecord",
+      "description": "Customer payment receipt record linked to an application.",
+      "type": "object",
+      "properties": {
+        "transactionId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "receiptNo": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "applicationNo": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "customerId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64
+        },
+        "amount": {
+          "type": "number"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": ["Cash", "UPI", "Card", "Bank Transfer", "Other"]
+        },
+        "verificationStatus": {
+          "type": "string",
+          "enum": ["Confirmed", "Pending Verification", "Rejected"]
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["transactionId", "applicationNo", "customerId", "amount", "paymentMethod", "verificationStatus", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "ExpenseRecord": {
+      "title": "ExpenseRecord",
+      "description": "Operational expense voucher record.",
+      "type": "object",
+      "properties": {
+        "voucherNo": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "category": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "amount": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Approved", "Pending"]
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["voucherNo", "category", "amount", "status", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "RefundRecord": {
+      "title": "RefundRecord",
+      "description": "Refund request and settlement record.",
+      "type": "object",
+      "properties": {
+        "refundId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "applicationNo": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64
+        },
+        "refundAmount": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "Approved", "Rejected", "Processed"]
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["refundId", "applicationNo", "refundAmount", "status", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "MasterSettingsDoc": {
+      "title": "MasterSettingsDoc",
+      "description": "Global center settings document.",
+      "type": "object",
+      "properties": {
+        "settingKey": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "catalogSeedVersion": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "updatedByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["settingKey", "updatedByUid", "createdAt", "updatedAt"]
+    },
+    "SequenceCounter": {
+      "title": "SequenceCounter",
+      "description": "Atomic sequence counter for human-readable IDs.",
+      "type": "object",
+      "properties": {
+        "seqKey": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "currentValue": {
+          "type": "number"
+        },
+        "updatedByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["seqKey", "currentValue", "updatedByUid", "createdAt", "updatedAt"]
+    },
+    "SecurityAuditLog": {
+      "title": "SecurityAuditLog",
+      "description": "Immutable security and operational audit event.",
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64
+        },
+        "actorUserId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["eventType", "actorUserId", "summary", "createdByUid", "createdAt"]
+    },
+    "NotificationDispatch": {
+      "title": "NotificationDispatch",
+      "description": "Customer or system notification dispatch record.",
+      "type": "object",
+      "properties": {
+        "notificationId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "customerId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["DASHBOARD", "SMS", "EMAIL_SMTP", "WHATSAPP"]
+        },
+        "eventKey": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "recipient": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "messagePreview": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "status": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["notificationId", "customerId", "channel", "eventKey", "recipient", "messagePreview", "status", "createdByUid", "createdAt"]
+    },
+    "DailyCashClosing": {
+      "title": "DailyCashClosing",
+      "description": "Daily counter cash reconciliation closing record.",
+      "type": "object",
+      "properties": {
+        "closingCode": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "counterCode": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "closingDate": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "expectedCash": {
+          "type": "number"
+        },
+        "actualCashCount": {
+          "type": "number"
+        },
+        "approvalStatus": {
+          "type": "string",
+          "enum": ["Approved", "Pending Admin Approval", "Rejected"]
+        },
+        "createdByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["closingCode", "counterCode", "closingDate", "expectedCash", "actualCashCount", "approvalStatus", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "CscGenericRecord": {
+      "title": "CscGenericRecord",
+      "description": "CSC Digital Service Center record (orders, PVC slabs/orders, grievances, documents, rate overrides/history).",
+      "type": "object",
+      "properties": {
+        "createdByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Department": {
+      "title": "Department",
+      "description": "Operational department master entry for Manager and Staff scoping.",
+      "type": "object",
+      "properties": {
+        "departmentCode": { "type": "string", "minLength": 2, "maxLength": 40, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 400 },
+        "status": { "type": "string", "enum": ["ACTIVE", "INACTIVE"] },
+        "createdByUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["departmentCode", "name", "status", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "ManagerServiceAssignment": {
+      "title": "ManagerServiceAssignment",
+      "description": "Admin-assigned service authorization scope for a Manager.",
+      "type": "object",
+      "properties": {
+        "assignmentId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "managerUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "managerUserId": { "type": "string", "minLength": 3, "maxLength": 40 },
+        "serviceId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "serviceName": { "type": "string", "maxLength": 160 },
+        "departmentCode": { "type": "string", "maxLength": 40 },
+        "allowedActions": { "type": "array" },
+        "status": { "type": "string", "enum": ["ACTIVE", "SUSPENDED", "EXPIRED", "REVOKED"] },
+        "expiresAt": { "type": "string", "maxLength": 64 },
+        "notes": { "type": "string", "maxLength": 400 },
+        "assignedByUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["assignmentId", "managerUid", "managerUserId", "serviceId", "allowedActions", "status", "assignedByUid", "createdAt", "updatedAt"]
+    },
+    "StaffServiceRequest": {
+      "title": "StaffServiceRequest",
+      "description": "Manager-submitted request to authorize a Staff operator for a service within the Manager's active scope.",
+      "type": "object",
+      "properties": {
+        "requestId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "managerAssignmentId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "managerUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "managerUserId": { "type": "string", "minLength": 3, "maxLength": 40 },
+        "staffUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "staffUserId": { "type": "string", "minLength": 3, "maxLength": 40 },
+        "serviceId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "serviceName": { "type": "string", "maxLength": 160 },
+        "requestedActions": { "type": "array" },
+        "status": { "type": "string", "enum": ["PENDING_ADMIN_APPROVAL", "APPROVED", "REJECTED"] },
+        "expiresAt": { "type": "string", "maxLength": 64 },
+        "requestNotes": { "type": "string", "maxLength": 400 },
+        "reviewedByUid": { "type": "string", "maxLength": 128 },
+        "reviewNotes": { "type": "string", "maxLength": 400 },
+        "createdByUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["requestId", "managerUid", "managerUserId", "staffUid", "staffUserId", "serviceId", "requestedActions", "status", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "StaffServicePermission": {
+      "title": "StaffServicePermission",
+      "description": "Admin-approved active service execution authorization for a Staff user.",
+      "type": "object",
+      "properties": {
+        "permissionId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "requestId": { "type": "string", "maxLength": 64 },
+        "managerAssignmentId": { "type": "string", "maxLength": 64 },
+        "staffUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "staffUserId": { "type": "string", "minLength": 3, "maxLength": 40 },
+        "managerUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "serviceId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "serviceName": { "type": "string", "maxLength": 160 },
+        "allowedActions": { "type": "array" },
+        "status": { "type": "string", "enum": ["ACTIVE", "SUSPENDED", "EXPIRED", "REVOKED"] },
+        "expiresAt": { "type": "string", "maxLength": 64 },
+        "approvedByUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["permissionId", "staffUid", "staffUserId", "managerUid", "serviceId", "allowedActions", "status", "approvedByUid", "createdAt", "updatedAt"]
+    },
+    "ServiceApprovalLog": {
+      "title": "ServiceApprovalLog",
+      "description": "Immutable audit ledger of Admin/Manager/Staff service authorization decisions.",
+      "type": "object",
+      "properties": {
+        "logId": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "entityType": { "type": "string", "maxLength": 64 },
+        "entityId": { "type": "string", "maxLength": 64 },
+        "action": { "type": "string", "maxLength": 64 },
+        "actorUid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorUserId": { "type": "string", "maxLength": 40 },
+        "targetUserId": { "type": "string", "maxLength": 40 },
+        "serviceId": { "type": "string", "maxLength": 64 },
+        "reason": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["logId", "entityType", "entityId", "action", "actorUid", "actorUserId", "createdAt"]
+    },
+    "EmployeeRecord": {
+      "title": "EmployeeRecord",
+      "description": "Staff & employee compensation master record",
+      "type": "object",
+      "properties": {
+        "empId": { "type": "string", "minLength": 3, "maxLength": 40, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "designation": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "department": { "type": "string", "maxLength": 80 },
+        "mobile": { "type": "string", "maxLength": 24 },
+        "basicSalary": { "type": "number" },
+        "hra": { "type": "number" },
+        "allowances": { "type": "number" },
+        "pfDeduction": { "type": "number" },
+        "tdsDeduction": { "type": "number" },
+        "netSalary": { "type": "number" },
+        "status": { "type": "string", "enum": ["Active", "Inactive", "Terminated"] },
+        "createdByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["empId", "fullName", "designation", "mobile", "basicSalary", "status", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "PayrollRunRecord": {
+      "title": "PayrollRunRecord",
+      "description": "Monthly payroll posting run and General Ledger voucher summary",
+      "type": "object",
+      "properties": {
+        "runId": { "type": "string", "minLength": 3, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "monthCode": { "type": "string", "maxLength": 16 },
+        "voucherNo": { "type": "string", "maxLength": 64 },
+        "employeeCount": { "type": "number" },
+        "totalGross": { "type": "number" },
+        "totalNet": { "type": "number" },
+        "status": { "type": "string", "enum": ["POSTED", "DRAFT", "REVERSED"] },
+        "createdByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["runId", "monthCode", "employeeCount", "totalGross", "totalNet", "status", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "TamperAuditLog": {
+      "title": "TamperAuditLog",
+      "description": "Immutable SHA-256 hash-chained audit ledger entry",
+      "type": "object",
+      "properties": {
+        "auditUuid": { "type": "string", "minLength": 4, "maxLength": 96, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "maxLength": 64 },
+        "userRole": { "type": "string", "maxLength": 40 },
+        "actionType": { "type": "string", "maxLength": 64 },
+        "module": { "type": "string", "maxLength": 64 },
+        "recordId": { "type": "string", "maxLength": 128 },
+        "actionResult": { "type": "string", "enum": ["SUCCESS", "FAILURE", "BLOCKED"] },
+        "previousHash": { "type": "string", "maxLength": 128 },
+        "entryHash": { "type": "string", "maxLength": 128 },
+        "createdByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["auditUuid", "userId", "userRole", "actionType", "module", "recordId", "actionResult", "previousHash", "entryHash", "createdByUid", "createdAt"]
+    },
+    "UserSessionRecord": {
+      "title": "UserSessionRecord",
+      "description": "Active or revoked user authentication session",
+      "type": "object",
+      "properties": {
+        "sessionId": { "type": "string", "minLength": 4, "maxLength": 96, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "maxLength": 64 },
+        "uid": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["ACTIVE", "REVOKED", "EXPIRED"] },
+        "expiresAt": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["sessionId", "userId", "uid", "status", "expiresAt", "createdAt", "updatedAt"]
+    },
+    "SystemBackupSnapshot": {
+      "title": "SystemBackupSnapshot",
+      "description": "AES-256-GCM encrypted backup snapshot and SHA-256 integrity metadata",
+      "type": "object",
+      "properties": {
+        "backupCode": { "type": "string", "minLength": 4, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "frequency": { "type": "string", "maxLength": 32 },
+        "financialYear": { "type": "string", "maxLength": 16 },
+        "versionNo": { "type": "number" },
+        "keyVersion": { "type": "string", "maxLength": 32 },
+        "checksumSha256": { "type": "string", "maxLength": 128 },
+        "signatureHmac": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["SUCCESS", "PARTIAL", "FAILED", "RESTORED"] },
+        "integrityStatus": { "type": "string", "enum": ["VERIFIED", "FAILED", "PENDING"] },
+        "createdByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["backupCode", "frequency", "financialYear", "versionNo", "keyVersion", "checksumSha256", "signatureHmac", "status", "integrityStatus", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "ReportArtifactRecord": {
+      "title": "ReportArtifactRecord",
+      "description": "Structured record for custom report templates, archives, schedules, and audit logs",
+      "type": "object",
+      "properties": {
+        "docId": { "type": "string", "minLength": 2, "maxLength": 96, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["docId", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "QaArtifactRecord": {
+      "title": "QaArtifactRecord",
+      "description": "Phase 09 QA test cases, executions, bugs, reconciliations, backup drills, UAT, and release sign-off records",
+      "type": "object",
+      "properties": {
+        "docId": { "type": "string", "minLength": 2, "maxLength": 96, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["docId", "createdByUid", "createdAt", "updatedAt"]
+    },
+    "ProductItem": {
+      "title": "ProductItem",
+      "description": "Inventory product SKU and stock metadata",
+      "type": "object",
+      "properties": {
+        "productCode": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "status": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "createdByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productCode", "name", "status", "createdByUid", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserPublicProfile" },
+      "description": "User public profile and role metadata"
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "User private PII (email, mobile, address)"
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminMarker" },
+      "description": "Admin role marker documents"
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/CustomerRecord" },
+      "description": "Registered customer profiles"
+    },
+    "/serviceCategories/{categoryId}": {
+      "schema": { "$ref": "#/entities/ServiceCategory" },
+      "description": "Service catalog categories"
+    },
+    "/serviceSubcategories/{subId}": {
+      "schema": { "$ref": "#/entities/ServiceSubcategory" },
+      "description": "Service catalog subcategories"
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/ServiceItem" },
+      "description": "Configured services and rates"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/ProductItem" },
+      "description": "Inventory products and stock catalog"
+    },
+    "/applications/{applicationNo}": {
+      "schema": { "$ref": "#/entities/ApplicationRecord" },
+      "description": "Customer service applications"
+    },
+    "/payments/{transactionId}": {
+      "schema": { "$ref": "#/entities/PaymentRecord" },
+      "description": "Payment receipts and transactions"
+    },
+    "/expenses/{voucherNo}": {
+      "schema": { "$ref": "#/entities/ExpenseRecord" },
+      "description": "Operational expense vouchers"
+    },
+    "/refunds/{refundId}": {
+      "schema": { "$ref": "#/entities/RefundRecord" },
+      "description": "Refund requests and settlements"
+    },
+    "/settings/{settingDocId}": {
+      "schema": { "$ref": "#/entities/MasterSettingsDoc" },
+      "description": "Center master settings and user preferences"
+    },
+    "/sequences/{seqId}": {
+      "schema": { "$ref": "#/entities/SequenceCounter" },
+      "description": "Atomic sequential ID counters"
+    },
+    "/securityLogs/{logId}": {
+      "schema": { "$ref": "#/entities/SecurityAuditLog" },
+      "description": "Audit and security logs"
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/NotificationDispatch" },
+      "description": "Notification dispatch history"
+    },
+    "/dailyCashClosings/{closingCode}": {
+      "schema": { "$ref": "#/entities/DailyCashClosing" },
+      "description": "Daily counter cash closing records"
+    },
+    "/cscCustomCategories/{catId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Admin-managed CSC service categories"
+    },
+    "/cscServiceOverrides/{serviceId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Admin-configured service rates, unit types, and availability overrides"
+    },
+    "/cscRateHistory/{entryId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Immutable CSC service rate revision history"
+    },
+    "/pvcSlabs/{slabId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Individual and Wholesale PVC card printing rate slabs"
+    },
+    "/wholesaleShops/{shopId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Wholesale PVC partner shops"
+    },
+    "/cscOrders/{orderId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Multi-service CSC orders with immutable rate snapshots"
+    },
+    "/pvcOrders/{orderId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Individual and Wholesale PVC printing orders"
+    },
+    "/cscGrievances/{trackingId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Public Grievance and RTI dossiers"
+    },
+    "/cscDocuments/{docId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Private customer verification document vault"
+    },
+    "/departments/{departmentCode}": {
+      "schema": { "$ref": "#/entities/Department" },
+      "description": "Operational departments managed by Admin"
+    },
+    "/managerServiceAssignments/{assignmentId}": {
+      "schema": { "$ref": "#/entities/ManagerServiceAssignment" },
+      "description": "Admin-assigned service authorizations for Managers"
+    },
+    "/staffServiceRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/StaffServiceRequest" },
+      "description": "Manager-initiated Staff service permission requests awaiting Admin decision"
+    },
+    "/staffServicePermissions/{permissionId}": {
+      "schema": { "$ref": "#/entities/StaffServicePermission" },
+      "description": "Admin-approved active service execution permissions for Staff"
+    },
+    "/serviceApprovalLogs/{logId}": {
+      "schema": { "$ref": "#/entities/ServiceApprovalLog" },
+      "description": "Immutable 3-tier service authorization audit log"
+    },
+    "/employees/{empId}": {
+      "schema": { "$ref": "#/entities/EmployeeRecord" },
+      "description": "Employee master records for payroll"
+    },
+    "/payrollRuns/{runId}": {
+      "schema": { "$ref": "#/entities/PayrollRunRecord" },
+      "description": "Monthly staff payroll run records"
+    },
+    "/auditLogs/{auditUuid}": {
+      "schema": { "$ref": "#/entities/TamperAuditLog" },
+      "description": "Immutable SHA-256 hash-chained audit ledger"
+    },
+    "/sessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/UserSessionRecord" },
+      "description": "Active and revoked login session registry"
+    },
+    "/systemBackups/{backupCode}": {
+      "schema": { "$ref": "#/entities/SystemBackupSnapshot" },
+      "description": "AES-256-GCM encrypted backup snapshots and integrity checksums"
+    },
+    "/systemRestoreHistory/{restoreCode}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Backup restore execution history"
+    },
+    "/systemSecurity/{docId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Encryption key ring, backup schedules, storage config, and security settings"
+    },
+    "/securityAlerts/{alertCode}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Real-time security alerts"
+    },
+    "/securityIncidents/{incidentCode}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Security incident investigation dossiers"
+    },
+    "/registeredDevices/{deviceDocId}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Registered login devices and trust statuses"
+    },
+    "/deletedRecords/{deletionCode}": {
+      "schema": { "$ref": "#/entities/CscGenericRecord" },
+      "description": "Soft-deleted archive and data recovery tracking"
+    },
+    "/reportTemplates/{templateCode}": {
+      "schema": { "$ref": "#/entities/ReportArtifactRecord" },
+      "description": "Saved custom report builder templates"
+    },
+    "/reportArchives/{archiveCode}": {
+      "schema": { "$ref": "#/entities/ReportArtifactRecord" },
+      "description": "Generated report export archive metadata and checksums"
+    },
+    "/reportSchedules/{scheduleCode}": {
+      "schema": { "$ref": "#/entities/ReportArtifactRecord" },
+      "description": "Scheduled automated report configurations"
+    },
+    "/reportScheduleRuns/{runCode}": {
+      "schema": { "$ref": "#/entities/ReportArtifactRecord" },
+      "description": "Scheduled report run history"
+    },
+    "/reportAuditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/ReportArtifactRecord" },
+      "description": "Immutable report generation, export, and print audit log"
+    },
+    "/qaTestCases/{caseCode}": {
+      "schema": { "$ref": "#/entities/QaArtifactRecord" },
+      "description": "Phase 09 QA test case catalog and custom cases"
+    },
+    "/qaExecutions/{executionCode}": {
+      "schema": { "$ref": "#/entities/QaArtifactRecord" },
+      "description": "Phase 09 QA automated & manual test execution batches"
+    },
+    "/qaBugs/{bugCode}": {
+      "schema": { "$ref": "#/entities/QaArtifactRecord" },
+      "description": "Phase 09 bug tracking and retest history"
+    },
+    "/qaReconciliations/{reconciliationCode}": {
+      "schema": { "$ref": "#/entities/QaArtifactRecord" },
+      "description": "Double-entry financial reconciliation verification runs"
+    },
+    "/qaBackupDrills/{drillCode}": {
+      "schema": { "$ref": "#/entities/QaArtifactRecord" },
+      "description": "Isolated backup restore disaster recovery drill records"
+    },
+    "/qaUatSessions/{uatCode}": {
+      "schema": { "$ref": "#/entities/QaArtifactRecord" },
+      "description": "Multi-role User Acceptance Testing sign-offs"
+    },
+    "/qaReleases/{releaseCode}": {
+      "schema": { "$ref": "#/entities/QaArtifactRecord" },
+      "description": "Final Production Release Readiness sign-off ledger"
+    },
+    "/qaRegistry/{docId}": {
+      "schema": { "$ref": "#/entities/QaArtifactRecord" },
+      "description": "QA environments, browser matrix, security audit findings, and performance benchmarks"
+    }
+  }
+}

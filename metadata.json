@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Remix F 1 WEB APP MUNC",
+  "description": "MUN COMPUTER — An all-in-one business management platform designed for computer service centers, featuring secure role-based access control (Admin, Manager, Staff, Auditor), automated service tracking, and integrated PHP/MySQL architecture.\n",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
