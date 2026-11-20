@@ -186,6 +186,7 @@ export interface AuthChallenge {
   ipAddress: string;
   userAgentHash: string;
   captchaVerifiedAt?: number;
+  otpSaltId?: string;
   otpHash?: string;
   otpAttempts: number;
   otpMaxAttempts: number;

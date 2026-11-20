@@ -97,6 +97,11 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
     validateStrongPassword,
   } = deps;
 
+  const sealChallengeToken = (prefix: 'ch1' | 'ch2' | 'ch3', payload: Record<string, unknown>): string => {
+    const sealed = Buffer.from(encryptSensitiveField(JSON.stringify(payload))).toString('base64url');
+    return `${prefix}.${sealed}`;
+  };
+
   const loadValidChallenge = (
     challengeId: unknown,
     expectedStage: AuthChallengeStage,
@@ -109,7 +114,7 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
       return null;
     }
     let challenge = store.authChallenges.get(id);
-    if (!challenge && expectedStage === 'CAPTCHA' && id.startsWith('ch1.')) {
+    if (!challenge && (id.startsWith('ch1.') || id.startsWith('ch2.') || id.startsWith('ch3.'))) {
       try {
         const rawEnc = Buffer.from(id.slice(4), 'base64url').toString('utf8');
         const parsed = JSON.parse(decryptSensitiveField(rawEnc)) as {
@@ -118,15 +123,37 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
           ua?: string;
           c?: number;
           e?: number;
+          s?: AuthChallengeStage;
+          cv?: number;
+          ov?: number;
+          oid?: string;
+          oh?: string;
+          oe?: number;
+          or?: number;
+          ds?: 'DELIVERED' | 'SANDBOX' | 'FAILED';
+          ts?: string;
         };
+        const derivedStage: AuthChallengeStage = id.startsWith('ch1.')
+          ? 'CAPTCHA'
+          : id.startsWith('ch2.')
+            ? 'SMS_OTP'
+            : 'TOTP';
+        const stage = parsed.s || derivedStage;
         if (parsed.u && parsed.ua && parsed.c && parsed.e && parsed.e > Date.now()) {
           challenge = {
             id,
             userId: parsed.u,
-            stage: 'CAPTCHA',
+            stage,
             rememberMe: Boolean(parsed.rm),
             ipAddress: getClientIp(req),
             userAgentHash: parsed.ua,
+            captchaVerifiedAt: parsed.cv,
+            otpSaltId: parsed.oid,
+            otpHash: parsed.oh,
+            otpExpiresAt: parsed.oe,
+            otpResendAvailableAt: parsed.or,
+            otpDeliveryStatus: parsed.ds,
+            otpVerifiedAt: parsed.ov,
             otpAttempts: 0,
             otpMaxAttempts: 5,
             totpAttempts: 0,
@@ -134,6 +161,13 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
             createdAt: parsed.c,
             expiresAt: parsed.e,
           };
+          // Restore pending first-time TOTP setup secret across serverless cold starts if not yet enrolled
+          if (parsed.ts) {
+            const targetUser = store.findUserByUserId(parsed.u);
+            if (targetUser && !targetUser.totpEnabled && !targetUser.totpSecretEncrypted) {
+              targetUser.totpSecretEncrypted = parsed.ts;
+            }
+          }
           store.authChallenges.set(id, challenge);
         }
       } catch {
@@ -524,17 +558,37 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
     phase08Store.otpResendWindows.set(user.userId, recentSends);
 
     const now = Date.now();
+    const otpSaltId = challenge.otpSaltId || challenge.id;
     challenge.captchaVerifiedAt = now;
     challenge.stage = 'SMS_OTP';
-    challenge.otpHash = hmacOtp(otp, challenge.id);
+    challenge.otpSaltId = otpSaltId;
+    challenge.otpHash = hmacOtp(otp, otpSaltId);
     challenge.otpAttempts = 0;
     challenge.otpExpiresAt = now + store.otpTtlMs;
     challenge.otpResendAvailableAt = now + store.otpResendCooldownMs;
     challenge.otpDeliveryStatus = smsResult.sandboxMode ? 'SANDBOX' : 'DELIVERED';
-    void syncAuthChallengeToFirebase(challenge).catch(() => {});
+
+    const ch2Id = sealChallengeToken('ch2', {
+      r: generateToken(6),
+      u: challenge.userId,
+      rm: challenge.rememberMe,
+      ua: challenge.userAgentHash,
+      c: challenge.createdAt,
+      e: challenge.expiresAt,
+      s: 'SMS_OTP',
+      cv: now,
+      oid: otpSaltId,
+      oh: challenge.otpHash,
+      oe: challenge.otpExpiresAt,
+      or: challenge.otpResendAvailableAt,
+      ds: challenge.otpDeliveryStatus,
+    });
+    const nextChallenge: AuthChallenge = { ...challenge, id: ch2Id };
+    store.authChallenges.set(ch2Id, nextChallenge);
+    void syncAuthChallengeToFirebase(nextChallenge).catch(() => {});
 
     phase08Store.recordOtpLog({
-      challengeId: challenge.id,
+      challengeId: ch2Id,
       userId: user.userId,
       purpose: 'LOGIN_OTP',
       channel: 'SMS',
@@ -563,13 +617,13 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
     return apiSuccess(
       res,
       {
-        challengeId: challenge.id,
+        challengeId: ch2Id,
         nextStep: 'SMS_OTP',
         maskedMobile: user.mobile.replace(/.(?=.{4})/g, '*'),
         expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
         resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
         providerConfigured: smsResult.providerConfigured,
-        deliveryStatus: challenge.otpDeliveryStatus,
+        deliveryStatus: nextChallenge.otpDeliveryStatus,
         deliveryDetail: smsResult.detail,
         ...(smsResult.sandboxMode ? { sandboxOtpPreview: smsResult.sandboxOtpPreview } : {}),
       },
@@ -582,15 +636,13 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
   // =========================================================================
   const handleResendChallengeOtp = async (req: Request, res: Response) => {
     const { challengeId, channel } = req.body ?? {};
-    const authChallenge = store.authChallenges.get(String(challengeId ?? ''));
+    const rawId = String(challengeId ?? '');
+    const isLoginChallenge =
+      store.authChallenges.has(rawId) || rawId.startsWith('ch2.');
 
-    if (authChallenge) {
-      if (authChallenge.expiresAt <= Date.now()) {
-        return apiError(res, 'Authentication challenge expired. Restart sign-in.', 401);
-      }
-      if (authChallenge.stage !== 'SMS_OTP') {
-        return apiError(res, 'Resend OTP is only permitted during Step 3 SMS verification.', 403);
-      }
+    if (isLoginChallenge) {
+      const authChallenge = loadValidChallenge(rawId, 'SMS_OTP', req, res);
+      if (!authChallenge) return;
       if (authChallenge.otpResendAvailableAt && authChallenge.otpResendAvailableAt > Date.now()) {
         const waitSec = Math.ceil((authChallenge.otpResendAvailableAt - Date.now()) / 1000);
         return apiError(res, `Please wait ${waitSec}s before requesting another OTP.`, 429);
@@ -620,12 +672,32 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
       phase08Store.otpResendWindows.set(user.userId, recentSends);
 
       const now = Date.now();
-      authChallenge.otpHash = hmacOtp(newOtp, authChallenge.id);
+      const otpSaltId = authChallenge.otpSaltId || authChallenge.id;
+      authChallenge.otpSaltId = otpSaltId;
+      authChallenge.otpHash = hmacOtp(newOtp, otpSaltId);
       authChallenge.otpAttempts = 0;
       authChallenge.otpExpiresAt = now + store.otpTtlMs;
       authChallenge.otpResendAvailableAt = now + store.otpResendCooldownMs;
       authChallenge.otpDeliveryStatus = smsResult.sandboxMode ? 'SANDBOX' : 'DELIVERED';
-      void syncAuthChallengeToFirebase(authChallenge).catch(() => {});
+
+      const updatedCh2Id = sealChallengeToken('ch2', {
+        r: generateToken(6),
+        u: authChallenge.userId,
+        rm: authChallenge.rememberMe,
+        ua: authChallenge.userAgentHash,
+        c: authChallenge.createdAt,
+        e: authChallenge.expiresAt,
+        s: 'SMS_OTP',
+        cv: authChallenge.captchaVerifiedAt || now,
+        oid: otpSaltId,
+        oh: authChallenge.otpHash,
+        oe: authChallenge.otpExpiresAt,
+        or: authChallenge.otpResendAvailableAt,
+        ds: authChallenge.otpDeliveryStatus,
+      });
+      const updatedChallenge: AuthChallenge = { ...authChallenge, id: updatedCh2Id };
+      store.authChallenges.set(updatedCh2Id, updatedChallenge);
+      void syncAuthChallengeToFirebase(updatedChallenge).catch(() => {});
 
       store.addSecurityLog({
         actorUserId: user.userId,
@@ -639,12 +711,12 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
       return apiSuccess(
         res,
         {
-          challengeId: authChallenge.id,
+          challengeId: updatedCh2Id,
           maskedMobile: user.mobile.replace(/.(?=.{4})/g, '*'),
           expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
           resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
           providerConfigured: smsResult.providerConfigured,
-          deliveryStatus: authChallenge.otpDeliveryStatus,
+          deliveryStatus: updatedChallenge.otpDeliveryStatus,
           deliveryDetail: smsResult.detail,
           ...(smsResult.sandboxMode ? { sandboxOtpPreview: smsResult.sandboxOtpPreview } : {}),
         },
@@ -745,7 +817,7 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
     if (otpLog) otpLog.attemptsUsed = challenge.otpAttempts;
 
     const expectedHash = challenge.otpHash || '';
-    const candidateHash = hmacOtp(cleanOtp, challenge.id);
+    const candidateHash = hmacOtp(cleanOtp, challenge.otpSaltId || challenge.id);
     if (!verifyTimingSafeHex(candidateHash, expectedHash)) {
       if (otpLog) {
         otpLog.outcome =
@@ -816,12 +888,26 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
       manualSecret = base32Secret;
     }
 
-    void syncAuthChallengeToFirebase(challenge).catch(() => {});
+    const ch3Id = sealChallengeToken('ch3', {
+      r: generateToken(6),
+      u: challenge.userId,
+      rm: challenge.rememberMe,
+      ua: challenge.userAgentHash,
+      c: challenge.createdAt,
+      e: challenge.expiresAt,
+      s: 'TOTP',
+      cv: challenge.captchaVerifiedAt || challenge.otpVerifiedAt,
+      ov: challenge.otpVerifiedAt,
+      ...(requiresSetup && user.totpSecretEncrypted ? { ts: user.totpSecretEncrypted } : {}),
+    });
+    const totpChallenge: AuthChallenge = { ...challenge, id: ch3Id };
+    store.authChallenges.set(ch3Id, totpChallenge);
+    void syncAuthChallengeToFirebase(totpChallenge).catch(() => {});
 
     return apiSuccess(
       res,
       {
-        challengeId: challenge.id,
+        challengeId: ch3Id,
         nextStep: 'TOTP',
         requiresSetup,
         totpEnabled: Boolean(user.totpEnabled),
@@ -1013,8 +1099,8 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
       }
     }
 
-    // Issue brand-new cryptographically secure random Session ID + HTTP-only Cookie
-    const rawToken = generateToken(32);
+    // Issue brand-new cryptographically secure Session ID + self-hydrating sealed token
+    const sessionId = generateToken(12);
     const csrfToken = generateToken(24);
     const ttl = challenge.rememberMe
       ? Math.min(store.rememberMeTtlMs, MAX_REMEMBER_ME_MS)
@@ -1022,9 +1108,22 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
     const nowMs = Date.now();
     const nowIso = new Date(nowMs).toISOString();
     const expiresAt = nowMs + ttl;
+    const reauthenticatedUntil = nowMs + 10 * 60_000;
+    const rawToken = sealChallengeToken('sess1' as never, {
+      r: generateToken(6),
+      sid: sessionId,
+      u: user.userId,
+      role: user.role,
+      rm: Boolean(challenge.rememberMe),
+      di: device.deviceId,
+      ca: nowIso,
+      ea: expiresAt,
+      mea: expiresAt,
+      ra: reauthenticatedUntil,
+    }).replace(/^ch3\.|^ch2\.|^ch1\./, 'sess1.');
 
     const session: ServerSession = {
-      id: generateToken(12),
+      id: sessionId,
       tokenHash: sha256(rawToken),
       userId: user.userId,
       role: user.role,
@@ -1034,7 +1133,7 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
       lastActiveAt: nowIso,
       rememberMe: Boolean(challenge.rememberMe),
       maxAllowedExpiresAt: expiresAt,
-      reauthenticatedUntil: nowMs + 10 * 60_000,
+      reauthenticatedUntil,
       status: 'ACTIVE',
       createdAt: nowIso,
       expiresAt,
@@ -1687,6 +1786,7 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
     const session = req.authSession!;
     const user = req.authUser!;
     session.status = 'REVOKED';
+    store.revokedTokenHashes.add(session.tokenHash);
     void syncSessionRecordToFirebase(session).catch(() => {});
     clearSessionCookies(res);
 

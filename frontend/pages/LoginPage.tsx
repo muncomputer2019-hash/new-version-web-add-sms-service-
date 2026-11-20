@@ -242,6 +242,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         }),
       });
 
+      if (res.data.challengeId) {
+        setChallengeId(res.data.challengeId);
+      }
       setMaskedMobile(res.data.maskedMobile);
       setOtpDeliveryDetail(res.data.deliveryDetail);
       setSandboxOtp(res.data.sandboxOtpPreview || null);
@@ -273,6 +276,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     setLoading(true);
     try {
       const res = await securityRequest<{
+        challengeId?: string;
         resendCooldownSeconds: number;
         deliveryDetail: string;
         sandboxOtpPreview?: string;
@@ -280,6 +284,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         method: 'POST',
         body: JSON.stringify({ challengeId }),
       });
+      if (res.data.challengeId) {
+        setChallengeId(res.data.challengeId);
+      }
       setResendCooldown(res.data.resendCooldownSeconds || 30);
       setOtpDeliveryDetail(res.data.deliveryDetail);
       setSandboxOtp(res.data.sandboxOtpPreview || null);
@@ -318,6 +325,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         body: JSON.stringify({ challengeId, otp: cleanOtp }),
       });
 
+      if (res.data.challengeId) {
+        setChallengeId(res.data.challengeId);
+      }
       setRequiresTotpSetup(Boolean(res.data.requiresSetup));
       setQrCodeDataUrl(res.data.qrCodeDataUrl || '');
       setManualSecret(res.data.manualSecret || '');

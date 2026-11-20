@@ -375,6 +375,7 @@ export class SecurityStore {
 
   public readonly users: ServerUser[] = [];
   public readonly sessions = new Map<string, ServerSession>(); // keyed by tokenHash
+  public readonly revokedTokenHashes = new Set<string>();
   public readonly otpChallenges = new Map<string, OtpChallenge>();
   public readonly captchaChallenges = new Map<string, CaptchaChallenge>();
   public readonly usedCaptchaNonces = new Set<string>();

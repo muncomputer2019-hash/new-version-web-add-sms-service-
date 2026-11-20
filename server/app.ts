@@ -239,7 +239,56 @@ export function createApp(
     }
 
     const tokenHash = sha256(rawToken);
-    const session = store.sessions.get(tokenHash);
+    if (store.revokedTokenHashes.has(tokenHash)) {
+      return apiError(res, 'Session has been invalidated.', 401);
+    }
+    let session = store.sessions.get(tokenHash);
+    if (!session && rawToken.startsWith('sess1.')) {
+      try {
+        const enc = Buffer.from(rawToken.slice(6), 'base64url').toString('utf8');
+        const parsed = JSON.parse(decryptSensitiveField(enc)) as {
+          sid?: string;
+          u?: string;
+          r?: RoleName;
+          rm?: boolean;
+          di?: string;
+          ca?: string;
+          ea?: number;
+          mea?: number;
+          ra?: number;
+        };
+        if (
+          parsed.sid &&
+          parsed.u &&
+          parsed.r &&
+          parsed.ca &&
+          typeof parsed.ea === 'number' &&
+          typeof parsed.mea === 'number' &&
+          parsed.ea > Date.now() &&
+          parsed.mea > Date.now()
+        ) {
+          session = {
+            id: parsed.sid,
+            tokenHash,
+            userId: parsed.u,
+            role: parsed.r,
+            ipAddress: getClientIp(req),
+            deviceInfo: getDeviceInfo(req),
+            deviceId: parsed.di,
+            lastActiveAt: new Date().toISOString(),
+            rememberMe: Boolean(parsed.rm),
+            status: 'ACTIVE',
+            createdAt: parsed.ca,
+            expiresAt: parsed.ea,
+            maxAllowedExpiresAt: parsed.mea,
+            reauthenticatedUntil: parsed.ra,
+          };
+          store.sessions.set(tokenHash, session);
+        }
+      } catch {
+        session = undefined;
+      }
+    }
     if (!session) {
       return apiError(res, 'Invalid session token.', 401);
     }
