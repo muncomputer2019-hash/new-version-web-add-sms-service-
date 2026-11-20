@@ -1,13 +1,13 @@
-import { ErpStore } from '../erpStore';
-import { FinanceStore } from '../finance/financeStore';
-import { computeFinancialStatements, deriveFyCode, round2 } from '../finance/accountingEngine';
-import { Phase03Store } from '../phase03Store';
-import { CscStore } from '../cscStore';
-import { SecurityStore } from '../securityStore';
-import { sanitizeText } from '../crypto';
-import { ServerUser } from '../types';
-import { buildCscReportDataset, CSC_REPORT_CATALOG_ITEMS } from './cscReportBuilders';
-import { ReportStore } from './reportStore';
+import { ErpStore } from '../erpStore.js';
+import { FinanceStore } from '../finance/financeStore.js';
+import { computeFinancialStatements, deriveFyCode, round2 } from '../finance/accountingEngine.js';
+import { Phase03Store } from '../phase03Store.js';
+import { CscStore } from '../cscStore.js';
+import { SecurityStore } from '../securityStore.js';
+import { sanitizeText } from '../crypto.js';
+import { ServerUser } from '../types.js';
+import { buildCscReportDataset, CSC_REPORT_CATALOG_ITEMS } from './cscReportBuilders.js';
+import { ReportStore } from './reportStore.js';
 import {
   AnalyticsDashboardPayload,
   AnalyticsQueryInput,
@@ -20,7 +20,7 @@ import {
   ReportDataset,
   ReportFilterInput,
   ReportingDashboardData,
-} from './reportTypes';
+} from './reportTypes.js';
 
 export function formatINRServer(amount: number): string {
   const safe = Number.isFinite(amount) ? amount : 0;

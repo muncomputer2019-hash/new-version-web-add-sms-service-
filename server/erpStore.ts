@@ -26,15 +26,15 @@ import {
   ServiceCategory,
   ServiceRequiredDocumentDef,
   ServiceSubcategory,
-} from './erpTypes';
-import { encryptSensitiveField, maskAadhaar, sanitizeText } from './crypto';
-import { Phase03Store } from './phase03Store';
-import { SecurityStore } from './securityStore';
+} from './erpTypes.js';
+import { encryptSensitiveField, maskAadhaar, sanitizeText } from './crypto.js';
+import { Phase03Store } from './phase03Store.js';
+import { SecurityStore } from './securityStore.js';
 import {
   CATALOG_CATEGORIES_21,
   CATALOG_SERVICES_675,
   CATALOG_SUBCATEGORIES,
-} from '../shared/servicesCatalog675';
+} from '../shared/servicesCatalog675.js';
 
 export const DEFAULT_CONSENT_DEFINITIONS: Array<{
   category: ConsentCategoryKey;

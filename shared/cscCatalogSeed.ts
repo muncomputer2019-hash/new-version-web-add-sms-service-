@@ -4,7 +4,7 @@ import {
   CscService,
   PvcCardType,
   PvcRateSlab,
-} from './cscTypes';
+} from './cscTypes.js';
 
 interface RawCategorySeed {
   id: string;

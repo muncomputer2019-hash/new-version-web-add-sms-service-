@@ -1,5 +1,5 @@
-import { Phase08Store } from './phase08Store';
-import { BackupScheduleFrequency } from './phase08Types';
+import { Phase08Store } from './phase08Store.js';
+import { BackupScheduleFrequency } from './phase08Types.js';
 
 export class BackupSchedulerService {
   private timer: ReturnType<typeof setInterval> | null = null;

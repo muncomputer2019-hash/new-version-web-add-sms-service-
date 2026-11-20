@@ -17,18 +17,19 @@ import {
   ServiceApprovalLog,
   StaffServicePermission,
   StaffServiceRequest,
-} from './types';
-import { encryptSensitiveField, hashPassword } from './crypto';
-import { UserIdSequenceService } from './sequenceService';
-import { syncSecurityLogToFirebase } from './firebaseAdminDb';
+} from './types.js';
+import { encryptSensitiveField } from './crypto.js';
+import { UserIdSequenceService } from './sequenceService.js';
+import { syncSecurityLogToFirebase } from './firebaseAdminDb.js';
 
+// Precomputed bcrypt-12 hashes avoid 3.5s+ synchronous hashing during serverless cold starts
 const SEEDED_HASHES = {
-  admin: hashPassword('8101352105'),
-  manager: hashPassword('Manager@2026!'),
-  staff: hashPassword('Staff@2026!'),
-  auditor: hashPassword('Auditor@2026!'),
-  customer: hashPassword('Customer@2026!'),
-  tempStaff: hashPassword('TempStaff@2026!'),
+  admin: '$2b$12$2C9hr8IoNWCd9Wz6Q4bCjuZIo.ZdK2kLJTR6vJv.A97OKSmFxlZzS',
+  manager: '$2b$12$vbMzIFmcbZQv4vd4WIXrfevD8gh5uXu39cIuy9CrWETO1z9v5ByXe',
+  staff: '$2b$12$Qd/jdi2Uc9wywD0L6M2anOU1WDPKHEPmN9QEm/PHTRjT24t32Ox3C',
+  auditor: '$2b$12$lqX9Q0o8vVqeoG5Zue/snuJP8mefV1LMPW.E311jMMOsFwL5kuKty',
+  customer: '$2b$12$7S6nRj.Y2CSIEFU3pYhxTekVsJAH4ACrarqk6qktdQ.OFhj.Og69q',
+  tempStaff: '$2b$12$Yrb1uSQyk1.gmwLxm4ZYK.Yeiul8VB0aJWp99Ok3zDpLmEVd7Kg7O',
 };
 
 export const MAX_REMEMBER_ME_MS = 4 * 60 * 60 * 1000; // Exactly 240 minutes (4 hours)

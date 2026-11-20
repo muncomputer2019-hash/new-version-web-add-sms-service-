@@ -1,9 +1,9 @@
 import { Express, Request, RequestHandler, Response } from 'express';
-import { hashPassword, sanitizeText } from './crypto';
-import { CscStore, assertNoForbiddenSensitiveFields, maskAadhaarString } from './cscStore';
-import { SecurityStore } from './securityStore';
-import { OperatorPermissionKey } from '../shared/cscTypes';
-import { ServerSession, ServerUser } from './types';
+import { hashPassword, sanitizeText } from './crypto.js';
+import { CscStore, assertNoForbiddenSensitiveFields, maskAadhaarString } from './cscStore.js';
+import { SecurityStore } from './securityStore.js';
+import { OperatorPermissionKey } from '../shared/cscTypes.js';
+import { ServerSession, ServerUser } from './types.js';
 
 interface AuthedRequest extends Request {
   authUser?: ServerUser;

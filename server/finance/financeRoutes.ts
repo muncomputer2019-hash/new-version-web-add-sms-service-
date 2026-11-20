@@ -1,17 +1,17 @@
 import { Express, Request, Response } from 'express';
 import { GoogleGenAI } from '@google/genai';
-import { SecurityStore } from '../securityStore';
-import { ServerUser } from '../types';
-import { sanitizeText } from '../crypto';
-import { FinanceStore } from './financeStore';
+import { SecurityStore } from '../securityStore.js';
+import { ServerUser } from '../types.js';
+import { sanitizeText } from '../crypto.js';
+import { FinanceStore } from './financeStore.js';
 import {
   calculateAnnualOrMonthlyDepreciation,
   calculateInventorySaleCogs,
   computeFinancialStatements,
   round2,
   splitLoanEmi,
-} from './accountingEngine';
-import { JournalLineInput, VoucherType } from './financeTypes';
+} from './accountingEngine.js';
+import { JournalLineInput, VoucherType } from './financeTypes.js';
 
 interface AuthedRequest extends Request {
   authUser?: ServerUser;

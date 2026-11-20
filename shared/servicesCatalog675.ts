@@ -1,5 +1,5 @@
-import { RAW_CSC_CATALOG, RAW_PMJAY_SERVICES, INITIAL_PVC_CARD_TYPE_NAMES } from './cscCatalogSeed';
-import { GRIEVANCE_SERVICE_TYPES } from './cscTypes';
+import { RAW_CSC_CATALOG, RAW_PMJAY_SERVICES, INITIAL_PVC_CARD_TYPE_NAMES } from './cscCatalogSeed.js';
+import { GRIEVANCE_SERVICE_TYPES } from './cscTypes.js';
 
 export interface SeedCategoryDef {
   id: number;

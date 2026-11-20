@@ -1,18 +1,18 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { SecurityStore } from '../securityStore';
-import { Phase03Store } from '../phase03Store';
-import { ErpStore } from '../erpStore';
-import { FinanceStore } from '../finance/financeStore';
-import { ReportStore } from '../reports/reportStore';
-import { RoleName, ServerUser } from '../types';
-import { computeFinancialStatements } from '../finance/accountingEngine';
-import { hashPassword, sanitizeText, sha256, verifyPassword } from '../crypto';
+import { SecurityStore } from '../securityStore.js';
+import { Phase03Store } from '../phase03Store.js';
+import { ErpStore } from '../erpStore.js';
+import { FinanceStore } from '../finance/financeStore.js';
+import { ReportStore } from '../reports/reportStore.js';
+import { RoleName, ServerUser } from '../types.js';
+import { computeFinancialStatements } from '../finance/accountingEngine.js';
+import { hashPassword, sanitizeText, sha256, verifyPassword } from '../crypto.js';
 import {
   encryptBackupSnapshot,
   verifyAndDecryptBackupBundle,
-} from './phase08Crypto';
+} from './phase08Crypto.js';
 import {
   BackupIntegrityLogRecord,
   BackupScheduleConfig,
@@ -37,7 +37,7 @@ import {
   SystemHealthReport,
   TamperEvidentAuditEntry,
   TemporaryPermissionGrant,
-} from './phase08Types';
+} from './phase08Types.js';
 
 const APP_BOOT_TIME = Date.now();
 

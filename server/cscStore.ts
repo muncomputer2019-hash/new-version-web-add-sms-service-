@@ -1,5 +1,5 @@
-import { round2 } from './finance/accountingEngine';
-import { sanitizeText } from './crypto';
+import { round2 } from './finance/accountingEngine.js';
+import { sanitizeText } from './crypto.js';
 import {
   ALL_CSC_APPLICATION_STATUSES,
   ALL_GRIEVANCE_STATUSES,
@@ -26,13 +26,13 @@ import {
   PvcRateSlab,
   UnitType,
   WholesaleShop,
-} from '../shared/cscTypes';
+} from '../shared/cscTypes.js';
 import {
   buildInitialCscCategories,
   buildInitialCscServices,
   buildInitialIndividualPvcSlabs,
   buildInitialPvcCardTypes,
-} from '../shared/cscCatalogSeed';
+} from '../shared/cscCatalogSeed.js';
 
 const FORBIDDEN_FIELD_REGEX =
   /^(otp|aadhaar_?otp|upi_?pin|atm_?pin|pin|cvv|card_?cvv|bank_?password|netbanking_?password|mpin)$/i;

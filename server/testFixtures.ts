@@ -1,7 +1,7 @@
-import { Phase03Store } from './phase03Store';
-import { ErpStore } from './erpStore';
-import { FinanceStore } from './finance/financeStore';
-import { ErpApplication, ErpCustomer, ErpPaymentRecord } from './erpTypes';
+import { Phase03Store } from './phase03Store.js';
+import { ErpStore } from './erpStore.js';
+import { FinanceStore } from './finance/financeStore.js';
+import { ErpApplication, ErpCustomer, ErpPaymentRecord } from './erpTypes.js';
 
 function buildDefaultConsents(actor: string) {
   return [

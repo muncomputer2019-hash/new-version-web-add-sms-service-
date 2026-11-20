@@ -1,7 +1,7 @@
 import { cert, getApps, initializeApp, type ServiceAccount } from 'firebase-admin/app';
 import { getDatabase, type Database } from 'firebase-admin/database';
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
-import { AuthChallenge, SecurityLogRecord, ServerSession, ServerUser } from './types';
+import { AuthChallenge, SecurityLogRecord, ServerSession, ServerUser } from './types.js';
 
 let initialized = false;
 let initAttempted = false;
@@ -330,10 +330,11 @@ export async function hydrateAuthStateFromFirebase(target: {
         }
       }
     } catch (err) {
-      console.warn(
-        'Firebase Auth state hydration warning:',
+      console.error(
+        'Firebase Auth state hydration error:',
         err instanceof Error ? err.message : String(err)
       );
+      hydrationPromise = null;
     }
   })();
 

@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { createApp } from '../server/app';
-import { SecurityStore } from '../server/securityStore';
+import { createApp } from '../server/app.js';
+import { SecurityStore } from '../server/securityStore.js';
 
 declare global {
   var __munStore: SecurityStore | undefined;
@@ -50,7 +50,26 @@ function normalizeVercelApiUrl(req: IncomingMessage): void {
 }
 
 export default function handler(req: IncomingMessage, res: ServerResponse) {
-  normalizeVercelApiUrl(req);
-  const app = getServerlessApp();
-  return app(req as never, res as never);
+  try {
+    normalizeVercelApiUrl(req);
+    const app = getServerlessApp();
+    return app(req as never, res as never);
+  } catch (err) {
+    console.error('[Vercel API Fatal Error]', err);
+    if (!res.headersSent) {
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(
+        JSON.stringify({
+          success: false,
+          message:
+            err instanceof Error && err.message
+              ? `Server initialization error: ${err.message}`
+              : 'Internal authentication API error.',
+          data: null,
+          meta: { timestamp: new Date().toISOString() },
+        })
+      );
+    }
+  }
 }

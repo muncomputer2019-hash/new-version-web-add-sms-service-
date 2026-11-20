@@ -1,10 +1,10 @@
 import ExcelJS from 'exceljs';
-import { CompanyProfileSettings } from '../phase03Types';
-import { generatePdfBuffer } from '../reports/pdfExportService';
-import { deriveFyCode } from '../finance/accountingEngine';
-import { formatDateTimeISTServer } from '../reports/reportDataEngine';
-import { ReportDataset } from '../reports/reportTypes';
-import { QaStore } from './qaStore';
+import { CompanyProfileSettings } from '../phase03Types.js';
+import { generatePdfBuffer } from '../reports/pdfExportService.js';
+import { deriveFyCode } from '../finance/accountingEngine.js';
+import { formatDateTimeISTServer } from '../reports/reportDataEngine.js';
+import { ReportDataset } from '../reports/reportTypes.js';
+import { QaStore } from './qaStore.js';
 
 function safeExcelValue(val: unknown): string | number | boolean {
   if (val === null || val === undefined) return '';

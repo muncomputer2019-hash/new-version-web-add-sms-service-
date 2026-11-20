@@ -1,4 +1,4 @@
-import { RoleName } from './types';
+import { RoleName } from './types.js';
 
 export interface SequenceConfig {
   companyPrefix: string;

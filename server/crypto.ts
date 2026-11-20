@@ -1,10 +1,10 @@
 import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
 
-const BCRYPT_COST = Math.max(
-  10,
-  Math.min(14, Number(process.env.BCRYPT_COST || 12))
-);
+const BCRYPT_COST = (() => {
+  const parsed = Number(process.env.BCRYPT_COST);
+  return Number.isFinite(parsed) ? Math.max(10, Math.min(14, Math.trunc(parsed))) : 12;
+})();
 
 const SERVER_SECRET =
   process.env.SESSION_SECRET ||
@@ -44,23 +44,37 @@ export function hashPassword(password: string): string {
 /**
  * Timing-safe password verification supporting bcrypt ($2a$/$2b$/$2y$) and legacy scrypt$16384$ hashes.
  */
-export function verifyPassword(password: string, storedHash: string): boolean {
+export function verifyPassword(password: unknown, storedHash: unknown): boolean {
+  if (typeof password !== 'string' || typeof storedHash !== 'string') return false;
   if (!password || !storedHash) return false;
-  if (storedHash.startsWith('$2a$') || storedHash.startsWith('$2b$') || storedHash.startsWith('$2y$')) {
+
+  if (
+    storedHash.startsWith('$2a$') ||
+    storedHash.startsWith('$2b$') ||
+    storedHash.startsWith('$2y$')
+  ) {
     try {
       return bcrypt.compareSync(password, storedHash);
-    } catch {
+    } catch (err) {
+      console.error('[verifyPassword bcrypt error]', err);
       return false;
     }
   }
-  const parts = storedHash.split('$');
-  if (parts.length !== 4 || parts[0] !== 'scrypt') return false;
-  const salt = parts[2];
-  const expectedHex = parts[3];
-  const derived = crypto.scryptSync(password, salt, 64, { N: 16384, r: 8, p: 1 });
-  const expectedBuf = Buffer.from(expectedHex, 'hex');
-  if (derived.length !== expectedBuf.length) return false;
-  return crypto.timingSafeEqual(derived, expectedBuf);
+
+  try {
+    const parts = storedHash.split('$');
+    if (parts.length !== 4 || parts[0] !== 'scrypt') return false;
+    const salt = parts[2];
+    const expectedHex = parts[3];
+    if (!salt || !expectedHex || !/^[0-9a-fA-F]+$/.test(expectedHex)) return false;
+    const derived = crypto.scryptSync(password, salt, 64, { N: 16384, r: 8, p: 1 });
+    const expectedBuf = Buffer.from(expectedHex, 'hex');
+    if (derived.length !== expectedBuf.length) return false;
+    return crypto.timingSafeEqual(derived, expectedBuf);
+  } catch (err) {
+    console.error('[verifyPassword scrypt error]', err);
+    return false;
+  }
 }
 
 /**

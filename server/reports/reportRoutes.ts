@@ -1,20 +1,20 @@
 import { Express, NextFunction, Request, RequestHandler, Response } from 'express';
-import { sanitizeText } from '../crypto';
-import { CscStore } from '../cscStore';
-import { ErpStore } from '../erpStore';
-import { FinanceStore } from '../finance/financeStore';
-import { Phase03Store } from '../phase03Store';
-import { SecurityStore } from '../securityStore';
-import { ReportPermissionKey, ServerSession, ServerUser } from '../types';
-import { generateCsvBuffer, generateExcelBuffer, validateDatasetForExport } from './excelExportService';
-import { generatePdfBuffer } from './pdfExportService';
+import { sanitizeText } from '../crypto.js';
+import { CscStore } from '../cscStore.js';
+import { ErpStore } from '../erpStore.js';
+import { FinanceStore } from '../finance/financeStore.js';
+import { Phase03Store } from '../phase03Store.js';
+import { SecurityStore } from '../securityStore.js';
+import { ReportPermissionKey, ServerSession, ServerUser } from '../types.js';
+import { generateCsvBuffer, generateExcelBuffer, validateDatasetForExport } from './excelExportService.js';
+import { generatePdfBuffer } from './pdfExportService.js';
 import {
   REPORT_CATALOG,
   ReportDataEngine,
   formatDateTimeISTServer,
-} from './reportDataEngine';
-import { ReportSchedulerService } from './reportScheduler';
-import { ReportStore } from './reportStore';
+} from './reportDataEngine.js';
+import { ReportSchedulerService } from './reportScheduler.js';
+import { ReportStore } from './reportStore.js';
 import {
   CustomReportExecutionRequest,
   ExcelExportOptions,
@@ -22,7 +22,7 @@ import {
   ReportDataset,
   ReportFilterInput,
   ScheduledReportRecord,
-} from './reportTypes';
+} from './reportTypes.js';
 
 interface AuthedRequest extends Request {
   authUser?: ServerUser;

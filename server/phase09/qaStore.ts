@@ -19,7 +19,7 @@ import {
   QaTestSuiteDef,
   QaUatSessionRecord,
   ReleaseReadinessStatus,
-} from './qaTypes';
+} from './qaTypes.js';
 import {
   LiveStoresContext,
   runAutomatedCaseByKey,
@@ -28,9 +28,9 @@ import {
   runPerformanceBenchmarkSuite,
   runSecurityAuditSuite,
   verifyBuildArtifactsOnDisk,
-} from './qaRunner';
-import { sanitizeText, sha256 } from '../crypto';
-import { ServerUser } from '../types';
+} from './qaRunner.js';
+import { sanitizeText, sha256 } from '../crypto.js';
+import { ServerUser } from '../types.js';
 
 export class QaStore {
   public readonly environments: QaEnvironmentConfig[] = [];

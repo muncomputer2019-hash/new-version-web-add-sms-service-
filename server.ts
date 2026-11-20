@@ -3,8 +3,8 @@ import path from 'node:path';
 import fs from 'node:fs';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
-import { createApp } from './server/app';
-import { SecurityStore } from './server/securityStore';
+import { createApp } from './server/app.js';
+import { SecurityStore } from './server/securityStore.js';
 
 const PORT = Number(process.env.PORT || 3000);
 const isProduction = process.env.NODE_ENV === 'production';

@@ -8,7 +8,7 @@ import {
   sanitizeText,
   sha256,
   verifyPassword,
-} from './crypto';
+} from './crypto.js';
 import {
   ALL_MODULES,
   ALL_PERMISSION_TYPES,
@@ -17,15 +17,15 @@ import {
   REPORT_PERMISSION_KEYS,
   ROLE_PERMISSION_MATRIX,
   SecurityStore,
-} from './securityStore';
-import { registerAuthRoutes } from './authRoutes';
-import { isFast2SmsConfigured } from './fast2smsService';
+} from './securityStore.js';
+import { registerAuthRoutes } from './authRoutes.js';
+import { isFast2SmsConfigured } from './fast2smsService.js';
 import {
   hydrateAuthStateFromFirebase,
   isFirebaseAdminActive,
   syncSessionRecordToFirebase,
   syncUserRecordToFirebase,
-} from './firebaseAdminDb';
+} from './firebaseAdminDb.js';
 import {
   AccountStatus,
   ModuleKey,
@@ -34,27 +34,27 @@ import {
   RoleName,
   ServerSession,
   ServerUser,
-} from './types';
+} from './types.js';
 
-import { Phase03Store } from './phase03Store';
-import { registerPhase03Routes } from './phase03Routes';
-import { ErpStore } from './erpStore';
-import { registerErpRoutes } from './erpRoutes';
-import { FinanceStore } from './finance/financeStore';
-import { registerFinanceRoutes } from './finance/financeRoutes';
-import { ReportStore } from './reports/reportStore';
-import { ReportDataEngine } from './reports/reportDataEngine';
-import { ReportSchedulerService } from './reports/reportScheduler';
-import { registerReportRoutes } from './reports/reportRoutes';
-import { Phase08Store } from './phase08/phase08Store';
-import { BackupSchedulerService } from './phase08/backupScheduler';
-import { registerPhase08Routes } from './phase08/phase08Routes';
-import { parsePrivacyDeviceMetadata } from './phase08/phase08Crypto';
-import { OtpChannel } from './phase08/phase08Types';
-import { QaStore } from './phase09/qaStore';
-import { registerQaRoutes } from './phase09/qaRoutes';
-import { CscStore } from './cscStore';
-import { registerCscRoutes } from './cscRoutes';
+import { Phase03Store } from './phase03Store.js';
+import { registerPhase03Routes } from './phase03Routes.js';
+import { ErpStore } from './erpStore.js';
+import { registerErpRoutes } from './erpRoutes.js';
+import { FinanceStore } from './finance/financeStore.js';
+import { registerFinanceRoutes } from './finance/financeRoutes.js';
+import { ReportStore } from './reports/reportStore.js';
+import { ReportDataEngine } from './reports/reportDataEngine.js';
+import { ReportSchedulerService } from './reports/reportScheduler.js';
+import { registerReportRoutes } from './reports/reportRoutes.js';
+import { Phase08Store } from './phase08/phase08Store.js';
+import { BackupSchedulerService } from './phase08/backupScheduler.js';
+import { registerPhase08Routes } from './phase08/phase08Routes.js';
+import { parsePrivacyDeviceMetadata } from './phase08/phase08Crypto.js';
+import { OtpChannel } from './phase08/phase08Types.js';
+import { QaStore } from './phase09/qaStore.js';
+import { registerQaRoutes } from './phase09/qaRoutes.js';
+import { CscStore } from './cscStore.js';
+import { registerCscRoutes } from './cscRoutes.js';
 
 interface AuthedRequest extends Request {
   authUser?: ServerUser;
@@ -181,6 +181,15 @@ export function createApp(
   const enableRateLimit = options.enableRateLimit ?? true;
   const maxAuthReqs = options.maxAuthRequestsPerMinute ?? 40;
 
+  // Preserve pre-parsed body if a serverless runtime consumed the request stream before Express
+  app.use((req, _res, next) => {
+    const reqAny = req as Request & { _body?: boolean };
+    if (!reqAny._body && req.readableEnded && req.body && typeof req.body === 'object') {
+      reqAny._body = true;
+    }
+    next();
+  });
+
   app.use(express.json({ limit: '16mb' }));
 
   // Baseline Security Headers against XSS, MIME sniffing, Clickjacking
@@ -196,8 +205,12 @@ export function createApp(
 
   // Hydrate persistent auth state once on Vercel cold-start if Firebase Admin credentials are set
   app.use('/api/', async (_req, _res, next) => {
-    if (isFirebaseAdminActive()) {
-      await hydrateAuthStateFromFirebase(store);
+    try {
+      if (isFirebaseAdminActive()) {
+        await hydrateAuthStateFromFirebase(store);
+      }
+    } catch (err) {
+      console.error('[API Firebase Hydration Middleware Error]', err);
     }
     next();
   });
@@ -2004,9 +2017,10 @@ export function createApp(
     return apiError(res, `API endpoint not found: ${req.method} ${req.originalUrl}`, 404);
   });
 
-  app.use('/api', (err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  app.use('/api', (err: unknown, req: Request, res: Response, _next: NextFunction) => {
+    console.error(`[API Error] ${req.method} ${req.originalUrl}:`, err);
     if (res.headersSent) return;
-    const message = err instanceof Error ? err.message : 'Internal API server error.';
+    const message = err instanceof Error && err.message ? err.message : 'Internal API server error.';
     return apiError(res, message, 500);
   });
 

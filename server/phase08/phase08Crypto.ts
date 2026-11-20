@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { EncryptionKeyRingEntry } from './phase08Types';
+import { EncryptionKeyRingEntry } from './phase08Types.js';
 
 const BASE_MASTER_MATERIAL =
   process.env.BACKUP_MASTER_KEY ||

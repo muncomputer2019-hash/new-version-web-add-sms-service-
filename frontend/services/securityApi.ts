@@ -165,7 +165,10 @@ export async function securityRequest<T>(
         window.dispatchEvent(new CustomEvent('mun:auth-expired', { detail: payload.message }));
       }
     }
-    const err = new Error(payload.message || `Request failed (${response.status})`) as Error & {
+    const nestedErrMsg = (payload as unknown as { error?: { message?: string } })?.error?.message;
+    const err = new Error(
+      payload.message || nestedErrMsg || `Request failed (${response.status})`
+    ) as Error & {
       status?: number;
       errors?: Record<string, string[]>;
       data?: unknown;

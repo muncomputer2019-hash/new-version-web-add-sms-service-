@@ -11,25 +11,25 @@ import {
   sanitizeText,
   sha256,
   verifyPassword,
-} from '../crypto';
-import { SecurityStore } from '../securityStore';
-import { Phase03Store } from '../phase03Store';
-import { ErpStore } from '../erpStore';
-import { FinanceStore } from '../finance/financeStore';
-import { ReportStore } from '../reports/reportStore';
-import { ReportDataEngine, formatINRServer } from '../reports/reportDataEngine';
-import { generatePdfBuffer } from '../reports/pdfExportService';
-import { generateCsvBuffer, generateExcelBuffer } from '../reports/excelExportService';
-import { computeFinancialStatements, round2, validateAndBuildVoucher } from '../finance/accountingEngine';
-import { Phase08Store } from '../phase08/phase08Store';
-import { ErpCustomer, ErpApplication } from '../erpTypes';
+} from '../crypto.js';
+import { SecurityStore } from '../securityStore.js';
+import { Phase03Store } from '../phase03Store.js';
+import { ErpStore } from '../erpStore.js';
+import { FinanceStore } from '../finance/financeStore.js';
+import { ReportStore } from '../reports/reportStore.js';
+import { ReportDataEngine, formatINRServer } from '../reports/reportDataEngine.js';
+import { generatePdfBuffer } from '../reports/pdfExportService.js';
+import { generateCsvBuffer, generateExcelBuffer } from '../reports/excelExportService.js';
+import { computeFinancialStatements, round2, validateAndBuildVoucher } from '../finance/accountingEngine.js';
+import { Phase08Store } from '../phase08/phase08Store.js';
+import { ErpCustomer, ErpApplication } from '../erpTypes.js';
 import {
   QaBackupDrillRecord,
   QaEnvironmentKey,
   QaFinancialReconciliationRecord,
   QaPerformanceResult,
   QaSecurityFinding,
-} from './qaTypes';
+} from './qaTypes.js';
 
 export interface LiveStoresContext {
   securityStore: SecurityStore;

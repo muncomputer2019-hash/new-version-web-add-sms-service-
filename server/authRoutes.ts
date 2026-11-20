@@ -16,25 +16,25 @@ import {
   sha256,
   verifyPassword,
   verifyTimingSafeHex,
-} from './crypto';
-import { getCaptchaConfig, issueSvgCaptcha, verifyServerCaptcha } from './captchaService';
+} from './crypto.js';
+import { getCaptchaConfig, issueSvgCaptcha, verifyServerCaptcha } from './captchaService.js';
 import {
   isFast2SmsConfigured,
   isSandboxOtpAllowed,
   sendFast2SmsOtp,
-} from './fast2smsService';
+} from './fast2smsService.js';
 import {
   isFirebaseAdminActive,
   removeAuthChallengeFromFirebase,
   syncAuthChallengeToFirebase,
   syncSessionRecordToFirebase,
   syncUserRecordToFirebase,
-} from './firebaseAdminDb';
-import { MAX_REMEMBER_ME_MS, SecurityStore } from './securityStore';
-import { Phase03Store } from './phase03Store';
-import { Phase08Store } from './phase08/phase08Store';
-import { parsePrivacyDeviceMetadata } from './phase08/phase08Crypto';
-import { AuthChallenge, AuthChallengeStage, ModuleKey, PermissionType, ServerSession, ServerUser } from './types';
+} from './firebaseAdminDb.js';
+import { MAX_REMEMBER_ME_MS, SecurityStore } from './securityStore.js';
+import { Phase03Store } from './phase03Store.js';
+import { Phase08Store } from './phase08/phase08Store.js';
+import { parsePrivacyDeviceMetadata } from './phase08/phase08Crypto.js';
+import { AuthChallenge, AuthChallengeStage, ModuleKey, PermissionType, ServerSession, ServerUser } from './types.js';
 
 export interface AuthedRequest extends Request {
   authUser?: ServerUser;
@@ -256,280 +256,375 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
   // LAYER 1: USER ID + PASSWORD VERIFICATION
   // =========================================================================
   app.post('/api/auth/login-credentials', authRateLimiter, (req, res) => {
-    const { userId, password, rememberMe } = req.body ?? {};
-    const rawIdentifier = typeof userId === 'string' ? sanitizeText(userId) : '';
+    try {
+      const { userId, password, rememberMe } = req.body ?? {};
+      const rawIdentifier = typeof userId === 'string' ? sanitizeText(userId) : '';
 
-    if (!rawIdentifier || !password || typeof password !== 'string') {
-      return apiError(res, 'User ID and Password are required.', 422, {
-        ...(!rawIdentifier ? { userId: ['User ID is required.'] } : {}),
-        ...(!password ? { password: ['Password is required.'] } : {}),
-      });
-    }
-
-    const user =
-      store.findUserByUserId(rawIdentifier) ||
-      store.users.find(
-        (u) => u.email && u.email.toLowerCase() === rawIdentifier.toLowerCase()
-      );
-
-    // Prevent User ID enumeration while still applying timing-safe failed checks
-    if (!user) {
-      store.addSecurityLog({
-        actorUserId: rawIdentifier,
-        eventType: 'LOGIN_FAILED',
-        result: 'FAILURE',
-        ipAddress: getClientIp(req),
-        deviceInfo: getDeviceInfo(req),
-        summary: 'Step 1 credentials failed for unknown User ID.',
-      });
-      return apiError(res, 'Invalid User ID or password.', 401);
-    }
-
-    if (user.lockedUntil && user.lockedUntil > Date.now()) {
-      const remainingMin = Math.ceil((user.lockedUntil - Date.now()) / 60_000);
-      store.addSecurityLog({
-        actorUserId: user.userId,
-        eventType: 'LOGIN_FAILED',
-        result: 'BLOCKED',
-        ipAddress: getClientIp(req),
-        deviceInfo: getDeviceInfo(req),
-        summary: `Blocked Step 1 attempt while account locked (${remainingMin}m remaining).`,
-      });
-      return apiError(
-        res,
-        `Account is temporarily locked due to failed login attempts. Try again in ${remainingMin} minute(s) or use password reset.`,
-        423
-      );
-    }
-
-    if (phase03Store.maintenanceSettings.maintenanceMode && user.role !== 'ADMIN') {
-      return apiError(
-        res,
-        phase03Store.maintenanceSettings.maintenanceMessage ||
-          'System is in Maintenance Mode. Only Admin sign-in is permitted.',
-        503
-      );
-    }
-
-    if (user.status !== 'ACTIVE') {
-      store.addSecurityLog({
-        actorUserId: user.userId,
-        eventType: 'LOGIN_FAILED',
-        result: 'BLOCKED',
-        ipAddress: getClientIp(req),
-        deviceInfo: getDeviceInfo(req),
-        summary: `Blocked Step 1 login attempt for account status: ${user.status}.`,
-      });
-      return apiError(
-        res,
-        'Unable to sign in to this account. Contact an Administrator if assistance is needed.',
-        403
-      );
-    }
-
-    if (!verifyPassword(String(password), user.passwordHash)) {
-      user.failedLoginAttempts += 1;
-      const shouldLock = user.failedLoginAttempts >= store.maxFailedAttempts;
-      if (shouldLock) {
-        user.lockedUntil = Date.now() + store.lockDurationMs;
-        store.addSecurityLog({
-          actorUserId: user.userId,
-          eventType: 'ACCOUNT_LOCKED',
-          result: 'BLOCKED',
-          ipAddress: getClientIp(req),
-          deviceInfo: getDeviceInfo(req),
-          summary: `Account automatically locked after ${user.failedLoginAttempts} consecutive failed attempts.`,
+      if (!rawIdentifier || !password || typeof password !== 'string') {
+        return apiError(res, 'User ID and Password are required.', 422, {
+          ...(!rawIdentifier ? { userId: ['User ID is required.'] } : {}),
+          ...(!password ? { password: ['Password is required.'] } : {}),
         });
-        phase08Store.raiseSecurityAlert({
-          category: 'ACCOUNT_LOCKOUT',
-          severity: 'HIGH',
-          title: `Account Locked: ${user.userId}`,
-          description: `Account ${user.userId} locked automatically after ${user.failedLoginAttempts} failed logins from ${getClientIp(req)}.`,
-          relatedUserId: user.userId,
-        });
-      } else {
+      }
+
+      const user =
+        store.findUserByUserId(rawIdentifier) ||
+        store.users.find(
+          (u) => u.email && u.email.toLowerCase() === rawIdentifier.toLowerCase()
+        );
+
+      // Prevent User ID enumeration while still applying timing-safe failed checks
+      if (!user) {
         store.addSecurityLog({
-          actorUserId: user.userId,
+          actorUserId: rawIdentifier,
           eventType: 'LOGIN_FAILED',
           result: 'FAILURE',
           ipAddress: getClientIp(req),
           deviceInfo: getDeviceInfo(req),
-          summary: `Step 1 invalid password (${user.failedLoginAttempts}/${store.maxFailedAttempts}).`,
+          summary: 'Step 1 credentials failed for unknown User ID.',
         });
-        if (user.failedLoginAttempts >= 3) {
+        return apiError(res, 'Invalid User ID or password.', 401);
+      }
+
+      if (user.lockedUntil && user.lockedUntil > Date.now()) {
+        const remainingMin = Math.ceil((user.lockedUntil - Date.now()) / 60_000);
+        store.addSecurityLog({
+          actorUserId: user.userId,
+          eventType: 'LOGIN_FAILED',
+          result: 'BLOCKED',
+          ipAddress: getClientIp(req),
+          deviceInfo: getDeviceInfo(req),
+          summary: `Blocked Step 1 attempt while account locked (${remainingMin}m remaining).`,
+        });
+        return apiError(
+          res,
+          `Account is temporarily locked due to failed login attempts. Try again in ${remainingMin} minute(s) or use password reset.`,
+          423
+        );
+      }
+
+      if (phase03Store.maintenanceSettings.maintenanceMode && user.role !== 'ADMIN') {
+        return apiError(
+          res,
+          phase03Store.maintenanceSettings.maintenanceMessage ||
+            'System is in Maintenance Mode. Only Admin sign-in is permitted.',
+          503
+        );
+      }
+
+      if (user.status !== 'ACTIVE') {
+        store.addSecurityLog({
+          actorUserId: user.userId,
+          eventType: 'LOGIN_FAILED',
+          result: 'BLOCKED',
+          ipAddress: getClientIp(req),
+          deviceInfo: getDeviceInfo(req),
+          summary: `Blocked Step 1 login attempt for account status: ${user.status}.`,
+        });
+        return apiError(
+          res,
+          'Unable to sign in to this account. Contact an Administrator if assistance is needed.',
+          403
+        );
+      }
+
+      if (typeof user.passwordHash !== 'string' || user.passwordHash.trim().length === 0) {
+        console.error('[Auth Step 1 Error] Missing or invalid passwordHash on user record:', user.userId);
+        return apiError(
+          res,
+          'Account credential configuration is incomplete. Reset your password or contact Administrator.',
+          500
+        );
+      }
+
+      if (!verifyPassword(password, user.passwordHash)) {
+        const currentFailed =
+          typeof user.failedLoginAttempts === 'number' && Number.isFinite(user.failedLoginAttempts)
+            ? user.failedLoginAttempts
+            : 0;
+        user.failedLoginAttempts = currentFailed + 1;
+        const shouldLock = user.failedLoginAttempts >= store.maxFailedAttempts;
+        if (shouldLock) {
+          user.lockedUntil = Date.now() + store.lockDurationMs;
+          store.addSecurityLog({
+            actorUserId: user.userId,
+            eventType: 'ACCOUNT_LOCKED',
+            result: 'BLOCKED',
+            ipAddress: getClientIp(req),
+            deviceInfo: getDeviceInfo(req),
+            summary: `Account automatically locked after ${user.failedLoginAttempts} consecutive failed attempts.`,
+          });
           phase08Store.raiseSecurityAlert({
-            category: 'MULTIPLE_FAILED_LOGINS',
-            severity: 'MEDIUM',
-            title: `Multiple Failed Logins (${user.failedLoginAttempts}): ${user.userId}`,
-            description: `${user.failedLoginAttempts} failed password attempts detected for ${user.userId} (${getClientIp(req)}).`,
+            category: 'ACCOUNT_LOCKOUT',
+            severity: 'HIGH',
+            title: `Account Locked: ${user.userId}`,
+            description: `Account ${user.userId} locked automatically after ${user.failedLoginAttempts} failed logins from ${getClientIp(req)}.`,
             relatedUserId: user.userId,
           });
+        } else {
+          store.addSecurityLog({
+            actorUserId: user.userId,
+            eventType: 'LOGIN_FAILED',
+            result: 'FAILURE',
+            ipAddress: getClientIp(req),
+            deviceInfo: getDeviceInfo(req),
+            summary: `Step 1 invalid password (${user.failedLoginAttempts}/${store.maxFailedAttempts}).`,
+          });
+          if (user.failedLoginAttempts >= 3) {
+            phase08Store.raiseSecurityAlert({
+              category: 'MULTIPLE_FAILED_LOGINS',
+              severity: 'MEDIUM',
+              title: `Multiple Failed Logins (${user.failedLoginAttempts}): ${user.userId}`,
+              description: `${user.failedLoginAttempts} failed password attempts detected for ${user.userId} (${getClientIp(req)}).`,
+              relatedUserId: user.userId,
+            });
+          }
+        }
+        void syncUserRecordToFirebase(user).catch(() => {});
+        return apiError(
+          res,
+          shouldLock
+            ? 'Account temporarily locked after repeated failed attempts.'
+            : 'Invalid User ID or password.',
+          shouldLock ? 423 : 401
+        );
+      }
+
+      // Valid Step 1 credentials -> upgrade legacy scrypt hash seamlessly to bcrypt-12 if needed
+      user.failedLoginAttempts = 0;
+      user.lockedUntil = null;
+      if (user.passwordHash.startsWith('scrypt$')) {
+        try {
+          user.passwordHash = hashPassword(password);
+          user.passwordAlgo = 'bcrypt-12';
+          user.updatedAt = new Date().toISOString();
+        } catch (rehashErr) {
+          console.error('[Auth Step 1 Rehash Warning]', rehashErr);
         }
       }
       void syncUserRecordToFirebase(user).catch(() => {});
-      return apiError(
-        res,
-        shouldLock
-          ? 'Account temporarily locked after repeated failed attempts.'
-          : 'Invalid User ID or password.',
-        shouldLock ? 423 : 401
-      );
-    }
 
-    // Valid Step 1 credentials -> upgrade legacy scrypt hash seamlessly to bcrypt-12 if needed
-    user.failedLoginAttempts = 0;
-    user.lockedUntil = null;
-    if (user.passwordHash.startsWith('scrypt$')) {
-      user.passwordHash = hashPassword(String(password));
-      user.passwordAlgo = 'bcrypt-12';
-      user.updatedAt = new Date().toISOString();
-    }
-    void syncUserRecordToFirebase(user).catch(() => {});
-
-    const now = Date.now();
-    const userAgentHash = sha256(getDeviceInfo(req));
-    const sealedStep1 = Buffer.from(
-      encryptSensitiveField(
-        JSON.stringify({
-          r: generateToken(8),
-          u: user.userId,
-          rm: Boolean(rememberMe),
-          ua: userAgentHash,
-          c: now,
-          e: now + CHALLENGE_TTL_MS,
-        })
-      )
-    ).toString('base64url');
-    const challengeId = `ch1.${sealedStep1}`;
-    const challenge: AuthChallenge = {
-      id: challengeId,
-      userId: user.userId,
-      stage: 'CAPTCHA',
-      rememberMe: Boolean(rememberMe),
-      ipAddress: getClientIp(req),
-      userAgentHash,
-      otpAttempts: 0,
-      otpMaxAttempts: 5,
-      totpAttempts: 0,
-      totpMaxAttempts: 5,
-      createdAt: now,
-      expiresAt: now + CHALLENGE_TTL_MS,
-    };
-    store.authChallenges.set(challengeId, challenge);
-    void syncAuthChallengeToFirebase(challenge).catch(() => {});
-
-    const captchaCfg = getCaptchaConfig();
-    const svgChallenge = issueSvgCaptcha(store);
-
-    return apiSuccess(
-      res,
-      {
-        challengeId,
-        nextStep: 'CAPTCHA',
+      const now = Date.now();
+      const userAgentHash = sha256(getDeviceInfo(req));
+      const sealedStep1 = Buffer.from(
+        encryptSensitiveField(
+          JSON.stringify({
+            r: generateToken(8),
+            u: user.userId,
+            rm: Boolean(rememberMe),
+            ua: userAgentHash,
+            c: now,
+            e: now + CHALLENGE_TTL_MS,
+          })
+        )
+      ).toString('base64url');
+      const challengeId = `ch1.${sealedStep1}`;
+      const challenge: AuthChallenge = {
+        id: challengeId,
         userId: user.userId,
-        captcha: {
-          provider: captchaCfg.provider,
-          siteKey: captchaCfg.siteKey,
-          challengeId: svgChallenge.captchaId,
-          svg: svgChallenge.svg,
-          questionHint: svgChallenge.questionHint,
+        stage: 'CAPTCHA',
+        rememberMe: Boolean(rememberMe),
+        ipAddress: getClientIp(req),
+        userAgentHash,
+        otpAttempts: 0,
+        otpMaxAttempts: 5,
+        totpAttempts: 0,
+        totpMaxAttempts: 5,
+        createdAt: now,
+        expiresAt: now + CHALLENGE_TTL_MS,
+      };
+      store.authChallenges.set(challengeId, challenge);
+      void syncAuthChallengeToFirebase(challenge).catch(() => {});
+
+      const captchaCfg = getCaptchaConfig();
+      const svgChallenge = issueSvgCaptcha(store);
+
+      return apiSuccess(
+        res,
+        {
+          challengeId,
+          nextStep: 'CAPTCHA',
+          userId: user.userId,
+          captcha: {
+            provider: captchaCfg.provider,
+            siteKey: captchaCfg.siteKey,
+            challengeId: svgChallenge.captchaId,
+            svg: svgChallenge.svg,
+            questionHint: svgChallenge.questionHint,
+          },
         },
-      },
-      'Step 1 verified. Complete Step 2 CAPTCHA verification.'
-    );
+        'Step 1 verified. Complete Step 2 CAPTCHA verification.'
+      );
+    } catch (err) {
+      console.error('[Auth Step 1 Error]', err);
+      if (!res.headersSent) {
+        return apiError(
+          res,
+          'Internal server error while verifying account credentials. Please retry.',
+          500
+        );
+      }
+    }
   });
 
   // =========================================================================
   // LAYER 2: CAPTCHA VERIFICATION -> TRIGGERS STEP 3 FAST2SMS OTP
   // =========================================================================
   app.post('/api/auth/verify-captcha', authRateLimiter, async (req, res) => {
-    const { challengeId, captchaId, captchaAnswer, captchaToken } = req.body ?? {};
-    const challenge = loadValidChallenge(challengeId, 'CAPTCHA', req, res);
-    if (!challenge) return;
+    try {
+      const { challengeId, captchaId, captchaAnswer, captchaToken } = req.body ?? {};
+      const challenge = loadValidChallenge(challengeId, 'CAPTCHA', req, res);
+      if (!challenge) return;
 
-    const user = store.findUserByUserId(challenge.userId);
-    if (!user || user.status !== 'ACTIVE') {
-      return apiError(res, 'User account is unavailable.', 403);
-    }
+      const user = store.findUserByUserId(challenge.userId);
+      if (!user || user.status !== 'ACTIVE') {
+        return apiError(res, 'User account is unavailable.', 403);
+      }
 
-    const captchaCheck = await verifyServerCaptcha({
-      store,
-      captchaId,
-      captchaAnswer,
-      captchaToken,
-      remoteIp: getClientIp(req),
-    });
-
-    if (!captchaCheck.valid) {
-      store.addSecurityLog({
-        actorUserId: user.userId,
-        eventType: 'CAPTCHA_FAILED',
-        result: 'FAILURE',
-        ipAddress: getClientIp(req),
-        deviceInfo: getDeviceInfo(req),
-        summary: `Step 2 CAPTCHA failed: ${captchaCheck.reason}`,
+      const captchaCheck = await verifyServerCaptcha({
+        store,
+        captchaId,
+        captchaAnswer,
+        captchaToken,
+        remoteIp: getClientIp(req),
       });
-      const freshCaptcha = issueSvgCaptcha(store);
-      return res.status(422).json({
-        success: false,
-        message: captchaCheck.reason || 'Invalid or expired CAPTCHA.',
-        data: {
-          captcha: {
-            provider: getCaptchaConfig().provider,
-            siteKey: getCaptchaConfig().siteKey,
-            challengeId: freshCaptcha.captchaId,
-            svg: freshCaptcha.svg,
-            questionHint: freshCaptcha.questionHint,
+
+      if (!captchaCheck.valid) {
+        store.addSecurityLog({
+          actorUserId: user.userId,
+          eventType: 'CAPTCHA_FAILED',
+          result: 'FAILURE',
+          ipAddress: getClientIp(req),
+          deviceInfo: getDeviceInfo(req),
+          summary: `Step 2 CAPTCHA failed: ${captchaCheck.reason}`,
+        });
+        const freshCaptcha = issueSvgCaptcha(store);
+        return res.status(422).json({
+          success: false,
+          message: captchaCheck.reason || 'Invalid or expired CAPTCHA.',
+          data: {
+            captcha: {
+              provider: getCaptchaConfig().provider,
+              siteKey: getCaptchaConfig().siteKey,
+              challengeId: freshCaptcha.captchaId,
+              svg: freshCaptcha.svg,
+              questionHint: freshCaptcha.questionHint,
+            },
           },
-        },
-        meta: { timestamp: new Date().toISOString() },
-      });
-    }
+          meta: { timestamp: new Date().toISOString() },
+        });
+      }
 
-    // Hourly OTP send rate enforcement
-    const oneHourAgo = Date.now() - 3600_000;
-    const recentSends = (phase08Store.otpResendWindows.get(user.userId) ?? []).filter(
-      (ts) => ts > oneHourAgo
-    );
-    if (recentSends.length >= phase08Store.settings.otpMaxResendsPerHour) {
-      const freshCaptcha = issueSvgCaptcha(store);
-      return res.status(429).json({
-        success: false,
-        message: 'Hourly OTP dispatch limit reached. Try again later.',
-        data: {
-          captcha: {
-            provider: getCaptchaConfig().provider,
-            siteKey: getCaptchaConfig().siteKey,
-            challengeId: freshCaptcha.captchaId,
-            svg: freshCaptcha.svg,
-            questionHint: freshCaptcha.questionHint,
+      // Hourly OTP send rate enforcement
+      const oneHourAgo = Date.now() - 3600_000;
+      const recentSends = (phase08Store.otpResendWindows.get(user.userId) ?? []).filter(
+        (ts) => ts > oneHourAgo
+      );
+      if (recentSends.length >= phase08Store.settings.otpMaxResendsPerHour) {
+        const freshCaptcha = issueSvgCaptcha(store);
+        return res.status(429).json({
+          success: false,
+          message: 'Hourly OTP dispatch limit reached. Try again later.',
+          data: {
+            captcha: {
+              provider: getCaptchaConfig().provider,
+              siteKey: getCaptchaConfig().siteKey,
+              challengeId: freshCaptcha.captchaId,
+              svg: freshCaptcha.svg,
+              questionHint: freshCaptcha.questionHint,
+            },
           },
-        },
-        meta: { timestamp: new Date().toISOString() },
+          meta: { timestamp: new Date().toISOString() },
+        });
+      }
+
+      const otp = generateNumericOtp(6);
+      const smsResult = await sendFast2SmsOtp({
+        mobile: user.mobile,
+        otp,
+        userId: user.userId,
       });
-    }
 
-    const otp = generateNumericOtp(6);
-    const smsResult = await sendFast2SmsOtp({
-      mobile: user.mobile,
-      otp,
-      userId: user.userId,
-    });
+      const devMeta = parsePrivacyDeviceMetadata(
+        req.headers['user-agent'],
+        req.headers['x-device-name'] as string | undefined
+      );
 
-    const devMeta = parsePrivacyDeviceMetadata(
-      req.headers['user-agent'],
-      req.headers['x-device-name'] as string | undefined
-    );
+      if (!smsResult.sent) {
+        phase08Store.recordOtpLog({
+          challengeId: challenge.id,
+          userId: user.userId,
+          purpose: 'LOGIN_OTP',
+          channel: 'SMS',
+          maskedTarget: user.mobile.replace(/.(?=.{4})/g, '*'),
+          providerConfigured: smsResult.providerConfigured,
+          deliveryStatus: 'FAILED',
+          deliveryDetail: smsResult.detail,
+          attemptsUsed: 0,
+          outcome: 'PENDING',
+          ipAddress: getClientIp(req),
+          deviceId: devMeta.deviceId,
+          verifiedAt: null,
+        });
+        const freshCaptcha = issueSvgCaptcha(store);
+        return res.status(502).json({
+          success: false,
+          message: smsResult.detail || 'Failed to send Fast2SMS OTP.',
+          data: {
+            captcha: {
+              provider: getCaptchaConfig().provider,
+              siteKey: getCaptchaConfig().siteKey,
+              challengeId: freshCaptcha.captchaId,
+              svg: freshCaptcha.svg,
+              questionHint: freshCaptcha.questionHint,
+            },
+          },
+          meta: { timestamp: new Date().toISOString() },
+        });
+      }
 
-    if (!smsResult.sent) {
+      recentSends.push(Date.now());
+      phase08Store.otpResendWindows.set(user.userId, recentSends);
+
+      const now = Date.now();
+      const otpSaltId = challenge.otpSaltId || challenge.id;
+      challenge.captchaVerifiedAt = now;
+      challenge.stage = 'SMS_OTP';
+      challenge.otpSaltId = otpSaltId;
+      challenge.otpHash = hmacOtp(otp, otpSaltId);
+      challenge.otpAttempts = 0;
+      challenge.otpExpiresAt = now + store.otpTtlMs;
+      challenge.otpResendAvailableAt = now + store.otpResendCooldownMs;
+      challenge.otpDeliveryStatus = smsResult.sandboxMode ? 'SANDBOX' : 'DELIVERED';
+
+      const ch2Id = sealChallengeToken('ch2', {
+        r: generateToken(6),
+        u: challenge.userId,
+        rm: challenge.rememberMe,
+        ua: challenge.userAgentHash,
+        c: challenge.createdAt,
+        e: challenge.expiresAt,
+        s: 'SMS_OTP',
+        cv: now,
+        oid: otpSaltId,
+        oh: challenge.otpHash,
+        oe: challenge.otpExpiresAt,
+        or: challenge.otpResendAvailableAt,
+        ds: challenge.otpDeliveryStatus,
+      });
+      const nextChallenge: AuthChallenge = { ...challenge, id: ch2Id };
+      store.authChallenges.set(ch2Id, nextChallenge);
+      void syncAuthChallengeToFirebase(nextChallenge).catch(() => {});
+
       phase08Store.recordOtpLog({
-        challengeId: challenge.id,
+        challengeId: ch2Id,
         userId: user.userId,
         purpose: 'LOGIN_OTP',
         channel: 'SMS',
         maskedTarget: user.mobile.replace(/.(?=.{4})/g, '*'),
         providerConfigured: smsResult.providerConfigured,
-        deliveryStatus: 'FAILED',
+        deliveryStatus:
+          !smsResult.sandboxMode && smsResult.providerConfigured ? 'DELIVERED' : 'NOT_CONFIGURED',
         deliveryDetail: smsResult.detail,
         attemptsUsed: 0,
         outcome: 'PENDING',
@@ -537,121 +632,151 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
         deviceId: devMeta.deviceId,
         verifiedAt: null,
       });
-      const freshCaptcha = issueSvgCaptcha(store);
-      return res.status(502).json({
-        success: false,
-        message: smsResult.detail || 'Failed to send Fast2SMS OTP.',
-        data: {
-          captcha: {
-            provider: getCaptchaConfig().provider,
-            siteKey: getCaptchaConfig().siteKey,
-            challengeId: freshCaptcha.captchaId,
-            svg: freshCaptcha.svg,
-            questionHint: freshCaptcha.questionHint,
-          },
-        },
-        meta: { timestamp: new Date().toISOString() },
+
+      // Never log OTP plaintext
+      store.addSecurityLog({
+        actorUserId: user.userId,
+        eventType: 'OTP_SENT',
+        result: 'SUCCESS',
+        ipAddress: getClientIp(req),
+        deviceInfo: getDeviceInfo(req),
+        summary: `Step 2 CAPTCHA passed; Step 3 Fast2SMS OTP dispatched to ${user.mobile.replace(/.(?=.{4})/g, '*')}.`,
       });
+
+      return apiSuccess(
+        res,
+        {
+          challengeId: ch2Id,
+          nextStep: 'SMS_OTP',
+          maskedMobile: user.mobile.replace(/.(?=.{4})/g, '*'),
+          expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
+          resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
+          providerConfigured: smsResult.providerConfigured,
+          deliveryStatus: nextChallenge.otpDeliveryStatus,
+          deliveryDetail: smsResult.detail,
+          ...(smsResult.sandboxMode ? { sandboxOtpPreview: smsResult.sandboxOtpPreview } : {}),
+        },
+        'Step 2 CAPTCHA verified. Enter the Fast2SMS OTP sent to your registered mobile.'
+      );
+    } catch (err) {
+      console.error('[Auth Step 2 Error]', err);
+      if (!res.headersSent) {
+        return apiError(
+          res,
+          'Internal server error during CAPTCHA & OTP dispatch. Please retry.',
+          500
+        );
+      }
     }
-
-    recentSends.push(Date.now());
-    phase08Store.otpResendWindows.set(user.userId, recentSends);
-
-    const now = Date.now();
-    const otpSaltId = challenge.otpSaltId || challenge.id;
-    challenge.captchaVerifiedAt = now;
-    challenge.stage = 'SMS_OTP';
-    challenge.otpSaltId = otpSaltId;
-    challenge.otpHash = hmacOtp(otp, otpSaltId);
-    challenge.otpAttempts = 0;
-    challenge.otpExpiresAt = now + store.otpTtlMs;
-    challenge.otpResendAvailableAt = now + store.otpResendCooldownMs;
-    challenge.otpDeliveryStatus = smsResult.sandboxMode ? 'SANDBOX' : 'DELIVERED';
-
-    const ch2Id = sealChallengeToken('ch2', {
-      r: generateToken(6),
-      u: challenge.userId,
-      rm: challenge.rememberMe,
-      ua: challenge.userAgentHash,
-      c: challenge.createdAt,
-      e: challenge.expiresAt,
-      s: 'SMS_OTP',
-      cv: now,
-      oid: otpSaltId,
-      oh: challenge.otpHash,
-      oe: challenge.otpExpiresAt,
-      or: challenge.otpResendAvailableAt,
-      ds: challenge.otpDeliveryStatus,
-    });
-    const nextChallenge: AuthChallenge = { ...challenge, id: ch2Id };
-    store.authChallenges.set(ch2Id, nextChallenge);
-    void syncAuthChallengeToFirebase(nextChallenge).catch(() => {});
-
-    phase08Store.recordOtpLog({
-      challengeId: ch2Id,
-      userId: user.userId,
-      purpose: 'LOGIN_OTP',
-      channel: 'SMS',
-      maskedTarget: user.mobile.replace(/.(?=.{4})/g, '*'),
-      providerConfigured: smsResult.providerConfigured,
-      deliveryStatus:
-        !smsResult.sandboxMode && smsResult.providerConfigured ? 'DELIVERED' : 'NOT_CONFIGURED',
-      deliveryDetail: smsResult.detail,
-      attemptsUsed: 0,
-      outcome: 'PENDING',
-      ipAddress: getClientIp(req),
-      deviceId: devMeta.deviceId,
-      verifiedAt: null,
-    });
-
-    // Never log OTP plaintext
-    store.addSecurityLog({
-      actorUserId: user.userId,
-      eventType: 'OTP_SENT',
-      result: 'SUCCESS',
-      ipAddress: getClientIp(req),
-      deviceInfo: getDeviceInfo(req),
-      summary: `Step 2 CAPTCHA passed; Step 3 Fast2SMS OTP dispatched to ${user.mobile.replace(/.(?=.{4})/g, '*')}.`,
-    });
-
-    return apiSuccess(
-      res,
-      {
-        challengeId: ch2Id,
-        nextStep: 'SMS_OTP',
-        maskedMobile: user.mobile.replace(/.(?=.{4})/g, '*'),
-        expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
-        resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
-        providerConfigured: smsResult.providerConfigured,
-        deliveryStatus: nextChallenge.otpDeliveryStatus,
-        deliveryDetail: smsResult.detail,
-        ...(smsResult.sandboxMode ? { sandboxOtpPreview: smsResult.sandboxOtpPreview } : {}),
-      },
-      'Step 2 CAPTCHA verified. Enter the Fast2SMS OTP sent to your registered mobile.'
-    );
   });
 
   // =========================================================================
   // LAYER 3: RESEND & VERIFY FAST2SMS OTP -> ADVANCES TO STEP 4 TOTP
   // =========================================================================
   const handleResendChallengeOtp = async (req: Request, res: Response) => {
-    const { challengeId, channel } = req.body ?? {};
-    const rawId = String(challengeId ?? '');
-    const isLoginChallenge =
-      store.authChallenges.has(rawId) || rawId.startsWith('ch2.');
+    try {
+      const { challengeId, channel } = req.body ?? {};
+      const rawId = String(challengeId ?? '');
+      const isLoginChallenge =
+        store.authChallenges.has(rawId) || rawId.startsWith('ch2.');
 
-    if (isLoginChallenge) {
-      const authChallenge = loadValidChallenge(rawId, 'SMS_OTP', req, res);
-      if (!authChallenge) return;
-      if (authChallenge.otpResendAvailableAt && authChallenge.otpResendAvailableAt > Date.now()) {
-        const waitSec = Math.ceil((authChallenge.otpResendAvailableAt - Date.now()) / 1000);
+      if (isLoginChallenge) {
+        const authChallenge = loadValidChallenge(rawId, 'SMS_OTP', req, res);
+        if (!authChallenge) return;
+        if (authChallenge.otpResendAvailableAt && authChallenge.otpResendAvailableAt > Date.now()) {
+          const waitSec = Math.ceil((authChallenge.otpResendAvailableAt - Date.now()) / 1000);
+          return apiError(res, `Please wait ${waitSec}s before requesting another OTP.`, 429);
+        }
+        const user = store.findUserByUserId(authChallenge.userId);
+        if (!user) return apiError(res, 'User account not found.', 404);
+
+        const oneHourAgo = Date.now() - 3600_000;
+        const recentSends = (phase08Store.otpResendWindows.get(user.userId) ?? []).filter(
+          (ts) => ts > oneHourAgo
+        );
+        if (recentSends.length >= phase08Store.settings.otpMaxResendsPerHour) {
+          return apiError(res, 'Hourly OTP resend limit reached. Try again later.', 429);
+        }
+
+        const newOtp = generateNumericOtp(6);
+        const smsResult = await sendFast2SmsOtp({
+          mobile: user.mobile,
+          otp: newOtp,
+          userId: user.userId,
+        });
+        if (!smsResult.sent) {
+          return apiError(res, smsResult.detail || 'Fast2SMS failed to resend OTP.', 502);
+        }
+
+        recentSends.push(Date.now());
+        phase08Store.otpResendWindows.set(user.userId, recentSends);
+
+        const now = Date.now();
+        const otpSaltId = authChallenge.otpSaltId || authChallenge.id;
+        authChallenge.otpSaltId = otpSaltId;
+        authChallenge.otpHash = hmacOtp(newOtp, otpSaltId);
+        authChallenge.otpAttempts = 0;
+        authChallenge.otpExpiresAt = now + store.otpTtlMs;
+        authChallenge.otpResendAvailableAt = now + store.otpResendCooldownMs;
+        authChallenge.otpDeliveryStatus = smsResult.sandboxMode ? 'SANDBOX' : 'DELIVERED';
+
+        const updatedCh2Id = sealChallengeToken('ch2', {
+          r: generateToken(6),
+          u: authChallenge.userId,
+          rm: authChallenge.rememberMe,
+          ua: authChallenge.userAgentHash,
+          c: authChallenge.createdAt,
+          e: authChallenge.expiresAt,
+          s: 'SMS_OTP',
+          cv: authChallenge.captchaVerifiedAt || now,
+          oid: otpSaltId,
+          oh: authChallenge.otpHash,
+          oe: authChallenge.otpExpiresAt,
+          or: authChallenge.otpResendAvailableAt,
+          ds: authChallenge.otpDeliveryStatus,
+        });
+        const updatedChallenge: AuthChallenge = { ...authChallenge, id: updatedCh2Id };
+        store.authChallenges.set(updatedCh2Id, updatedChallenge);
+        void syncAuthChallengeToFirebase(updatedChallenge).catch(() => {});
+
+        store.addSecurityLog({
+          actorUserId: user.userId,
+          eventType: 'OTP_SENT',
+          result: 'SUCCESS',
+          ipAddress: getClientIp(req),
+          deviceInfo: getDeviceInfo(req),
+          summary: 'Step 3 Fast2SMS OTP resent cleanly.',
+        });
+
+        return apiSuccess(
+          res,
+          {
+            challengeId: updatedCh2Id,
+            maskedMobile: user.mobile.replace(/.(?=.{4})/g, '*'),
+            expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
+            resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
+            providerConfigured: smsResult.providerConfigured,
+            deliveryStatus: updatedChallenge.otpDeliveryStatus,
+            deliveryDetail: smsResult.detail,
+            ...(smsResult.sandboxMode ? { sandboxOtpPreview: smsResult.sandboxOtpPreview } : {}),
+          },
+          'New SMS OTP dispatched.'
+        );
+      }
+
+      // Support non-login OTP challenges (MOBILE_VERIFICATION / PASSWORD_RESET)
+      const existing = store.otpChallenges.get(String(challengeId ?? ''));
+      if (!existing) {
+        return apiError(res, 'OTP challenge not found.', 404);
+      }
+      if (existing.resendAvailableAt > Date.now()) {
+        const waitSec = Math.ceil((existing.resendAvailableAt - Date.now()) / 1000);
         return apiError(res, `Please wait ${waitSec}s before requesting another OTP.`, 429);
       }
-      const user = store.findUserByUserId(authChallenge.userId);
-      if (!user) return apiError(res, 'User account not found.', 404);
 
+      const windowKey = existing.userId || existing.target;
       const oneHourAgo = Date.now() - 3600_000;
-      const recentSends = (phase08Store.otpResendWindows.get(user.userId) ?? []).filter(
+      const recentSends = (phase08Store.otpResendWindows.get(windowKey) ?? []).filter(
         (ts) => ts > oneHourAgo
       );
       if (recentSends.length >= phase08Store.settings.otpMaxResendsPerHour) {
@@ -660,556 +785,499 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
 
       const newOtp = generateNumericOtp(6);
       const smsResult = await sendFast2SmsOtp({
-        mobile: user.mobile,
+        mobile: existing.target,
         otp: newOtp,
-        userId: user.userId,
+        userId: existing.userId,
       });
       if (!smsResult.sent) {
         return apiError(res, smsResult.detail || 'Fast2SMS failed to resend OTP.', 502);
       }
 
       recentSends.push(Date.now());
-      phase08Store.otpResendWindows.set(user.userId, recentSends);
+      phase08Store.otpResendWindows.set(windowKey, recentSends);
 
       const now = Date.now();
-      const otpSaltId = authChallenge.otpSaltId || authChallenge.id;
-      authChallenge.otpSaltId = otpSaltId;
-      authChallenge.otpHash = hmacOtp(newOtp, otpSaltId);
-      authChallenge.otpAttempts = 0;
-      authChallenge.otpExpiresAt = now + store.otpTtlMs;
-      authChallenge.otpResendAvailableAt = now + store.otpResendCooldownMs;
-      authChallenge.otpDeliveryStatus = smsResult.sandboxMode ? 'SANDBOX' : 'DELIVERED';
-
-      const updatedCh2Id = sealChallengeToken('ch2', {
-        r: generateToken(6),
-        u: authChallenge.userId,
-        rm: authChallenge.rememberMe,
-        ua: authChallenge.userAgentHash,
-        c: authChallenge.createdAt,
-        e: authChallenge.expiresAt,
-        s: 'SMS_OTP',
-        cv: authChallenge.captchaVerifiedAt || now,
-        oid: otpSaltId,
-        oh: authChallenge.otpHash,
-        oe: authChallenge.otpExpiresAt,
-        or: authChallenge.otpResendAvailableAt,
-        ds: authChallenge.otpDeliveryStatus,
-      });
-      const updatedChallenge: AuthChallenge = { ...authChallenge, id: updatedCh2Id };
-      store.authChallenges.set(updatedCh2Id, updatedChallenge);
-      void syncAuthChallengeToFirebase(updatedChallenge).catch(() => {});
+      existing.otpHash = hmacOtp(newOtp, existing.id);
+      existing.attempts = 0;
+      existing.expiresAt = now + store.otpTtlMs;
+      existing.resendAvailableAt = now + store.otpResendCooldownMs;
+      existing.channel = (channel ? String(channel).toUpperCase() : existing.channel || 'SMS') as 'SMS';
 
       store.addSecurityLog({
-        actorUserId: user.userId,
+        actorUserId: existing.userId ?? existing.target,
         eventType: 'OTP_SENT',
         result: 'SUCCESS',
         ipAddress: getClientIp(req),
         deviceInfo: getDeviceInfo(req),
-        summary: 'Step 3 Fast2SMS OTP resent cleanly.',
+        summary: `Resent ${existing.purpose} OTP challenge via Fast2SMS.`,
       });
 
       return apiSuccess(
         res,
         {
-          challengeId: updatedCh2Id,
-          maskedMobile: user.mobile.replace(/.(?=.{4})/g, '*'),
-          expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
+          challengeId: existing.id,
+          channel: existing.channel,
+          deliveryStatus: smsResult.sandboxMode ? 'SANDBOX' : 'DELIVERED',
+          deliveryDetail: smsResult.detail,
           resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
           providerConfigured: smsResult.providerConfigured,
-          deliveryStatus: updatedChallenge.otpDeliveryStatus,
-          deliveryDetail: smsResult.detail,
           ...(smsResult.sandboxMode ? { sandboxOtpPreview: smsResult.sandboxOtpPreview } : {}),
         },
-        'New SMS OTP dispatched.'
+        'New OTP dispatched.'
       );
+    } catch (err) {
+      console.error('[Auth Resend OTP Error]', err);
+      if (!res.headersSent) {
+        return apiError(res, 'Internal server error while resending OTP. Please retry.', 500);
+      }
     }
-
-    // Support non-login OTP challenges (MOBILE_VERIFICATION / PASSWORD_RESET)
-    const existing = store.otpChallenges.get(String(challengeId ?? ''));
-    if (!existing) {
-      return apiError(res, 'OTP challenge not found.', 404);
-    }
-    if (existing.resendAvailableAt > Date.now()) {
-      const waitSec = Math.ceil((existing.resendAvailableAt - Date.now()) / 1000);
-      return apiError(res, `Please wait ${waitSec}s before requesting another OTP.`, 429);
-    }
-
-    const windowKey = existing.userId || existing.target;
-    const oneHourAgo = Date.now() - 3600_000;
-    const recentSends = (phase08Store.otpResendWindows.get(windowKey) ?? []).filter(
-      (ts) => ts > oneHourAgo
-    );
-    if (recentSends.length >= phase08Store.settings.otpMaxResendsPerHour) {
-      return apiError(res, 'Hourly OTP resend limit reached. Try again later.', 429);
-    }
-
-    const newOtp = generateNumericOtp(6);
-    const smsResult = await sendFast2SmsOtp({
-      mobile: existing.target,
-      otp: newOtp,
-      userId: existing.userId,
-    });
-    if (!smsResult.sent) {
-      return apiError(res, smsResult.detail || 'Fast2SMS failed to resend OTP.', 502);
-    }
-
-    recentSends.push(Date.now());
-    phase08Store.otpResendWindows.set(windowKey, recentSends);
-
-    const now = Date.now();
-    existing.otpHash = hmacOtp(newOtp, existing.id);
-    existing.attempts = 0;
-    existing.expiresAt = now + store.otpTtlMs;
-    existing.resendAvailableAt = now + store.otpResendCooldownMs;
-    existing.channel = (channel ? String(channel).toUpperCase() : existing.channel || 'SMS') as 'SMS';
-
-    store.addSecurityLog({
-      actorUserId: existing.userId ?? existing.target,
-      eventType: 'OTP_SENT',
-      result: 'SUCCESS',
-      ipAddress: getClientIp(req),
-      deviceInfo: getDeviceInfo(req),
-      summary: `Resent ${existing.purpose} OTP challenge via Fast2SMS.`,
-    });
-
-    return apiSuccess(
-      res,
-      {
-        challengeId: existing.id,
-        channel: existing.channel,
-        deliveryStatus: smsResult.sandboxMode ? 'SANDBOX' : 'DELIVERED',
-        deliveryDetail: smsResult.detail,
-        resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
-        providerConfigured: smsResult.providerConfigured,
-        ...(smsResult.sandboxMode ? { sandboxOtpPreview: smsResult.sandboxOtpPreview } : {}),
-      },
-      'New OTP dispatched.'
-    );
   };
 
   app.post('/api/auth/send-otp', authRateLimiter, handleResendChallengeOtp);
   app.post('/api/auth/resend-otp', authRateLimiter, handleResendChallengeOtp);
 
   app.post('/api/auth/verify-sms-otp', authRateLimiter, async (req, res) => {
-    const { challengeId, otp } = req.body ?? {};
-    const challenge = loadValidChallenge(challengeId, 'SMS_OTP', req, res);
-    if (!challenge) return;
+    try {
+      const { challengeId, otp } = req.body ?? {};
+      const challenge = loadValidChallenge(challengeId, 'SMS_OTP', req, res);
+      if (!challenge) return;
 
-    const cleanOtp = String(otp || '').trim();
-    if (!/^\d{6}$/.test(cleanOtp)) {
-      return apiError(res, 'Enter the valid 6-digit SMS OTP.', 422);
-    }
-
-    const otpLog = phase08Store.otpLogs.find((l) => l.challengeId === challenge.id);
-    if (challenge.otpVerifiedAt) {
-      return apiError(res, 'SMS OTP has already been verified.', 400);
-    }
-    if (!challenge.otpExpiresAt || challenge.otpExpiresAt <= Date.now()) {
-      if (otpLog) otpLog.outcome = 'EXPIRED';
-      return apiError(res, 'SMS OTP has expired. Request a new code.', 400);
-    }
-    if (challenge.otpAttempts >= challenge.otpMaxAttempts) {
-      if (otpLog) otpLog.outcome = 'LOCKED';
-      return apiError(res, 'Maximum OTP verification attempts exceeded.', 429);
-    }
-
-    challenge.otpAttempts += 1;
-    if (otpLog) otpLog.attemptsUsed = challenge.otpAttempts;
-
-    const expectedHash = challenge.otpHash || '';
-    const candidateHash = hmacOtp(cleanOtp, challenge.otpSaltId || challenge.id);
-    if (!verifyTimingSafeHex(candidateHash, expectedHash)) {
-      if (otpLog) {
-        otpLog.outcome =
-          challenge.otpAttempts >= challenge.otpMaxAttempts ? 'LOCKED' : 'FAILED';
+      const cleanOtp = String(otp || '').trim();
+      if (!/^\d{6}$/.test(cleanOtp)) {
+        return apiError(res, 'Enter the valid 6-digit SMS OTP.', 422);
       }
+
+      const otpLog = phase08Store.otpLogs.find((l) => l.challengeId === challenge.id);
+      if (challenge.otpVerifiedAt) {
+        return apiError(res, 'SMS OTP has already been verified.', 400);
+      }
+      if (!challenge.otpExpiresAt || challenge.otpExpiresAt <= Date.now()) {
+        if (otpLog) otpLog.outcome = 'EXPIRED';
+        return apiError(res, 'SMS OTP has expired. Request a new code.', 400);
+      }
+      if (challenge.otpAttempts >= challenge.otpMaxAttempts) {
+        if (otpLog) otpLog.outcome = 'LOCKED';
+        return apiError(res, 'Maximum OTP verification attempts exceeded.', 429);
+      }
+
+      challenge.otpAttempts += 1;
+      if (otpLog) otpLog.attemptsUsed = challenge.otpAttempts;
+
+      const expectedHash = challenge.otpHash || '';
+      const candidateHash = hmacOtp(cleanOtp, challenge.otpSaltId || challenge.id);
+      if (!verifyTimingSafeHex(candidateHash, expectedHash)) {
+        if (otpLog) {
+          otpLog.outcome =
+            challenge.otpAttempts >= challenge.otpMaxAttempts ? 'LOCKED' : 'FAILED';
+        }
+        store.addSecurityLog({
+          actorUserId: challenge.userId,
+          eventType: 'OTP_FAILED',
+          result: 'FAILURE',
+          ipAddress: getClientIp(req),
+          deviceInfo: getDeviceInfo(req),
+          summary: `Step 3 SMS OTP failed (${challenge.otpAttempts}/${challenge.otpMaxAttempts}).`,
+        });
+        void syncAuthChallengeToFirebase(challenge).catch(() => {});
+        return apiError(
+          res,
+          `Invalid SMS OTP. ${Math.max(0, challenge.otpMaxAttempts - challenge.otpAttempts)} attempt(s) remaining.`,
+          401
+        );
+      }
+
+      const user = store.findUserByUserId(challenge.userId);
+      if (!user || user.status !== 'ACTIVE') {
+        return apiError(res, 'User account is unavailable.', 403);
+      }
+
+      challenge.otpVerifiedAt = Date.now();
+      challenge.otpHash = undefined; // Replay protection: burn OTP hash immediately
+      challenge.stage = 'TOTP';
+      if (otpLog) {
+        otpLog.outcome = 'VERIFIED';
+        otpLog.verifiedAt = new Date().toISOString();
+      }
+
       store.addSecurityLog({
-        actorUserId: challenge.userId,
-        eventType: 'OTP_FAILED',
-        result: 'FAILURE',
+        actorUserId: user.userId,
+        eventType: 'OTP_VERIFIED',
+        result: 'SUCCESS',
         ipAddress: getClientIp(req),
         deviceInfo: getDeviceInfo(req),
-        summary: `Step 3 SMS OTP failed (${challenge.otpAttempts}/${challenge.otpMaxAttempts}).`,
+        summary: 'Step 3 Fast2SMS OTP verified; advancing to Step 4 Google Authenticator.',
       });
-      void syncAuthChallengeToFirebase(challenge).catch(() => {});
-      return apiError(
-        res,
-        `Invalid SMS OTP. ${Math.max(0, challenge.otpMaxAttempts - challenge.otpAttempts)} attempt(s) remaining.`,
-        401
-      );
-    }
 
-    const user = store.findUserByUserId(challenge.userId);
-    if (!user || user.status !== 'ACTIVE') {
-      return apiError(res, 'User account is unavailable.', 403);
-    }
+      let requiresSetup = !(user.totpEnabled && user.totpSecretEncrypted);
+      let qrCodeDataUrl: string | undefined;
+      let manualSecret: string | undefined;
 
-    challenge.otpVerifiedAt = Date.now();
-    challenge.otpHash = undefined; // Replay protection: burn OTP hash immediately
-    challenge.stage = 'TOTP';
-    if (otpLog) {
-      otpLog.outcome = 'VERIFIED';
-      otpLog.verifiedAt = new Date().toISOString();
-    }
-
-    store.addSecurityLog({
-      actorUserId: user.userId,
-      eventType: 'OTP_VERIFIED',
-      result: 'SUCCESS',
-      ipAddress: getClientIp(req),
-      deviceInfo: getDeviceInfo(req),
-      summary: 'Step 3 Fast2SMS OTP verified; advancing to Step 4 Google Authenticator.',
-    });
-
-    let requiresSetup = !(user.totpEnabled && user.totpSecretEncrypted);
-    let qrCodeDataUrl: string | undefined;
-    let manualSecret: string | undefined;
-
-    if (requiresSetup) {
-      // Reuse pending secret if already generated for this challenge, else generate fresh 160-bit Base32 secret
-      let base32Secret = '';
-      if (user.totpSecretEncrypted && !user.totpEnabled) {
-        try {
-          base32Secret = decryptTotpSecret(user.totpSecretEncrypted);
-        } catch {
-          base32Secret = '';
+      if (requiresSetup) {
+        // Reuse pending secret if already generated for this challenge, else generate fresh 160-bit Base32 secret
+        let base32Secret = '';
+        if (user.totpSecretEncrypted && !user.totpEnabled) {
+          try {
+            base32Secret = decryptTotpSecret(user.totpSecretEncrypted);
+          } catch {
+            base32Secret = '';
+          }
         }
-      }
-      if (!base32Secret) {
-        base32Secret = new OTPAuth.Secret({ size: 20 }).base32;
-        user.totpSecretEncrypted = encryptTotpSecret(base32Secret);
-        user.totpEnabled = false;
-        void syncUserRecordToFirebase(user).catch(() => {});
+        if (!base32Secret) {
+          base32Secret = new OTPAuth.Secret({ size: 20 }).base32;
+          user.totpSecretEncrypted = encryptTotpSecret(base32Secret);
+          user.totpEnabled = false;
+          void syncUserRecordToFirebase(user).catch(() => {});
+        }
+
+        const totp = createTotpInstance(user, base32Secret);
+        const otpauthUri = totp.toString();
+        qrCodeDataUrl = await QRCode.toDataURL(otpauthUri, { width: 200, margin: 1 });
+        manualSecret = base32Secret;
       }
 
-      const totp = createTotpInstance(user, base32Secret);
-      const otpauthUri = totp.toString();
-      qrCodeDataUrl = await QRCode.toDataURL(otpauthUri, { width: 200, margin: 1 });
-      manualSecret = base32Secret;
+      const ch3Id = sealChallengeToken('ch3', {
+        r: generateToken(6),
+        u: challenge.userId,
+        rm: challenge.rememberMe,
+        ua: challenge.userAgentHash,
+        c: challenge.createdAt,
+        e: challenge.expiresAt,
+        s: 'TOTP',
+        cv: challenge.captchaVerifiedAt || challenge.otpVerifiedAt,
+        ov: challenge.otpVerifiedAt,
+        ...(requiresSetup && user.totpSecretEncrypted ? { ts: user.totpSecretEncrypted } : {}),
+      });
+      const totpChallenge: AuthChallenge = { ...challenge, id: ch3Id };
+      store.authChallenges.set(ch3Id, totpChallenge);
+      void syncAuthChallengeToFirebase(totpChallenge).catch(() => {});
+
+      return apiSuccess(
+        res,
+        {
+          challengeId: ch3Id,
+          nextStep: 'TOTP',
+          requiresSetup,
+          totpEnabled: Boolean(user.totpEnabled),
+          accountLabel: user.email || user.userId,
+          issuer: 'MUN COMPUTER',
+          ...(requiresSetup ? { qrCodeDataUrl, manualSecret } : {}),
+        },
+        requiresSetup
+          ? 'Step 3 verified. Enroll Google Authenticator and enter the 6-digit code to finish sign-in.'
+          : 'Step 3 verified. Enter your 6-digit Google Authenticator code (or recovery code) to sign in.'
+      );
+    } catch (err) {
+      console.error('[Auth Step 3 Error]', err);
+      if (!res.headersSent) {
+        return apiError(
+          res,
+          'Internal server error during SMS OTP verification. Please retry.',
+          500
+        );
+      }
     }
-
-    const ch3Id = sealChallengeToken('ch3', {
-      r: generateToken(6),
-      u: challenge.userId,
-      rm: challenge.rememberMe,
-      ua: challenge.userAgentHash,
-      c: challenge.createdAt,
-      e: challenge.expiresAt,
-      s: 'TOTP',
-      cv: challenge.captchaVerifiedAt || challenge.otpVerifiedAt,
-      ov: challenge.otpVerifiedAt,
-      ...(requiresSetup && user.totpSecretEncrypted ? { ts: user.totpSecretEncrypted } : {}),
-    });
-    const totpChallenge: AuthChallenge = { ...challenge, id: ch3Id };
-    store.authChallenges.set(ch3Id, totpChallenge);
-    void syncAuthChallengeToFirebase(totpChallenge).catch(() => {});
-
-    return apiSuccess(
-      res,
-      {
-        challengeId: ch3Id,
-        nextStep: 'TOTP',
-        requiresSetup,
-        totpEnabled: Boolean(user.totpEnabled),
-        accountLabel: user.email || user.userId,
-        issuer: 'MUN COMPUTER',
-        ...(requiresSetup ? { qrCodeDataUrl, manualSecret } : {}),
-      },
-      requiresSetup
-        ? 'Step 3 verified. Enroll Google Authenticator and enter the 6-digit code to finish sign-in.'
-        : 'Step 3 verified. Enter your 6-digit Google Authenticator code (or recovery code) to sign in.'
-    );
   });
 
   // =========================================================================
   // LAYER 4: GOOGLE AUTHENTICATOR (TOTP) / RECOVERY -> ISSUES SESSION COOKIES
   // =========================================================================
   app.post('/api/auth/verify-totp', authRateLimiter, (req, res) => {
-    const { challengeId, code, recoveryCode } = req.body ?? {};
-    const challenge = loadValidChallenge(challengeId, 'TOTP', req, res);
-    if (!challenge) return;
+    try {
+      const { challengeId, code, recoveryCode } = req.body ?? {};
+      const challenge = loadValidChallenge(challengeId, 'TOTP', req, res);
+      if (!challenge) return;
 
-    if (!challenge.captchaVerifiedAt || !challenge.otpVerifiedAt) {
-      return apiError(res, 'Mandatory Step 2/Step 3 verification missing.', 403);
-    }
-
-    const user = store.findUserByUserId(challenge.userId);
-    if (!user || user.status !== 'ACTIVE') {
-      return apiError(res, 'User account is unavailable.', 403);
-    }
-
-    if (challenge.totpAttempts >= challenge.totpMaxAttempts) {
-      return apiError(
-        res,
-        'Maximum authenticator verification attempts exceeded. Restart sign-in.',
-        429
-      );
-    }
-
-    const cleanCode = String(code || '').trim();
-    const cleanRecovery = String(recoveryCode || '').trim();
-
-    if (!cleanCode && !cleanRecovery) {
-      return apiError(res, 'Enter a 6-digit Google Authenticator code or recovery code.', 422);
-    }
-
-    challenge.totpAttempts += 1;
-
-    let verifiedByRecovery = false;
-    let newlyGeneratedRecoveryCodes: string[] | undefined;
-
-    if (cleanRecovery) {
-      if (!user.totpEnabled || !user.recoveryCodeHashes?.length) {
-        return apiError(res, 'Recovery codes are not available for this account.', 400);
+      if (!challenge.captchaVerifiedAt || !challenge.otpVerifiedAt) {
+        return apiError(res, 'Mandatory Step 2/Step 3 verification missing.', 403);
       }
-      const candidateHash = hashRecoveryCode(cleanRecovery);
-      const matchIdx = user.recoveryCodeHashes.findIndex((h) =>
-        verifyTimingSafeHex(candidateHash, h)
-      );
-      if (matchIdx === -1) {
-        store.addSecurityLog({
-          actorUserId: user.userId,
-          eventType: 'TOTP_FAILED',
-          result: 'FAILURE',
-          ipAddress: getClientIp(req),
-          deviceInfo: getDeviceInfo(req),
-          summary: `Invalid TOTP recovery code (${challenge.totpAttempts}/${challenge.totpMaxAttempts}).`,
-        });
-        void syncAuthChallengeToFirebase(challenge).catch(() => {});
+
+      const user = store.findUserByUserId(challenge.userId);
+      if (!user || user.status !== 'ACTIVE') {
+        return apiError(res, 'User account is unavailable.', 403);
+      }
+
+      if (challenge.totpAttempts >= challenge.totpMaxAttempts) {
         return apiError(
           res,
-          `Invalid recovery code. ${Math.max(0, challenge.totpMaxAttempts - challenge.totpAttempts)} attempt(s) remaining.`,
-          401
-        );
-      }
-      // Consume single-use recovery code permanently
-      user.recoveryCodeHashes.splice(matchIdx, 1);
-      verifiedByRecovery = true;
-      store.addSecurityLog({
-        actorUserId: user.userId,
-        eventType: 'RECOVERY_USED',
-        result: 'SUCCESS',
-        ipAddress: getClientIp(req),
-        deviceInfo: getDeviceInfo(req),
-        summary: `Single-use recovery code verified during login (${user.recoveryCodeHashes.length} remaining).`,
-      });
-    } else {
-      if (!/^\d{6}$/.test(cleanCode)) {
-        return apiError(res, 'Enter a valid 6-digit Google Authenticator code.', 422);
-      }
-      if (!user.totpSecretEncrypted) {
-        return apiError(res, 'Authenticator secret not provisioned for this challenge.', 400);
-      }
-      let base32Secret = '';
-      try {
-        base32Secret = decryptTotpSecret(user.totpSecretEncrypted);
-      } catch {
-        return apiError(res, 'Unable to decrypt authenticator secret.', 500);
-      }
-
-      const totp = createTotpInstance(user, base32Secret);
-      const delta = totp.validate({ token: cleanCode, window: 1 });
-      if (delta === null) {
-        store.addSecurityLog({
-          actorUserId: user.userId,
-          eventType: 'TOTP_FAILED',
-          result: 'FAILURE',
-          ipAddress: getClientIp(req),
-          deviceInfo: getDeviceInfo(req),
-          summary: `Step 4 Google Authenticator code failed (${challenge.totpAttempts}/${challenge.totpMaxAttempts}).`,
-        });
-        void syncAuthChallengeToFirebase(challenge).catch(() => {});
-        return apiError(
-          res,
-          `Invalid 6-digit Google Authenticator code. ${Math.max(0, challenge.totpMaxAttempts - challenge.totpAttempts)} attempt(s) remaining.`,
-          401
+          'Maximum authenticator verification attempts exceeded. Restart sign-in.',
+          429
         );
       }
 
-      const currentStep = Math.floor(Date.now() / 30_000) + delta;
-      if (user.totpEnabled && user.lastTotpStepUsed === currentStep) {
-        return apiError(
-          res,
-          'This Google Authenticator code has already been used. Wait for the next 30-second code.',
-          401
-        );
+      const cleanCode = String(code || '').trim();
+      const cleanRecovery = String(recoveryCode || '').trim();
+
+      if (!cleanCode && !cleanRecovery) {
+        return apiError(res, 'Enter a 6-digit Google Authenticator code or recovery code.', 422);
       }
-      user.lastTotpStepUsed = currentStep;
 
-      if (!user.totpEnabled) {
-        // Complete first-time Step 4 enrollment and mint 8 single-use hashed recovery codes
-        user.totpEnabled = true;
-        user.totpEnrolledAt = new Date().toISOString();
-        const plainRecoveryCodes = generateRecoveryCodes(8);
-        user.recoveryCodeHashes = plainRecoveryCodes.map((rc) => hashRecoveryCode(rc));
-        newlyGeneratedRecoveryCodes = plainRecoveryCodes;
+      challenge.totpAttempts += 1;
 
+      let verifiedByRecovery = false;
+      let newlyGeneratedRecoveryCodes: string[] | undefined;
+
+      if (cleanRecovery) {
+        if (!user.totpEnabled || !user.recoveryCodeHashes?.length) {
+          return apiError(res, 'Recovery codes are not available for this account.', 400);
+        }
+        const candidateHash = hashRecoveryCode(cleanRecovery);
+        const matchIdx = user.recoveryCodeHashes.findIndex((h) =>
+          verifyTimingSafeHex(candidateHash, h)
+        );
+        if (matchIdx === -1) {
+          store.addSecurityLog({
+            actorUserId: user.userId,
+            eventType: 'TOTP_FAILED',
+            result: 'FAILURE',
+            ipAddress: getClientIp(req),
+            deviceInfo: getDeviceInfo(req),
+            summary: `Invalid TOTP recovery code (${challenge.totpAttempts}/${challenge.totpMaxAttempts}).`,
+          });
+          void syncAuthChallengeToFirebase(challenge).catch(() => {});
+          return apiError(
+            res,
+            `Invalid recovery code. ${Math.max(0, challenge.totpMaxAttempts - challenge.totpAttempts)} attempt(s) remaining.`,
+            401
+          );
+        }
+        // Consume single-use recovery code permanently
+        user.recoveryCodeHashes.splice(matchIdx, 1);
+        verifiedByRecovery = true;
         store.addSecurityLog({
           actorUserId: user.userId,
-          eventType: 'TOTP_ENROLLED',
+          eventType: 'RECOVERY_USED',
           result: 'SUCCESS',
           ipAddress: getClientIp(req),
           deviceInfo: getDeviceInfo(req),
-          summary: `Google Authenticator enrolled and 8 hashed recovery codes issued for ${user.userId}.`,
+          summary: `Single-use recovery code verified during login (${user.recoveryCodeHashes.length} remaining).`,
+        });
+      } else {
+        if (!/^\d{6}$/.test(cleanCode)) {
+          return apiError(res, 'Enter a valid 6-digit Google Authenticator code.', 422);
+        }
+        if (!user.totpSecretEncrypted) {
+          return apiError(res, 'Authenticator secret not provisioned for this challenge.', 400);
+        }
+        let base32Secret = '';
+        try {
+          base32Secret = decryptTotpSecret(user.totpSecretEncrypted);
+        } catch {
+          return apiError(res, 'Unable to decrypt authenticator secret.', 500);
+        }
+
+        const totp = createTotpInstance(user, base32Secret);
+        const delta = totp.validate({ token: cleanCode, window: 1 });
+        if (delta === null) {
+          store.addSecurityLog({
+            actorUserId: user.userId,
+            eventType: 'TOTP_FAILED',
+            result: 'FAILURE',
+            ipAddress: getClientIp(req),
+            deviceInfo: getDeviceInfo(req),
+            summary: `Step 4 Google Authenticator code failed (${challenge.totpAttempts}/${challenge.totpMaxAttempts}).`,
+          });
+          void syncAuthChallengeToFirebase(challenge).catch(() => {});
+          return apiError(
+            res,
+            `Invalid 6-digit Google Authenticator code. ${Math.max(0, challenge.totpMaxAttempts - challenge.totpAttempts)} attempt(s) remaining.`,
+            401
+          );
+        }
+
+        const currentStep = Math.floor(Date.now() / 30_000) + delta;
+        if (user.totpEnabled && user.lastTotpStepUsed === currentStep) {
+          return apiError(
+            res,
+            'This Google Authenticator code has already been used. Wait for the next 30-second code.',
+            401
+          );
+        }
+        user.lastTotpStepUsed = currentStep;
+
+        if (!user.totpEnabled) {
+          // Complete first-time Step 4 enrollment and mint 8 single-use hashed recovery codes
+          user.totpEnabled = true;
+          user.totpEnrolledAt = new Date().toISOString();
+          const plainRecoveryCodes = generateRecoveryCodes(8);
+          user.recoveryCodeHashes = plainRecoveryCodes.map((rc) => hashRecoveryCode(rc));
+          newlyGeneratedRecoveryCodes = plainRecoveryCodes;
+
+          store.addSecurityLog({
+            actorUserId: user.userId,
+            eventType: 'TOTP_ENROLLED',
+            result: 'SUCCESS',
+            ipAddress: getClientIp(req),
+            deviceInfo: getDeviceInfo(req),
+            summary: `Google Authenticator enrolled and 8 hashed recovery codes issued for ${user.userId}.`,
+          });
+        }
+
+        store.addSecurityLog({
+          actorUserId: user.userId,
+          eventType: 'TOTP_VERIFIED',
+          result: 'SUCCESS',
+          ipAddress: getClientIp(req),
+          deviceInfo: getDeviceInfo(req),
+          summary: `Step 4 Google Authenticator verified for ${user.userId}.`,
         });
       }
 
-      store.addSecurityLog({
-        actorUserId: user.userId,
-        eventType: 'TOTP_VERIFIED',
-        result: 'SUCCESS',
+      // Device tracking & verification policy
+      const devMeta = parsePrivacyDeviceMetadata(
+        req.headers['user-agent'],
+        req.headers['x-device-name'] as string | undefined
+      );
+      const { device, isNewDevice } = phase08Store.registerOrTouchDevice({
+        userId: user.userId,
+        deviceId: devMeta.deviceId,
+        deviceName: devMeta.deviceName,
+        browserInfo: devMeta.browserInfo,
+        osInfo: devMeta.osInfo,
+        ipAddress: getClientIp(req),
+        trustIfFirst: true,
+      });
+
+      if (device.verificationStatus === 'REVOKED' || device.verificationStatus === 'SUSPICIOUS') {
+        return apiError(
+          res,
+          `Device ${device.deviceId} is marked ${device.verificationStatus}. Contact Admin to restore device access.`,
+          403
+        );
+      }
+
+      // Enforce concurrent session limit cleanly (evict oldest session beyond limit)
+      const activeUserSessions = Array.from(store.sessions.values())
+        .filter((s) => s.userId === user.userId && s.status === 'ACTIVE' && s.expiresAt > Date.now())
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+      while (activeUserSessions.length >= phase08Store.settings.maxConcurrentSessions) {
+        const oldest = activeUserSessions.shift();
+        if (oldest) {
+          oldest.status = 'REVOKED';
+          void syncSessionRecordToFirebase(oldest).catch(() => {});
+        }
+      }
+
+      // Issue brand-new cryptographically secure Session ID + self-hydrating sealed token
+      const sessionId = generateToken(12);
+      const csrfToken = generateToken(24);
+      const ttl = challenge.rememberMe
+        ? Math.min(store.rememberMeTtlMs, MAX_REMEMBER_ME_MS)
+        : store.sessionTtlMs;
+      const nowMs = Date.now();
+      const nowIso = new Date(nowMs).toISOString();
+      const expiresAt = nowMs + ttl;
+      const reauthenticatedUntil = nowMs + 10 * 60_000;
+      const rawToken = sealChallengeToken('sess1' as never, {
+        r: generateToken(6),
+        sid: sessionId,
+        u: user.userId,
+        role: user.role,
+        rm: Boolean(challenge.rememberMe),
+        di: device.deviceId,
+        ca: nowIso,
+        ea: expiresAt,
+        mea: expiresAt,
+        ra: reauthenticatedUntil,
+      }).replace(/^ch3\.|^ch2\.|^ch1\./, 'sess1.');
+
+      const session: ServerSession = {
+        id: sessionId,
+        tokenHash: sha256(rawToken),
+        userId: user.userId,
+        role: user.role,
         ipAddress: getClientIp(req),
         deviceInfo: getDeviceInfo(req),
-        summary: `Step 4 Google Authenticator verified for ${user.userId}.`,
+        deviceId: device.deviceId,
+        lastActiveAt: nowIso,
+        rememberMe: Boolean(challenge.rememberMe),
+        maxAllowedExpiresAt: expiresAt,
+        reauthenticatedUntil,
+        status: 'ACTIVE',
+        createdAt: nowIso,
+        expiresAt,
+      };
+
+      store.sessions.set(session.tokenHash, session);
+      store.authChallenges.delete(challenge.id);
+
+      void syncUserRecordToFirebase(user).catch(() => {});
+      void syncSessionRecordToFirebase(session).catch(() => {});
+      void removeAuthChallengeFromFirebase(challenge.id).catch(() => {});
+
+      setSessionCookies(res, rawToken, csrfToken, ttl);
+
+      store.addSecurityLog({
+        actorUserId: user.userId,
+        eventType: 'LOGIN_SUCCESS',
+        result: 'SUCCESS',
+        ipAddress: session.ipAddress,
+        deviceInfo: session.deviceInfo,
+        summary: `4-Layer authenticated ${user.role} session started (${session.id}, ${verifiedByRecovery ? 'Recovery Code' : 'TOTP'}) on ${device.deviceId}.`,
       });
-    }
+      store.addSecurityLog({
+        actorUserId: user.userId,
+        eventType: 'SESSION_CREATED',
+        result: 'SUCCESS',
+        ipAddress: session.ipAddress,
+        deviceInfo: session.deviceInfo,
+        summary: `HTTP-only session ${session.id} created (Remember Me: ${session.rememberMe ? 'Yes' : 'No'}).`,
+      });
+      phase08Store.recordBeforeAfterAudit({
+        userId: user.userId,
+        userRole: user.role,
+        actionType: 'LOGIN_4LAYER_SESSION_STARTED',
+        module: 'authentication',
+        recordId: session.id,
+        beforeValues: null,
+        afterValues: {
+          sessionId: session.id,
+          deviceId: device.deviceId,
+          deviceStatus: device.verificationStatus,
+          authLayers: ['CREDENTIALS', 'CAPTCHA', 'FAST2SMS_OTP', verifiedByRecovery ? 'RECOVERY_CODE' : 'GOOGLE_TOTP'],
+          rememberMe: session.rememberMe,
+        },
+        ipAddress: session.ipAddress,
+        deviceInfo: session.deviceInfo,
+        actionResult: 'SUCCESS',
+      });
 
-    // Device tracking & verification policy
-    const devMeta = parsePrivacyDeviceMetadata(
-      req.headers['user-agent'],
-      req.headers['x-device-name'] as string | undefined
-    );
-    const { device, isNewDevice } = phase08Store.registerOrTouchDevice({
-      userId: user.userId,
-      deviceId: devMeta.deviceId,
-      deviceName: devMeta.deviceName,
-      browserInfo: devMeta.browserInfo,
-      osInfo: devMeta.osInfo,
-      ipAddress: getClientIp(req),
-      trustIfFirst: true,
-    });
-
-    if (device.verificationStatus === 'REVOKED' || device.verificationStatus === 'SUSPICIOUS') {
-      return apiError(
+      return apiSuccess(
         res,
-        `Device ${device.deviceId} is marked ${device.verificationStatus}. Contact Admin to restore device access.`,
-        403
+        {
+          user: store.sanitizePublicUser(user, user.role),
+          permissions: store.getEffectivePermissions(user),
+          csrfToken,
+          accessToken: rawToken,
+          passwordExpired: phase08Store.isPasswordExpired(user),
+          ...(newlyGeneratedRecoveryCodes ? { recoveryCodes: newlyGeneratedRecoveryCodes } : {}),
+          device: {
+            deviceId: device.deviceId,
+            deviceName: device.deviceName,
+            verificationStatus: device.verificationStatus,
+            isNewDevice,
+          },
+          session: {
+            id: session.id,
+            createdAt: session.createdAt,
+            expiresAt: new Date(session.expiresAt).toISOString(),
+            maxAllowedExpiresAt: new Date(session.maxAllowedExpiresAt).toISOString(),
+            rememberMe: session.rememberMe,
+            rememberMeMaxMinutes: 240,
+            reauthenticated: true,
+          },
+        },
+        'All 4 security layers verified. Session active.'
       );
-    }
-
-    // Enforce concurrent session limit cleanly (evict oldest session beyond limit)
-    const activeUserSessions = Array.from(store.sessions.values())
-      .filter((s) => s.userId === user.userId && s.status === 'ACTIVE' && s.expiresAt > Date.now())
-      .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
-    while (activeUserSessions.length >= phase08Store.settings.maxConcurrentSessions) {
-      const oldest = activeUserSessions.shift();
-      if (oldest) {
-        oldest.status = 'REVOKED';
-        void syncSessionRecordToFirebase(oldest).catch(() => {});
+    } catch (err) {
+      console.error('[Auth Step 4 Error]', err);
+      if (!res.headersSent) {
+        return apiError(
+          res,
+          'Internal server error during authenticator verification. Please retry.',
+          500
+        );
       }
     }
-
-    // Issue brand-new cryptographically secure Session ID + self-hydrating sealed token
-    const sessionId = generateToken(12);
-    const csrfToken = generateToken(24);
-    const ttl = challenge.rememberMe
-      ? Math.min(store.rememberMeTtlMs, MAX_REMEMBER_ME_MS)
-      : store.sessionTtlMs;
-    const nowMs = Date.now();
-    const nowIso = new Date(nowMs).toISOString();
-    const expiresAt = nowMs + ttl;
-    const reauthenticatedUntil = nowMs + 10 * 60_000;
-    const rawToken = sealChallengeToken('sess1' as never, {
-      r: generateToken(6),
-      sid: sessionId,
-      u: user.userId,
-      role: user.role,
-      rm: Boolean(challenge.rememberMe),
-      di: device.deviceId,
-      ca: nowIso,
-      ea: expiresAt,
-      mea: expiresAt,
-      ra: reauthenticatedUntil,
-    }).replace(/^ch3\.|^ch2\.|^ch1\./, 'sess1.');
-
-    const session: ServerSession = {
-      id: sessionId,
-      tokenHash: sha256(rawToken),
-      userId: user.userId,
-      role: user.role,
-      ipAddress: getClientIp(req),
-      deviceInfo: getDeviceInfo(req),
-      deviceId: device.deviceId,
-      lastActiveAt: nowIso,
-      rememberMe: Boolean(challenge.rememberMe),
-      maxAllowedExpiresAt: expiresAt,
-      reauthenticatedUntil,
-      status: 'ACTIVE',
-      createdAt: nowIso,
-      expiresAt,
-    };
-
-    store.sessions.set(session.tokenHash, session);
-    store.authChallenges.delete(challenge.id);
-
-    void syncUserRecordToFirebase(user).catch(() => {});
-    void syncSessionRecordToFirebase(session).catch(() => {});
-    void removeAuthChallengeFromFirebase(challenge.id).catch(() => {});
-
-    setSessionCookies(res, rawToken, csrfToken, ttl);
-
-    store.addSecurityLog({
-      actorUserId: user.userId,
-      eventType: 'LOGIN_SUCCESS',
-      result: 'SUCCESS',
-      ipAddress: session.ipAddress,
-      deviceInfo: session.deviceInfo,
-      summary: `4-Layer authenticated ${user.role} session started (${session.id}, ${verifiedByRecovery ? 'Recovery Code' : 'TOTP'}) on ${device.deviceId}.`,
-    });
-    store.addSecurityLog({
-      actorUserId: user.userId,
-      eventType: 'SESSION_CREATED',
-      result: 'SUCCESS',
-      ipAddress: session.ipAddress,
-      deviceInfo: session.deviceInfo,
-      summary: `HTTP-only session ${session.id} created (Remember Me: ${session.rememberMe ? 'Yes' : 'No'}).`,
-    });
-    phase08Store.recordBeforeAfterAudit({
-      userId: user.userId,
-      userRole: user.role,
-      actionType: 'LOGIN_4LAYER_SESSION_STARTED',
-      module: 'authentication',
-      recordId: session.id,
-      beforeValues: null,
-      afterValues: {
-        sessionId: session.id,
-        deviceId: device.deviceId,
-        deviceStatus: device.verificationStatus,
-        authLayers: ['CREDENTIALS', 'CAPTCHA', 'FAST2SMS_OTP', verifiedByRecovery ? 'RECOVERY_CODE' : 'GOOGLE_TOTP'],
-        rememberMe: session.rememberMe,
-      },
-      ipAddress: session.ipAddress,
-      deviceInfo: session.deviceInfo,
-      actionResult: 'SUCCESS',
-    });
-
-    return apiSuccess(
-      res,
-      {
-        user: store.sanitizePublicUser(user, user.role),
-        permissions: store.getEffectivePermissions(user),
-        csrfToken,
-        accessToken: rawToken,
-        passwordExpired: phase08Store.isPasswordExpired(user),
-        ...(newlyGeneratedRecoveryCodes ? { recoveryCodes: newlyGeneratedRecoveryCodes } : {}),
-        device: {
-          deviceId: device.deviceId,
-          deviceName: device.deviceName,
-          verificationStatus: device.verificationStatus,
-          isNewDevice,
-        },
-        session: {
-          id: session.id,
-          createdAt: session.createdAt,
-          expiresAt: new Date(session.expiresAt).toISOString(),
-          maxAllowedExpiresAt: new Date(session.maxAllowedExpiresAt).toISOString(),
-          rememberMe: session.rememberMe,
-          rememberMeMaxMinutes: 240,
-          reauthenticated: true,
-        },
-      },
-      'All 4 security layers verified. Session active.'
-    );
   });
 
   // =========================================================================
@@ -1279,110 +1347,124 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
   });
 
   app.post('/api/auth/mobile-otp/send', authRateLimiter, async (req, res) => {
-    const { mobile } = req.body ?? {};
-    if (!mobile || String(mobile).trim().length < 8) {
-      return apiError(res, 'Valid mobile number is required.', 422, {
-        mobile: ['Enter a valid mobile number.'],
+    try {
+      const { mobile } = req.body ?? {};
+      if (!mobile || String(mobile).trim().length < 8) {
+        return apiError(res, 'Valid mobile number is required.', 422, {
+          mobile: ['Enter a valid mobile number.'],
+        });
+      }
+      const challengeId = generateToken(16);
+      const otp = generateNumericOtp(6);
+      const now = Date.now();
+      const smsRes = await sendFast2SmsOtp({ mobile: String(mobile).trim(), otp });
+      if (!smsRes.sent) {
+        return apiError(res, smsRes.detail || 'Failed to dispatch Fast2SMS OTP.', 502);
+      }
+
+      store.otpChallenges.set(challengeId, {
+        id: challengeId,
+        target: String(mobile).trim(),
+        purpose: 'MOBILE_VERIFICATION',
+        otpHash: hmacOtp(otp, challengeId),
+        attempts: 0,
+        maxAttempts: 5,
+        resendAvailableAt: now + store.otpResendCooldownMs,
+        expiresAt: now + store.otpTtlMs,
+        verified: false,
       });
-    }
-    const challengeId = generateToken(16);
-    const otp = generateNumericOtp(6);
-    const now = Date.now();
-    const smsRes = await sendFast2SmsOtp({ mobile: String(mobile).trim(), otp });
-    if (!smsRes.sent) {
-      return apiError(res, smsRes.detail || 'Failed to dispatch Fast2SMS OTP.', 502);
-    }
 
-    store.otpChallenges.set(challengeId, {
-      id: challengeId,
-      target: String(mobile).trim(),
-      purpose: 'MOBILE_VERIFICATION',
-      otpHash: hmacOtp(otp, challengeId),
-      attempts: 0,
-      maxAttempts: 5,
-      resendAvailableAt: now + store.otpResendCooldownMs,
-      expiresAt: now + store.otpTtlMs,
-      verified: false,
-    });
-
-    return apiSuccess(
-      res,
-      {
-        challengeId,
-        expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
-        resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
-        providerConfigured: smsRes.providerConfigured,
-        ...(smsRes.sandboxMode ? { sandboxOtpPreview: smsRes.sandboxOtpPreview } : {}),
-      },
-      'Mobile verification OTP dispatched.'
-    );
+      return apiSuccess(
+        res,
+        {
+          challengeId,
+          expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
+          resendCooldownSeconds: Math.floor(store.otpResendCooldownMs / 1000),
+          providerConfigured: smsRes.providerConfigured,
+          ...(smsRes.sandboxMode ? { sandboxOtpPreview: smsRes.sandboxOtpPreview } : {}),
+        },
+        'Mobile verification OTP dispatched.'
+      );
+    } catch (err) {
+      console.error('[Auth Mobile OTP Send Error]', err);
+      if (!res.headersSent) {
+        return apiError(res, 'Internal server error while sending mobile OTP.', 500);
+      }
+    }
   });
 
   // =========================================================================
   // PASSWORD RESET & MIGRATION FLOW (FAST2SMS OTP + TOTP CHECK)
   // =========================================================================
   app.post('/api/auth/forgot-password', authRateLimiter, async (req, res) => {
-    const { userId } = req.body ?? {};
-    if (!userId || typeof userId !== 'string') {
-      return apiError(res, 'User ID is required.', 422, {
-        userId: ['Enter your assigned MUN COMPUTER User ID.'],
-      });
-    }
+    try {
+      const { userId } = req.body ?? {};
+      if (!userId || typeof userId !== 'string') {
+        return apiError(res, 'User ID is required.', 422, {
+          userId: ['Enter your assigned MUN COMPUTER User ID.'],
+        });
+      }
 
-    const user =
-      store.findUserByUserId(userId) ||
-      store.users.find((u) => u.email?.toLowerCase() === userId.trim().toLowerCase());
-    if (!user) {
-      return apiError(res, 'No account matches the provided User ID.', 404);
-    }
+      const user =
+        store.findUserByUserId(userId) ||
+        store.users.find((u) => u.email?.toLowerCase() === userId.trim().toLowerCase());
+      if (!user) {
+        return apiError(res, 'No account matches the provided User ID.', 404);
+      }
 
-    const challengeId = generateToken(16);
-    const otp = generateNumericOtp(6);
-    const smsRes = await sendFast2SmsOtp({
-      mobile: user.mobile,
-      otp,
-      userId: user.userId,
-    });
-    if (!smsRes.sent) {
-      return apiError(res, smsRes.detail || 'Fast2SMS failed to send reset OTP.', 502);
-    }
-
-    const now = Date.now();
-    store.otpChallenges.set(challengeId, {
-      id: challengeId,
-      target: user.mobile,
-      purpose: 'PASSWORD_RESET',
-      otpHash: hmacOtp(otp, challengeId),
-      attempts: 0,
-      maxAttempts: 5,
-      resendAvailableAt: now + store.otpResendCooldownMs,
-      expiresAt: now + store.otpTtlMs,
-      verified: false,
-      userId: user.userId,
-    });
-
-    store.addSecurityLog({
-      actorUserId: user.userId,
-      eventType: 'OTP_SENT',
-      result: 'SUCCESS',
-      ipAddress: getClientIp(req),
-      deviceInfo: getDeviceInfo(req),
-      summary: 'Password reset Fast2SMS OTP challenge issued.',
-    });
-
-    return apiSuccess(
-      res,
-      {
-        challengeId,
+      const challengeId = generateToken(16);
+      const otp = generateNumericOtp(6);
+      const smsRes = await sendFast2SmsOtp({
+        mobile: user.mobile,
+        otp,
         userId: user.userId,
-        maskedMobile: user.mobile.replace(/.(?=.{4})/g, '*'),
-        totpRequired: Boolean(user.totpEnabled && user.totpSecretEncrypted),
-        expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
-        providerConfigured: smsRes.providerConfigured,
-        ...(smsRes.sandboxMode ? { sandboxOtpPreview: smsRes.sandboxOtpPreview } : {}),
-      },
-      'Password reset OTP dispatched.'
-    );
+      });
+      if (!smsRes.sent) {
+        return apiError(res, smsRes.detail || 'Fast2SMS failed to send reset OTP.', 502);
+      }
+
+      const now = Date.now();
+      store.otpChallenges.set(challengeId, {
+        id: challengeId,
+        target: user.mobile,
+        purpose: 'PASSWORD_RESET',
+        otpHash: hmacOtp(otp, challengeId),
+        attempts: 0,
+        maxAttempts: 5,
+        resendAvailableAt: now + store.otpResendCooldownMs,
+        expiresAt: now + store.otpTtlMs,
+        verified: false,
+        userId: user.userId,
+      });
+
+      store.addSecurityLog({
+        actorUserId: user.userId,
+        eventType: 'OTP_SENT',
+        result: 'SUCCESS',
+        ipAddress: getClientIp(req),
+        deviceInfo: getDeviceInfo(req),
+        summary: 'Password reset Fast2SMS OTP challenge issued.',
+      });
+
+      return apiSuccess(
+        res,
+        {
+          challengeId,
+          userId: user.userId,
+          maskedMobile: user.mobile.replace(/.(?=.{4})/g, '*'),
+          totpRequired: Boolean(user.totpEnabled && user.totpSecretEncrypted),
+          expiresInSeconds: Math.floor(store.otpTtlMs / 1000),
+          providerConfigured: smsRes.providerConfigured,
+          ...(smsRes.sandboxMode ? { sandboxOtpPreview: smsRes.sandboxOtpPreview } : {}),
+        },
+        'Password reset OTP dispatched.'
+      );
+    } catch (err) {
+      console.error('[Auth Forgot Password Error]', err);
+      if (!res.headersSent) {
+        return apiError(res, 'Internal server error during password reset request.', 500);
+      }
+    }
   });
 
   app.post('/api/auth/reset-password', authRateLimiter, (req, res) => {
@@ -1492,24 +1574,31 @@ export function registerAuthRoutes(deps: AuthRoutesDeps): void {
   });
 
   app.post('/api/auth/totp/setup', requireAuth, async (req: AuthedRequest, res) => {
-    const actor = req.authUser!;
-    const newSecret = new OTPAuth.Secret({ size: 20 });
-    const base32Secret = newSecret.base32;
-    actor.totpSecretEncrypted = encryptTotpSecret(base32Secret);
-    // Do NOT enable until user proves live 6-digit code via /totp/confirm-setup
-    actor.totpEnabled = false;
-    actor.updatedAt = new Date().toISOString();
-    void syncUserRecordToFirebase(actor).catch(() => {});
+    try {
+      const actor = req.authUser!;
+      const newSecret = new OTPAuth.Secret({ size: 20 });
+      const base32Secret = newSecret.base32;
+      actor.totpSecretEncrypted = encryptTotpSecret(base32Secret);
+      // Do NOT enable until user proves live 6-digit code via /totp/confirm-setup
+      actor.totpEnabled = false;
+      actor.updatedAt = new Date().toISOString();
+      void syncUserRecordToFirebase(actor).catch(() => {});
 
-    const totp = createTotpInstance(actor, base32Secret);
-    const qrCodeDataUrl = await QRCode.toDataURL(totp.toString(), { width: 220, margin: 1 });
+      const totp = createTotpInstance(actor, base32Secret);
+      const qrCodeDataUrl = await QRCode.toDataURL(totp.toString(), { width: 220, margin: 1 });
 
-    return apiSuccess(res, {
-      qrCodeDataUrl,
-      manualSecret: base32Secret,
-      issuer: 'MUN COMPUTER',
-      accountLabel: actor.email || actor.userId,
-    });
+      return apiSuccess(res, {
+        qrCodeDataUrl,
+        manualSecret: base32Secret,
+        issuer: 'MUN COMPUTER',
+        accountLabel: actor.email || actor.userId,
+      });
+    } catch (err) {
+      console.error('[Auth TOTP Setup Error]', err);
+      if (!res.headersSent) {
+        return apiError(res, 'Internal server error while generating authenticator setup.', 500);
+      }
+    }
   });
 
   const handleConfirmTotpSetup = (req: AuthedRequest, res: Response) => {

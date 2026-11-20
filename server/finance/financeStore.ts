@@ -1,16 +1,16 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { SecurityStore } from '../securityStore';
-import { Phase03Store } from '../phase03Store';
-import { ErpStore } from '../erpStore';
-import { decryptSensitiveField, encryptSensitiveField, sanitizeText, sha256 } from '../crypto';
+import { SecurityStore } from '../securityStore.js';
+import { Phase03Store } from '../phase03Store.js';
+import { ErpStore } from '../erpStore.js';
+import { decryptSensitiveField, encryptSensitiveField, sanitizeText, sha256 } from '../crypto.js';
 import {
   computeFinancialStatements,
   deriveFyCode,
   round2,
   validateAndBuildVoucher,
-} from './accountingEngine';
+} from './accountingEngine.js';
 import {
   ApprovalMatrixRule,
   AuditObservationItem,
@@ -53,7 +53,7 @@ import {
   VerificationCheckResult,
   VoucherStatus,
   VoucherType,
-} from './financeTypes';
+} from './financeTypes.js';
 
 export class FinanceStore {
   public entities: FinanceEntityRecord[] = [];

@@ -24,8 +24,8 @@ import {
   SettingsProposalItem,
   ThemeMode,
   UploadedDocumentItem,
-} from './phase03Types';
-import { encryptSensitiveField, sha256 } from './crypto';
+} from './phase03Types.js';
+import { encryptSensitiveField, sha256 } from './crypto.js';
 
 export class DocumentSequenceGenerator {
   private counters = new Map<string, number>();

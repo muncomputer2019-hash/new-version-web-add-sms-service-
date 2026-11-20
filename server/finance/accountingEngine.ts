@@ -9,7 +9,7 @@ import {
   ProductInventoryItem,
   VoucherStatus,
   VoucherType,
-} from './financeTypes';
+} from './financeTypes.js';
 
 export interface TrialBalanceRow {
   accountCode: string;

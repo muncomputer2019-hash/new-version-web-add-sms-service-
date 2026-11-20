@@ -1,8 +1,8 @@
-import { CscStore } from '../cscStore';
-import { round2 } from '../finance/accountingEngine';
-import { SecurityStore } from '../securityStore';
-import { ServerUser } from '../types';
-import { ReportCatalogItem, ReportDataset, ReportFilterInput } from './reportTypes';
+import { CscStore } from '../cscStore.js';
+import { round2 } from '../finance/accountingEngine.js';
+import { SecurityStore } from '../securityStore.js';
+import { ServerUser } from '../types.js';
+import { ReportCatalogItem, ReportDataset, ReportFilterInput } from './reportTypes.js';
 
 function inDateRangeCsc(dateStr: string | null | undefined, filters?: ReportFilterInput): boolean {
   if (!dateStr) return !filters?.fromDate && !filters?.toDate;

@@ -1,4 +1,4 @@
-import { RoleName } from '../types';
+import { RoleName } from '../types.js';
 
 export type OtpChannel = 'EMAIL' | 'SMS' | 'WHATSAPP';
 

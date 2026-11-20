@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { decryptSensitiveField, encryptSensitiveField, sanitizeText, sha256 } from '../crypto';
-import { RoleName } from '../types';
+import { decryptSensitiveField, encryptSensitiveField, sanitizeText, sha256 } from '../crypto.js';
+import { RoleName } from '../types.js';
 import {
   CustomReportTemplate,
   ReportArchiveRecord,
@@ -11,7 +11,7 @@ import {
   ReportExportFormat,
   ScheduleRunRecord,
   ScheduledReportRecord,
-} from './reportTypes';
+} from './reportTypes.js';
 
 export class ReportStore {
   public templates: CustomReportTemplate[] = [];

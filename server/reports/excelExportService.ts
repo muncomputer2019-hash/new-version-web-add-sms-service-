@@ -1,7 +1,7 @@
 import ExcelJS from 'exceljs';
-import { CompanyProfileSettings } from '../phase03Types';
-import { formatDateTimeISTServer } from './reportDataEngine';
-import { ExcelExportOptions, ReportDataset } from './reportTypes';
+import { CompanyProfileSettings } from '../phase03Types.js';
+import { formatDateTimeISTServer } from './reportDataEngine.js';
+import { ExcelExportOptions, ReportDataset } from './reportTypes.js';
 
 function sanitizeCsvCell(value: unknown): string {
   const raw = value === null || value === undefined ? '' : String(value);

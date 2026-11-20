@@ -1,5 +1,5 @@
-import { generateCaptchaChallenge, hmacOtp, verifyTimingSafeHex } from './crypto';
-import { SecurityStore } from './securityStore';
+import { generateCaptchaChallenge, hmacOtp, verifyTimingSafeHex } from './crypto.js';
+import { SecurityStore } from './securityStore.js';
 
 export type CaptchaProvider = 'turnstile' | 'recaptcha' | 'svg';
 

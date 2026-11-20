@@ -1,21 +1,21 @@
 import { Express, NextFunction, Request, Response, Router } from 'express';
-import { SecurityStore } from '../securityStore';
-import { Phase03Store } from '../phase03Store';
-import { ErpStore } from '../erpStore';
-import { FinanceStore } from '../finance/financeStore';
-import { ReportStore } from '../reports/reportStore';
-import { Phase08Store } from '../phase08/phase08Store';
-import { sanitizeText } from '../crypto';
-import { ServerSession, ServerUser } from '../types';
-import { QaStore } from './qaStore';
+import { SecurityStore } from '../securityStore.js';
+import { Phase03Store } from '../phase03Store.js';
+import { ErpStore } from '../erpStore.js';
+import { FinanceStore } from '../finance/financeStore.js';
+import { ReportStore } from '../reports/reportStore.js';
+import { Phase08Store } from '../phase08/phase08Store.js';
+import { sanitizeText } from '../crypto.js';
+import { ServerSession, ServerUser } from '../types.js';
+import { QaStore } from './qaStore.js';
 import {
   LiveStoresContext,
   runFinancialReconciliationCheck,
   runIsolatedBackupRestoreDrill,
   runPerformanceBenchmarkSuite,
   runSecurityAuditSuite,
-} from './qaRunner';
-import { generateQaExcelWorkbook, generateQaPdfReport } from './qaReportExporters';
+} from './qaRunner.js';
+import { generateQaExcelWorkbook, generateQaPdfReport } from './qaReportExporters.js';
 import {
   BugCategory,
   BugPriority,
@@ -24,7 +24,7 @@ import {
   QaEnvironmentKey,
   QaSecurityFinding,
   QaTestCaseDef,
-} from './qaTypes';
+} from './qaTypes.js';
 
 interface AuthedRequest extends Request {
   authUser?: ServerUser;

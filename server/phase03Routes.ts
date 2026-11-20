@@ -1,10 +1,10 @@
 import { Express, Request, Response } from 'express';
 import crypto from 'node:crypto';
-import { SecurityStore } from './securityStore';
-import { Phase03Store } from './phase03Store';
-import { ServerUser } from './types';
-import { DocumentType, LanguageCode } from './phase03Types';
-import { decryptSensitiveField, sanitizeText, sha256 } from './crypto';
+import { SecurityStore } from './securityStore.js';
+import { Phase03Store } from './phase03Store.js';
+import { ServerUser } from './types.js';
+import { DocumentType, LanguageCode } from './phase03Types.js';
+import { decryptSensitiveField, sanitizeText, sha256 } from './crypto.js';
 
 interface AuthedRequest extends Request {
   authUser?: ServerUser;

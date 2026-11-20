@@ -1,16 +1,16 @@
 import { Express, NextFunction, Request, Response, Router } from 'express';
-import { SecurityStore } from '../securityStore';
-import { ServerSession, ServerUser } from '../types';
-import { generateNumericOtp, generateToken, hmacOtp, sanitizeText } from '../crypto';
-import { Phase08Store } from './phase08Store';
-import { BackupSchedulerService } from './backupScheduler';
+import { SecurityStore } from '../securityStore.js';
+import { ServerSession, ServerUser } from '../types.js';
+import { generateNumericOtp, generateToken, hmacOtp, sanitizeText } from '../crypto.js';
+import { Phase08Store } from './phase08Store.js';
+import { BackupSchedulerService } from './backupScheduler.js';
 import {
   DeletedRecordItem,
   OtpChannel,
   RestoreScopeKey,
   SecurityIncidentRecord,
-} from './phase08Types';
-import { parsePrivacyDeviceMetadata } from './phase08Crypto';
+} from './phase08Types.js';
+import { parsePrivacyDeviceMetadata } from './phase08Crypto.js';
 
 interface AuthedRequest extends Request {
   authUser?: ServerUser;

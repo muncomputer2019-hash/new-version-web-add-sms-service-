@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import PDFDocument from 'pdfkit';
-import { CompanyProfileSettings } from '../phase03Types';
-import { formatDateTimeISTServer, formatINRServer } from './reportDataEngine';
-import { PdfExportOptions, ReportColumnDef, ReportDataset } from './reportTypes';
+import { CompanyProfileSettings } from '../phase03Types.js';
+import { formatDateTimeISTServer, formatINRServer } from './reportDataEngine.js';
+import { PdfExportOptions, ReportColumnDef, ReportDataset } from './reportTypes.js';
 
 const FONT_LATIN_REGULAR = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
 const FONT_LATIN_BOLD = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';

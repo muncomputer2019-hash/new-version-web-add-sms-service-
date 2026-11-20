@@ -1,10 +1,10 @@
-import { Phase03Store } from '../phase03Store';
-import { SecurityStore } from '../securityStore';
-import { ReportDataEngine } from './reportDataEngine';
-import { ReportStore } from './reportStore';
-import { generatePdfBuffer } from './pdfExportService';
-import { generateExcelBuffer } from './excelExportService';
-import { ReportDataset, ScheduleRunRecord } from './reportTypes';
+import { Phase03Store } from '../phase03Store.js';
+import { SecurityStore } from '../securityStore.js';
+import { ReportDataEngine } from './reportDataEngine.js';
+import { ReportStore } from './reportStore.js';
+import { generatePdfBuffer } from './pdfExportService.js';
+import { generateExcelBuffer } from './excelExportService.js';
+import { ReportDataset, ScheduleRunRecord } from './reportTypes.js';
 
 export class ReportSchedulerService {
   private timer: NodeJS.Timeout | null = null;

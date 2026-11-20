@@ -1,14 +1,14 @@
 import { Express, Request, Response } from 'express';
 import crypto from 'node:crypto';
-import { SecurityStore } from './securityStore';
-import { Phase03Store } from './phase03Store';
+import { SecurityStore } from './securityStore.js';
+import { Phase03Store } from './phase03Store.js';
 import {
   addDaysIso,
   ALLOWED_STATUS_TRANSITIONS,
   DEFAULT_CONSENT_DEFINITIONS,
   ErpStore,
   REASONS_REQUIRED_STATUSES,
-} from './erpStore';
+} from './erpStore.js';
 import {
   ApplicationDeliveryRecord,
   ApplicationDocumentRecord,
@@ -20,15 +20,15 @@ import {
   ErpService,
   ServiceRequiredDocumentDef,
   ServiceSubcategory,
-} from './erpTypes';
+} from './erpTypes.js';
 import {
   decryptSensitiveField,
   encryptSensitiveField,
   hmacOtp,
   sanitizeText,
-} from './crypto';
-import { ModuleKey, PermissionType, ServerUser } from './types';
-import type { FinanceStore } from './finance/financeStore';
+} from './crypto.js';
+import { ModuleKey, PermissionType, ServerUser } from './types.js';
+import type { FinanceStore } from './finance/financeStore.js';
 
 interface AuthedRequest extends Request {
   authUser?: ServerUser;
